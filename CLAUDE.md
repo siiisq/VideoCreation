@@ -53,6 +53,30 @@ Solo si el usuario pide expresamente ver las diapositivas, usa la composición `
    `npx remotion still src/index.ts Presentation ... --props=out/<slug>.props.json` antes del render final.
 Composición en `src/presentation/` (schema.ts + Presentation.tsx). Demo: `videos/ejemplo-presentacion.slides.json`.
 
+## Calidad de los dibujos (PLANTILLA OBLIGATORIA para todos los vídeos)
+El usuario pide **más calidad en todos los dibujitos**. Nada de formas planas de un color. Todo dibujo nuevo debe cumplir:
+1. **Volumen**: degradados (radial/lineal) en cada forma importante, luz arriba-izquierda, sombra abajo-derecha,
+   un **brillo** blanco (elipse pequeña, opacidad 0.3–0.9) y sombra proyectada en el suelo (elipse negra, opacidad ~0.25).
+2. **Contornos** oscuros del mismo tono que el objeto (no negro puro), grosor 4–8, `strokeLinejoin="round"`.
+3. **Detalle**: texturas sutiles (vetas, capas, fibras, remaches, reflejos de cristal). Mejor 2–3 detalles bien puestos
+   que muchos.
+4. **Vida**: todo se mueve un poco aunque esté "quieto" (flotar, respirar, parpadear, vibrar, partículas). Entradas con
+   `spring`, nunca apariciones secas.
+5. **Personajes y ojos**: párpados reales que parpadean (no escalar el ojo entero), iris con fibras y brillos,
+   pestañas curvas que siguen el párpado, emociones con cejas y boca. Usa `Eye` (`src/drawings/Eye.tsx`) para ojos
+   grandes y como referencia de nivel para cualquier personaje.
+6. **Partículas y fluidos** con volumen: `Sphere` (esfera con degradado + brillo + halo opcional), gotas con degradado
+   blanco→azul y reflejo, gas/humo con halo (`glow-*`).
+7. **Composición**: nada debe tapar títulos ni textos (deja ~60 px de margen), leyendas separadas de sus marcadores,
+   todo dentro de las zonas seguras.
+8. **Revisión obligatoria**: antes del render final, captura cada escena con `remotion still` a escala ≥0.4, míralas y
+   corrige solapamientos, formas toscas o zonas vacías.
+
+Piezas reutilizables (`src/drawings/parts.tsx` y otros): `Defs` (degradados `sph-*` y `glow-*` en yellow/purple/green/
+blue/white, `wood`), `Sphere`, `Board` (tabla de madera), `Eye`, `Onion`/`TearStream` (personaje con lágrimas),
+`Knife` (`OnionScenes.tsx`), `Molecule`, `Steam`, `Cup`, `Counter`, `Label`, `Bean`.
+Ejemplo de referencia de calidad: `videos/cebolla-lagrimas.json` y `src/drawings/OnionScenes.tsx`.
+
 ## Estilo para datos y empresa (preferencia del usuario)
 **No quiere iconos típicos de IA** (emojis 3D, robots, mascotas) en vídeos de datos/empresa: quiere MÁS estadísticas y
 animaciones visuales de datos. Usa los gráficos animados de `src/scenes/Charts.tsx`:
@@ -64,11 +88,12 @@ animaciones visuales de datos. Usa los gráficos animados de `src/scenes/Charts.
 ## Tipos de escena (ver `src/schema.ts`)
 `hook`, `text`, `list`, `stat` (cifra que cuenta), `compare` (A vs B), `steps`, `quote`, `bars` (gráfico), `outro`,
 y `drawing`: ilustración SVG animada (`src/drawings/`), con `title`, `text`, `data` y una `mascot` opcional
-(grano de café con cara, `mood`: happy/surprised/wink/thinking, `say`: bocadillo).
+(grano de café con cara, `mood`: happy/surprised/wink/thinking, `say`: bocadillo). En escenas `drawing`,
+`data.atWords: ["palabra", ...]` sincroniza apariciones con la voz (se convierte en `data.at` en segundos).
 
-**El usuario prefiere vídeos con muchas animaciones y dibujos**: prioriza escenas `drawing`. Si el tema no encaja
+**El usuario prefiere vídeos con muchas animaciones y dibujos de calidad** (ver "Calidad de los dibujos"): prioriza escenas `drawing`. Si el tema no encaja
 con los dibujos existentes (`cups-vs`, `concentration`, `filter`, `beans`, `americano`, `mascot`, `energy`, `factories`, `code`,
-`queries`, `users`, `speed`, `bot`),
+`queries`, `users`, `speed`, `bot`, `onion-cry`, `onion-cells`, `gas-eye`, `onion-tips`, `onion`),
 DIBUJA nuevos componentes SVG para ese tema en `src/drawings/Drawings.tsx` (regístralos en `registry`), reutilizando
 `parts.tsx` (Molecule, Steam, Label, Counter…). viewBox 1000x820. Todo debe moverse: springs, llenados, partículas.
 Duración: la necesaria, máximo 60 s.

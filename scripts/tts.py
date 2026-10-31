@@ -28,12 +28,16 @@ def trim(a, sr, thr=0.01):
 def main(src, dst):
     reel = json.load(open(src, encoding="utf-8"))
     lang = reel.get("lang", "es")
-    nar = {"speed": 1.1, **reel.get("narrator", {})}
+    nar = {"speed": 1.05 if "slides" in reel else 1.1, **reel.get("narrator", {})}
     nar.setdefault("name", DEFAULT_VOICE[lang])
     kokoro = None
     os.makedirs(os.path.join(ROOT, "public", "voice"), exist_ok=True)
-    for i, sc in enumerate(reel["scenes"]):
-        text = sc.get("voice")
+    is_pres = "slides" in reel
+    items = ([reel["intro"]] if reel.get("intro") else []) + reel["slides"] + ([reel["outro"]] if reel.get("outro") else []) if is_pres else reel["scenes"]
+    trans = 0.5 if is_pres else TRANSITION
+    for i, sc in enumerate(items):
+        sc.setdefault("duration", 4 if is_pres else 5)
+        text = (sc.get("voice") or "").strip()
         if not text:
             continue
         key = hashlib.sha1(f"{nar['name']}|{nar['speed']}|{text}".encode()).hexdigest()[:16]
@@ -49,12 +53,29 @@ def main(src, dst):
         dur = info.frames / info.samplerate
         sc["voiceFile"] = rel
         sc["voiceDuration"] = round(dur, 3)
-        need = round(VOICE_DELAY + dur + TAIL + 0.05, 1)
+        need = round(VOICE_DELAY + dur + TAIL + (trans if is_pres else 0.05), 1)
         if sc["duration"] < need:
             sc["duration"] = need
-        print(f"  escena {i + 1}: voz {dur:4.1f}s → escena {sc['duration']}s")
-    total = sum(s["duration"] for s in reel["scenes"]) - TRANSITION * (len(reel["scenes"]) - 1)
-    print(f"Duración total: {total:.1f} s" + ("  ⚠️  ¡supera 60 s! Acorta el guion." if total > 60 else ""))
+        # "word": "agua" en highlights/focus → "at" = momento aproximado en que la voz dice esa palabra
+        def word_time(word):
+            pos = text.lower().find(word.lower())
+            if pos < 0:
+                print(f"    ⚠️  palabra '{word}' no está en la narración")
+                return None
+            return round(VOICE_DELAY + dur * pos / max(1, len(text)), 2)
+        for h in sc.get("highlights", []) or []:
+            if h.get("word") and word_time(h["word"]) is not None:
+                h["at"] = word_time(h["word"])
+        f = sc.get("focus")
+        if f:
+            if f.get("word") and word_time(f["word"]) is not None:
+                f["at"] = max(0.4, word_time(f["word"]) - 0.4)
+            if f.get("untilWord") and word_time(f["untilWord"]) is not None:
+                f["until"] = word_time(f["untilWord"])
+        print(f"  {'parte' if is_pres else 'escena'} {i + 1}: voz {dur:4.1f}s → {sc['duration']}s")
+    total = sum(s["duration"] for s in items) - trans * (len(items) - 1)
+    m, sec = divmod(total, 60)
+    print(f"Duración total: {int(m)}:{sec:04.1f}" + ("  ⚠️  ¡supera 60 s! Acorta el guion." if total > 60 and not is_pres else ""))
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     json.dump(reel, open(dst, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 

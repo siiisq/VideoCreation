@@ -1,0 +1,144 @@
+{
+  "title": "La fotosíntesis",
+  "lang": "es",
+  "format": "landscape",
+  "handle": "@less_thanaminute",
+  "aspect": 1.7761,
+  "intro": {
+    "title": "La fotosíntesis",
+    "subtitle": "Explicada en dos minutos",
+    "voice": "Hoy vamos a ver cómo las plantas convierten la luz del sol en comida."
+  },
+  "slides": [
+    {
+      "image": "slides/ejemplo-presentacion/slide-01.png",
+      "duration": 5,
+      "voice": "La fotosíntesis es el proceso que alimenta casi toda la vida en la Tierra. Y ocurre, en silencio, en cada hoja verde.",
+      "_text": "La fotosíntesis\nCómo las plantas convierten la luz en comida",
+      "_notes": "Presentar el tema: la fotosíntesis es el proceso que alimenta casi toda la vida en la Tierra.",
+      "focus": null,
+      "highlights": []
+    },
+    {
+      "image": "slides/ejemplo-presentacion/slide-02.png",
+      "duration": 5,
+      "voice": "Para hacerla, la planta necesita tres ingredientes: luz del sol, agua, y dióxido de carbono. El agua entra por las raíces, y el dióxido de carbono, por unos poros diminutos de las hojas.",
+      "_text": "Los ingredientes\n\n\n☀ Luz solar 💧 Agua CO₂ del aire\n\n\n\n\nLa planta absorbe agua por las raíces y CO₂ por las hojas.",
+      "_notes": "Necesita tres cosas: luz, agua y dióxido de carbono. El agua entra por las raíces y el CO2 por los estomas de las hojas.",
+      "focus": null,
+      "highlights": [
+        {
+          "x": 0.06,
+          "y": 0.29,
+          "w": 0.27,
+          "h": 0.295,
+          "word": "luz"
+        },
+        {
+          "x": 0.364,
+          "y": 0.29,
+          "w": 0.27,
+          "h": 0.295,
+          "word": "agua,"
+        },
+        {
+          "x": 0.668,
+          "y": 0.29,
+          "w": 0.272,
+          "h": 0.295,
+          "word": "dióxido"
+        },
+        {
+          "x": 0.066,
+          "y": 0.69,
+          "w": 0.57,
+          "h": 0.07,
+          "style": "underline",
+          "word": "raíces"
+        }
+      ]
+    },
+    {
+      "image": "slides/ejemplo-presentacion/slide-03.png",
+      "duration": 5,
+      "voice": "Con la energía de la luz, la planta junta el dióxido de carbono y el agua, y los transforma en glucosa, que es su alimento. Como subproducto, libera oxígeno.",
+      "_text": "La reacción\n\n\n6 CO₂ + 6 H₂O → C₆H₁₂O₆ + 6 O₂\n\n Glucosa Oxígeno",
+      "_notes": "Con la energía de la luz, la planta transforma CO2 y agua en glucosa, su alimento, y libera oxígeno como subproducto.",
+      "focus": {
+        "x": 0.05,
+        "y": 0.3,
+        "w": 0.67,
+        "h": 0.2,
+        "word": "junta",
+        "untilWord": "glucosa"
+      },
+      "highlights": [
+        {
+          "x": 0.465,
+          "y": 0.585,
+          "w": 0.225,
+          "h": 0.175,
+          "word": "glucosa"
+        },
+        {
+          "x": 0.72,
+          "y": 0.585,
+          "w": 0.225,
+          "h": 0.175,
+          "style": "circle",
+          "word": "oxígeno"
+        }
+      ]
+    },
+    {
+      "image": "slides/ejemplo-presentacion/slide-04.png",
+      "duration": 5,
+      "voice": "¿Y por qué importa tanto? Primero, produce el oxígeno que respiramos. Segundo, es la base de casi todas las cadenas alimentarias. Y tercero, retira dióxido de carbono de la atmósfera.",
+      "_text": "¿Por qué importa?\n\n • Produce el oxígeno que respiramos\n\n\n • Es la base de casi todas las cadenas alimentarias\n\n\n • Retira CO₂ de la atmósfera",
+      "_notes": "Tres motivos: el oxígeno que respiramos, la base de la cadena alimentaria y la captura de CO2.",
+      "focus": null,
+      "highlights": [
+        {
+          "x": 0.13,
+          "y": 0.27,
+          "w": 0.48,
+          "h": 0.07,
+          "style": "underline",
+          "word": "Primero"
+        },
+        {
+          "x": 0.13,
+          "y": 0.445,
+          "w": 0.66,
+          "h": 0.07,
+          "style": "underline",
+          "word": "Segundo"
+        },
+        {
+          "x": 0.13,
+          "y": 0.615,
+          "w": 0.43,
+          "h": 0.07,
+          "style": "underline",
+          "word": "tercero"
+        }
+      ]
+    }
+  ],
+  "outro": {
+    "text": "La próxima vez que veas una hoja, piensa en todo lo que hace",
+    "cta": "Sígueme para más",
+    "voice": "La próxima vez que veas una hoja, piensa en todo lo que está haciendo por ti. Sígueme para más."
+  },
+  "narrator": {
+    "name": "em_alex",
+    "speed": 1.05
+  },
+  "theme": {
+    "bg1": "#0b1d14",
+    "bg2": "#18402b",
+    "accent": "#7be08a",
+    "accent2": "#ffd23f",
+    "text": "#ffffff"
+  }
+}

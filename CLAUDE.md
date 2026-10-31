@@ -1,4 +1,4 @@
-# VideoCreation — reels animados de ~1 minuto
+# VideoCreation — reels animados de ~1 minuto y vídeos de presentaciones
 
 Este repo genera vídeos verticales (1080x1920, 30 fps, MP4) animados con **Remotion** (React).
 El usuario pide un tema y Claude produce el vídeo.
@@ -25,6 +25,25 @@ El usuario pide un tema y Claude produce el vídeo.
    (`ffmpeg -i out/x.mp4 -vf "fps=1/6,scale=270:480,tile=10x1" -frames:v 1 contact.png`). Corrige textos que desborden.
 4. **Entrega**: envía el MP4 al usuario (SendUserFile) y haz commit del JSON (los MP4 en `out/` no se versionan).
 
+## Vídeos a partir de presentaciones (sin límite de duración)
+Cuando el usuario aporte una presentación (PPTX, PPT, KEY, ODP o PDF; en `presentations/` o desde Google Drive):
+1. **Importar**: `npm run import -- presentations/<archivo> [--lang es|en] [--format landscape|vertical|square]`
+   → imágenes en `public/slides/<slug>/` + guion `videos/<slug>.slides.json` con `_text` y `_notes` de cada diapositiva.
+   Formato por defecto `landscape` (1920x1080, YouTube/LinkedIn); `vertical` (1080x1920) para Reels/TikTok.
+2. **Mirar las diapositivas** (Read de los PNG) para entender el contenido y medir zonas.
+3. **Escribir el guion** en el JSON:
+   - `voice` de cada diapositiva: narración natural basada en `_notes` (si hay) y `_text`; explica, no leas la diapositiva.
+     Números con letras. Rellena `intro` (title, subtitle, voice) y `outro` (text, cta, voice), o ponlos a `null`.
+   - `highlights`: marcadores animados (`box` | `underline` | `circle`) con coordenadas 0–1 relativas a la diapositiva
+     y `"word"` = palabra de la narración en la que deben aparecer (el tiempo se calcula solo).
+   - `focus`: zoom suave a una zona (`x,y,w,h`, `"word"` para empezar, `"untilWord"` para volver).
+   - `title` (solo vertical/cuadrado): titular grande encima de la diapositiva.
+   - Elige `theme` acorde a los colores de la presentación.
+4. **Render**: `npm run render -- videos/<slug>.slides.json` → `out/<slug>.mp4` (30 fps por defecto; subtítulos automáticos
+   con la palabra activa resaltada; `"captions": false` para quitarlos). Revisa capturas con
+   `npx remotion still src/index.ts Presentation ... --props=out/<slug>.props.json` antes del render final.
+Composición en `src/presentation/` (schema.ts + Presentation.tsx). Demo: `videos/ejemplo-presentacion.slides.json`.
+
 ## Tipos de escena (ver `src/schema.ts`)
 `hook`, `text`, `list`, `stat` (cifra que cuenta), `compare` (A vs B), `steps`, `quote`, `bars` (gráfico), `outro`,
 y `drawing`: ilustración SVG animada (`src/drawings/`), con `title`, `text`, `data` y una `mascot` opcional
@@ -44,7 +63,7 @@ Si un tema necesita algo que no existe (mapa, línea temporal, diagrama…), cre
 
 ## Voz en off
 - Kokoro TTS local (Apache-2.0) en `.venv` + `models/` (no versionados). `npm run render` los instala solo la primera vez
-  (`scripts/setup-voice.sh`, descarga ~350 MB de GitHub releases).
+  (`scripts/setup-python.sh`, descarga ~350 MB de GitHub releases).
 - **Voz masculina** por defecto: `em_alex` en español (pronunciación de España, con θ) y `am_michael` en inglés.
   Se cambia con `"narrator": {"name": "...", "speed": 1.1}`. Otras: `em_santa`, `am_adam`, `bm_george` (británico).
 - Textos fijos de los dibujos traducidos en `src/i18n.tsx`; añade ahí cualquier texto nuevo de dibujos.

@@ -62,12 +62,16 @@ Si un tema necesita algo que no existe (mapa, línea temporal, diagrama…), cre
 `src/schema.ts` + componente en `src/scenes/Scenes.tsx`, manteniendo el estilo (springs, Title, Card, zonas seguras `SAFE`).
 
 ## Voz en off
-- Kokoro TTS local (Apache-2.0) en `.venv` + `models/` (no versionados). `npm run render` los instala solo la primera vez
-  (`scripts/setup-python.sh`, descarga ~350 MB de GitHub releases).
-- **Voz masculina** por defecto: `em_alex` en español (pronunciación de España, con θ) y `am_michael` en inglés.
-  Se cambia con `"narrator": {"name": "...", "speed": 1.1}`. Otras: `em_santa`, `am_adam`, `bm_george` (británico).
+El usuario quiere una voz **realista, masculina, de España** (rechazó Kokoro por sonar digital).
+Proveedores (`scripts/tts_providers.py`), elegidos solos según la variable de entorno disponible:
+1. `GOOGLE_TTS_API_KEY` → Google Cloud TTS **Chirp 3 HD** (`es-ES-Chirp3-HD-Charon`, nativa de España). Preferida.
+2. `GEMINI_API_KEY` → Gemini TTS (voz `Charon`; el acento de España se pide en la instrucción de estilo).
+3. `ELEVENLABS_API_KEY` → ElevenLabs (requiere permitir `api.elevenlabs.io` en la red; `narrator.name` = voice_id).
+4. Sin claves → Kokoro local (`.venv` + `models/`), solo como reserva; avisa al usuario de que la calidad es baja.
+Se fuerza con `"narrator": {"provider": "google", "name": "es-ES-Chirp3-HD-Orus", "speed": 1.05}`.
+Otras voces masculinas Chirp 3 HD: Orus, Fenrir, Puck, Algenib, Iapetus. Nunca pidas claves por el chat.
+La música baja automáticamente mientras habla la voz. Caché de audios en `public/voice/` (incluye proveedor y voz).
 - Textos fijos de los dibujos traducidos en `src/i18n.tsx`; añade ahí cualquier texto nuevo de dibujos.
-- La música baja automáticamente mientras habla la voz.
 
 ## Calidad y fluidez (ya configurado)
 - **60 fps** por defecto (`"fps": 60` en el guion; 30 para renders rápidos). Las animaciones están escritas en

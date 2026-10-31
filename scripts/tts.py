@@ -9,12 +9,13 @@ import hashlib, json, os, sys
 import numpy as np
 import soundfile as sf
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from tts_providers import DEFAULTS, pick_provider, synth  # noqa: E402
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 VOICE_DELAY = 0.3      # igual que VOICE_DELAY en src/Reel.tsx
 TAIL = 0.45            # respiro tras la frase
 TRANSITION = 0.4       # igual que TRANSITION_SECONDS
-DEFAULT_VOICE = {"es": "em_alex", "en": "am_michael"}   # voces masculinas
-ESPEAK_LANG = {"es": "es", "en": "en-us"}               # "es" = pronunciación de España (θ en "cerveza")
 
 
 def trim(a, sr, thr=0.01):
@@ -29,8 +30,9 @@ def main(src, dst):
     reel = json.load(open(src, encoding="utf-8"))
     lang = reel.get("lang", "es")
     nar = {"speed": 1.05 if "slides" in reel else 1.1, **reel.get("narrator", {})}
-    nar.setdefault("name", DEFAULT_VOICE[lang])
-    kokoro = None
+    provider = pick_provider(nar.get("provider", "auto"))
+    nar.setdefault("name", DEFAULTS[provider][lang])
+    print(f"Voz: {provider} · {nar['name']}" + ("   (calidad baja: añade GOOGLE_TTS_API_KEY o GEMINI_API_KEY para voces realistas)" if provider == "kokoro" else ""))
     os.makedirs(os.path.join(ROOT, "public", "voice"), exist_ok=True)
     is_pres = "slides" in reel
     items = ([reel["intro"]] if reel.get("intro") else []) + reel["slides"] + ([reel["outro"]] if reel.get("outro") else []) if is_pres else reel["scenes"]
@@ -40,14 +42,11 @@ def main(src, dst):
         text = (sc.get("voice") or "").strip()
         if not text:
             continue
-        key = hashlib.sha1(f"{nar['name']}|{nar['speed']}|{text}".encode()).hexdigest()[:16]
+        key = hashlib.sha1(f"{provider}|{nar['name']}|{nar['speed']}|{text}".encode()).hexdigest()[:16]
         rel = f"voice/{key}.wav"
         path = os.path.join(ROOT, "public", rel)
         if not os.path.exists(path):
-            if kokoro is None:
-                from kokoro_onnx import Kokoro
-                kokoro = Kokoro(os.path.join(ROOT, "models/kokoro-v1.0.onnx"), os.path.join(ROOT, "models/voices-v1.0.bin"))
-            audio, sr = kokoro.create(text, voice=nar["name"], speed=nar["speed"], lang=ESPEAK_LANG[lang])
+            audio, sr = synth(provider, text, nar["name"], lang, nar["speed"], ROOT)
             sf.write(path, trim(audio, sr), sr)
         info = sf.info(path)
         dur = info.frames / info.samplerate

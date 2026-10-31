@@ -34,7 +34,8 @@ export const presentationSchema = z.object({
   sfx: z.boolean().default(true),
   sfxVolume: z.number().default(0.35),
   captions: z.boolean().default(true).describe("subtítulos de la narración"),
-  narrator: z.object({ name: z.string().optional(), speed: z.number().default(1.05), volume: z.number().default(1) }).default({}),
+  narrator: z.object({
+    provider: z.enum(["auto", "google", "gemini", "elevenlabs", "kokoro"]).default("auto"), name: z.string().optional(), speed: z.number().default(1.05), volume: z.number().default(1) }).default({}),
   intro: z.object({ title: z.string(), subtitle: z.string().default(""), ...voiced, duration: z.number().default(3.5) }).nullable().optional(),
   slides: z.array(slideSchema).min(1),
   outro: z.object({ text: z.string().default(""), cta: z.string().default(""), ...voiced, duration: z.number().default(4) }).nullable().optional(),

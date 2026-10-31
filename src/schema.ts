@@ -64,6 +64,7 @@ export const reelSchema = z.object({
   musicVolume: z.number().default(0.22),
   sfx: z.boolean().default(true).describe("efectos de sonido automáticos"),
   narrator: z.object({
+    provider: z.enum(["auto", "google", "gemini", "elevenlabs", "kokoro"]).default("auto"),
     name: z.string().optional().describe("voz Kokoro; por defecto em_alex (es) / am_michael (en)"),
     speed: z.number().default(1.1),
     volume: z.number().default(1),

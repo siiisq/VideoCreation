@@ -108,3 +108,62 @@ def synth(provider, text, voice, lang, speed, root):
     if provider == "kokoro":
         return kokoro(text, voice, lang, speed, root)
     return {"google": google, "gemini": gemini, "elevenlabs": elevenlabs}[provider](text, voice, lang, speed)
+
+
+# ---------------- Modo por lotes (Gemini): varias frases en UNA petición ----------------
+BATCH_STYLE = {
+    "es": "Lee los siguientes párrafos en español de España (acento peninsular), con voz masculina natural, cercana y con "
+          "energía, como un divulgador. Haz una pausa clara de unos dos segundos entre cada párrafo. Lee solo el texto:\n\n",
+    "en": "Read the following paragraphs in a natural, warm and energetic male voice, like a presenter. Leave a clear pause "
+          "of about two seconds between paragraphs. Read only the text:\n\n",
+}
+
+
+def split_on_silences(audio, sr, texts, min_sil=0.45):
+    """Corta un audio en len(texts) trozos usando los silencios más largos. Devuelve None si no cuadra."""
+    k = len(texts)
+    if k == 1:
+        return [audio]
+    hop = int(sr * 0.02)
+    frames = len(audio) // hop
+    rms = np.array([np.sqrt(np.mean(audio[i * hop:(i + 1) * hop] ** 2)) for i in range(frames)])
+    thr = max(0.008, np.percentile(rms, 30) * 0.5)
+    silent = rms < thr
+    runs, start = [], None
+    for i, s in enumerate(silent):
+        if s and start is None:
+            start = i
+        if (not s or i == frames - 1) and start is not None:
+            end = i if not s else i + 1
+            if (end - start) * 0.02 >= min_sil and start > 0 and end < frames:
+                runs.append((end - start, start, end))
+            start = None
+    if len(runs) < k - 1:
+        return None
+    cuts = sorted(sorted(runs, reverse=True)[: k - 1], key=lambda r: r[1])
+    pieces, prev = [], 0
+    for _, s, e in cuts:
+        mid = ((s + e) // 2) * hop
+        pieces.append(audio[prev:mid]); prev = mid
+    pieces.append(audio[prev:])
+    # comprobación: la duración de cada trozo debe parecerse a su número de palabras
+    words = np.array([max(1, len(t.split())) for t in texts], dtype=float)
+    durs = np.array([len(p) / sr for p in pieces])
+    ratio = (durs / durs.sum()) / (words / words.sum())
+    if np.any(ratio < 0.45) or np.any(ratio > 2.2):
+        return None
+    return pieces
+
+
+def gemini_batch(texts, voice, lang, speed):
+    """Genera varias frases en una sola petición y las separa. Devuelve [(audio, sr)] o None."""
+    model = os.environ.get("GEMINI_TTS_MODEL", "gemini-2.5-flash-preview-tts")
+    body = {
+        "contents": [{"parts": [{"text": BATCH_STYLE[lang] + "\n\n".join(texts)}]}],
+        "generationConfig": {"responseModalities": ["AUDIO"], "speechConfig": {"voiceConfig": {"prebuiltVoiceConfig": {"voiceName": voice}}}},
+    }
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+    out = json.loads(_post(url, body, {"x-goog-api-key": os.environ["GEMINI_API_KEY"]}, tries=3))
+    audio, sr = _pcm16(base64.b64decode(out["candidates"][0]["content"]["parts"][0]["inlineData"]["data"]), 24000)
+    pieces = split_on_silences(audio, sr, texts)
+    return None if pieces is None else [(p, sr) for p in pieces]

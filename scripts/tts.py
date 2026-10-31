@@ -10,7 +10,7 @@ import numpy as np
 import soundfile as sf
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from tts_providers import DEFAULTS, pick_provider, synth  # noqa: E402
+from tts_providers import DEFAULTS, gemini_batch, pick_provider, synth  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 VOICE_DELAY = 0.3      # igual que VOICE_DELAY en src/Reel.tsx
@@ -37,14 +37,36 @@ def main(src, dst):
     is_pres = "slides" in reel
     items = ([reel["intro"]] if reel.get("intro") else []) + reel["slides"] + ([reel["outro"]] if reel.get("outro") else []) if is_pres else reel["scenes"]
     trans = 0.5 if is_pres else TRANSITION
+
+    def cache_path(text):
+        key = hashlib.sha1(f"{provider}|{nar['name']}|{nar['speed']}|{text}".encode()).hexdigest()[:16]
+        return f"voice/{key}.wav", os.path.join(ROOT, "public", "voice", f"{key}.wav")
+
+    # Gemini gratis = 10 peticiones/día: generamos las frases pendientes en lotes de hasta 8 por petición
+    if provider == "gemini":
+        pending = [(sc.get("voice") or "").strip() for sc in items]
+        pending = [t for t in pending if t and not os.path.exists(cache_path(t)[1])]
+        for b in range(0, len(pending), 8):
+            chunk = pending[b:b + 8]
+            print(f"  lote de {len(chunk)} frases en una petición…")
+            res = None
+            for attempt in range(2):
+                res = gemini_batch(chunk, nar["name"], lang, nar["speed"])
+                if res:
+                    break
+                print("    no se pudo separar por silencios; reintentando…")
+            if not res:
+                print("    se generarán por separado")
+                continue
+            for t, (a, sr) in zip(chunk, res):
+                sf.write(cache_path(t)[1], trim(a, sr), sr)
+
     for i, sc in enumerate(items):
         sc.setdefault("duration", 4 if is_pres else 5)
         text = (sc.get("voice") or "").strip()
         if not text:
             continue
-        key = hashlib.sha1(f"{provider}|{nar['name']}|{nar['speed']}|{text}".encode()).hexdigest()[:16]
-        rel = f"voice/{key}.wav"
-        path = os.path.join(ROOT, "public", rel)
+        rel, path = cache_path(text)
         if not os.path.exists(path):
             audio, sr = synth(provider, text, nar["name"], lang, nar["speed"], ROOT)
             sf.write(path, trim(audio, sr), sr)

@@ -113,7 +113,7 @@ export const OnionCells: React.FC<DP> = ({ data }) => {
       )}
       {!cut && (
         <>
-          <circle cx={70} cy={790} r={14} fill={SULFUR} /><Label x={290} y={803} text={tr.sulfur} color={SULFUR} size={38} font={display} delay={30} />
+          <circle cx={45} cy={790} r={14} fill={SULFUR} /><Label x={320} y={803} text={tr.sulfur} color={SULFUR} size={38} font={display} delay={30} />
           <circle cx={590} cy={790} r={14} fill={ENZYME} /><Label x={710} y={803} text={tr.enzyme} color={ENZYME} size={38} font={display} delay={40} />
         </>
       )}

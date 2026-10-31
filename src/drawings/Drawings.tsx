@@ -8,6 +8,7 @@ import { Bean, COFFEE, Counter, Cup, Defs, Label, Molecule, WATER } from "./part
 import { Mascot, Mood } from "./Mascot";
 import { Bot } from "./Bot";
 import { Code, Factories, Queries, Speed, Users } from "./Wrapup";
+import { GasEye, OnionCells, OnionCry, OnionMascot, OnionTips } from "./OnionScenes";
 
 type D = Record<string, unknown>;
 type DP = { data: D; theme: Theme };
@@ -231,6 +232,11 @@ const registry: Record<string, React.FC<DP>> = {
   users: Users,
   speed: Speed,
   bot: BotOnly,
+  "onion-cry": OnionCry,
+  "onion-cells": OnionCells,
+  "gas-eye": GasEye,
+  "onion-tips": OnionTips,
+  onion: OnionMascot,
 };
 export const DRAWINGS = Object.keys(registry);
 

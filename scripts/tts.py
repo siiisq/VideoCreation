@@ -87,6 +87,10 @@ def main(src, dst):
         for h in sc.get("highlights", []) or []:
             if h.get("word") and word_time(h["word"]) is not None:
                 h["at"] = word_time(h["word"])
+        # escenas "drawing": data.atWords = ["nevera", ...] → data.at = [segundos]
+        if isinstance(sc.get("data"), dict) and sc["data"].get("atWords"):
+            ts = [word_time(w) for w in sc["data"]["atWords"]]
+            sc["data"]["at"] = [x if x is not None else 0.3 + 2.3 * k for k, x in enumerate(ts)]
         f = sc.get("focus")
         if f:
             if f.get("word") and word_time(f["word"]) is not None:

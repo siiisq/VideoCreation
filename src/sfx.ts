@@ -42,7 +42,18 @@ export const autoCues = (scene: Scene): Cue[] => {
         case "beans": c.push(...[10, 22, 30, 42, 54].map((x) => ({ sound: "click" as const, at: f(x), volume: 0.6 }))); break;
         case "americano": c.push({ sound: "whoosh", at: f(45), volume: 0.5 }, { sound: "ding", at: f(120) }); break;
         case "energy": c.push({ sound: "sparkle", at: f(20) }); break;
-        case "mascot": case "bot": c.push({ sound: "boing", at: 0.1 }); break;
+        case "mascot": case "bot": case "onion": c.push({ sound: "boing", at: 0.1 }); break;
+        case "onion-cry": c.push(...[20, 28, 36].map((x): Cue => ({ sound: "pop", at: f(x), volume: 0.6 })), ...[0, 12, 24, 36].map((x): Cue => ({ sound: "click", at: f(x + 3), volume: 0.35 }))); break;
+        case "onion-cells":
+          if (d.cut) c.push({ sound: "whoosh", at: f(10), volume: 0.8 }, { sound: "sparkle", at: f(30), volume: 0.7 }, { sound: "rise", at: f(40), volume: 0.4 });
+          else c.push({ sound: "pop", at: f(2), volume: 0.5 }, { sound: "pop", at: f(12), volume: 0.5 });
+          break;
+        case "gas-eye": c.push({ sound: "rise", at: 0.1, volume: 0.5 }, { sound: "boing", at: f(55), volume: 0.5 }); break;
+        case "onion-tips": {
+          const at = (Array.isArray(d.at) ? d.at : [0.3, 2.6, 5]) as number[];
+          c.push(...at.map((x): Cue => ({ sound: "pop", at: x, volume: 0.7 })));
+          break;
+        }
         case "factories": {
           const n = Number(d.to ?? 44) - Number(d.from ?? 32);
           for (let j = 0; j < n; j += 2) c.push({ sound: "pop", at: f(55 + j * 5), volume: 0.5 });

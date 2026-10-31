@@ -1,0 +1,36 @@
+{
+  "title": "¿Por qué el café aguado te da más cafeína?",
+  "handle": "@tucuenta",
+  "theme": { "bg1": "#1a0f0a", "bg2": "#4a2414", "accent": "#ffc23d", "accent2": "#ff6b4a", "text": "#fff7ec" },
+  "scenes": [
+    { "type": "drawing", "duration": 4, "drawing": "cups-vs", "bigTitle": true,
+      "title": "¿Café aguado con MÁS cafeína?", "highlight": ["MÁS", "cafeína"],
+      "data": { "question": true, "leftLabel": "Espresso", "rightLabel": "Café largo", "rightLiquid": "light" } },
+
+    { "type": "drawing", "duration": 7, "drawing": "concentration", "title": "Concentración ≠ total",
+      "text": "El espresso está más concentrado, pero la taza grande lleva más cafeína en total.", "highlight": ["concentrado", "total"],
+      "data": { "leftMolecules": 5, "rightMolecules": 9, "leftSub": "30 ml", "rightSub": "240 ml", "rightLiquid": "light" } },
+
+    { "type": "drawing", "duration": 6, "drawing": "cups-vs", "title": "En números",
+      "text": "Un espresso ronda los 63 mg. Una taza de filtro, unos 95 mg.", "highlight": ["63", "95"],
+      "data": { "leftMg": 63, "rightMg": 95, "leftLabel": "Espresso", "rightLabel": "Filtro", "rightLiquid": "light" },
+      "mascot": { "mood": "surprised", "say": "¡Sorpresa!", "side": "left" } },
+
+    { "type": "drawing", "duration": 7, "drawing": "filter", "title": "Razón 1: extracción",
+      "text": "Más agua y más tiempo de contacto arrastran más cafeína del grano.", "highlight": ["agua", "tiempo", "cafeína"] },
+
+    { "type": "drawing", "duration": 6, "drawing": "beans", "title": "Razón 2: más café",
+      "text": "Una taza de filtro usa casi el doble de café molido.", "highlight": ["doble"],
+      "data": { "leftBeans": 4, "rightBeans": 8, "leftGrams": 8, "rightGrams": 15, "leftLabel": "Espresso", "rightLabel": "Filtro" } },
+
+    { "type": "drawing", "duration": 7, "drawing": "americano", "title": "Ojo con el americano",
+      "text": "Echar agua a un espresso NO añade cafeína: solo la reparte.", "highlight": ["NO", "reparte"],
+      "data": { "molecules": 5, "equal": "¡Misma cafeína!" } },
+
+    { "type": "drawing", "duration": 6, "drawing": "energy",
+      "text": "Lo que cuenta es la cafeína total que te bebes, no lo fuerte que sepa.", "highlight": ["total", "fuerte"],
+      "data": { "mood": "wink", "say": "¡Ahora lo sabes!" } },
+
+    { "type": "outro", "duration": 4, "emoji": "☕", "text": "¿Tú eres de espresso o de taza grande?", "cta": "Sígueme para más" }
+  ]
+}

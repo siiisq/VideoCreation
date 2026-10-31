@@ -18,7 +18,19 @@ El usuario pide un tema y Claude produce el vídeo.
 4. **Entrega**: envía el MP4 al usuario (SendUserFile) y haz commit del JSON (los MP4 en `out/` no se versionan).
 
 ## Tipos de escena (ver `src/schema.ts`)
-`hook`, `text`, `list`, `stat` (cifra que cuenta), `compare` (A vs B), `steps`, `quote`, `bars` (gráfico), `outro`.
+`hook`, `text`, `list`, `stat` (cifra que cuenta), `compare` (A vs B), `steps`, `quote`, `bars` (gráfico), `outro`,
+y `drawing`: ilustración SVG animada (`src/drawings/`), con `title`, `text`, `data` y una `mascot` opcional
+(grano de café con cara, `mood`: happy/surprised/wink/thinking, `say`: bocadillo).
+
+**El usuario prefiere vídeos con muchas animaciones y dibujos**: prioriza escenas `drawing`. Si el tema no encaja
+con los dibujos existentes (`cups-vs`, `concentration`, `filter`, `beans`, `americano`, `mascot`, `energy`),
+DIBUJA nuevos componentes SVG para ese tema en `src/drawings/Drawings.tsx` (regístralos en `registry`), reutilizando
+`parts.tsx` (Molecule, Steam, Label, Counter…). viewBox 1000x820. Todo debe moverse: springs, llenados, partículas.
+Duración: la necesaria, máximo 60 s.
+
+Antes del render completo (~7 min), revisa capturas sueltas con
+`npx remotion still src/index.ts Reel out/f.png --frame=N --props=videos/x.json --scale=0.25` (en este contenedor
+añade `--browser-executable=/opt/pw-browsers/chromium_headless_shell-*/*/chrome-headless-shell`).
 Si un tema necesita algo que no existe (mapa, línea temporal, diagrama…), crea un nuevo tipo en
 `src/schema.ts` + componente en `src/scenes/Scenes.tsx`, manteniendo el estilo (springs, Title, Card, zonas seguras `SAFE`).
 

@@ -5,6 +5,7 @@ import { RichText } from "../components/RichText";
 import { body, display, emojiFont } from "../fonts";
 import { Scene, Theme } from "../schema";
 import { Card, Stage, Title } from "./common";
+import { Drawing as DrawingSvg } from "../drawings/Drawings";
 
 type P<T extends Scene["type"]> = { scene: Extract<Scene, { type: T }>; theme: Theme };
 
@@ -174,6 +175,22 @@ const Outro: React.FC<P<"outro">> = ({ scene, theme }) => {
   );
 };
 
+const DrawingScene: React.FC<P<"drawing">> = ({ scene, theme }) => (
+  <Stage gap={30}>
+    {scene.title && (scene.bigTitle ? (
+      <RichText text={scene.title} highlight={scene.highlight} accent={theme.accent} perWord={4}
+        style={{ fontFamily: display, fontWeight: 900, fontSize: 92, lineHeight: 1.05, color: theme.text, textTransform: "uppercase", letterSpacing: -2 }} />
+    ) : <Title theme={theme}>{scene.title}</Title>)}
+    <div style={{ width: "100%" }}>
+      <DrawingSvg name={scene.drawing} data={scene.data} theme={theme} mascot={scene.mascot} />
+    </div>
+    {scene.text && (
+      <RichText text={scene.text} highlight={scene.highlight} accent={theme.accent} delay={20} perWord={2}
+        style={{ fontWeight: 700, fontSize: 54, lineHeight: 1.22, color: theme.text }} />
+    )}
+  </Stage>
+);
+
 export const SceneView: React.FC<{ scene: Scene; theme: Theme }> = ({ scene, theme }) => {
   switch (scene.type) {
     case "hook": return <Hook scene={scene} theme={theme} />;
@@ -184,6 +201,7 @@ export const SceneView: React.FC<{ scene: Scene; theme: Theme }> = ({ scene, the
     case "steps": return <Steps scene={scene} theme={theme} />;
     case "quote": return <Quote scene={scene} theme={theme} />;
     case "bars": return <Bars scene={scene} theme={theme} />;
+    case "drawing": return <DrawingScene scene={scene} theme={theme} />;
     case "outro": return <Outro scene={scene} theme={theme} />;
   }
 };

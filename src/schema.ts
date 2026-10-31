@@ -23,6 +23,17 @@ export const sceneSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("quote"), ...base, text: z.string(), author: z.string().optional() }),
   // Gráfico de barras animado
   z.object({ type: z.literal("bars"), ...base, title: z.string(), unit: z.string().default(""), bars: z.array(z.object({ label: z.string(), value: z.number(), emoji: z.string().optional() })).min(2).max(6) }),
+  // Ilustración animada (ver src/drawings/Drawings.tsx) con título y texto
+  z.object({
+    type: z.literal("drawing"), ...base,
+    drawing: z.string().describe("cups-vs | concentration | filter | beans | americano | mascot | energy"),
+    data: z.record(z.unknown()).default({}),
+    title: z.string().optional(),
+    text: z.string().optional(),
+    highlight: z.array(z.string()).default([]),
+    bigTitle: z.boolean().default(false).describe("título enorme estilo gancho"),
+    mascot: z.object({ mood: z.enum(["happy", "surprised", "wink", "thinking"]).optional(), say: z.string().optional(), side: z.enum(["left", "right"]).optional() }).optional(),
+  }),
   // Cierre / llamada a la acción
   z.object({ type: z.literal("outro"), ...base, emoji: z.string().optional(), text: z.string(), cta: z.string().optional() }),
 ]);

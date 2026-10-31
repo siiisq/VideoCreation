@@ -11,6 +11,7 @@ import { SceneView } from "./scenes/Scenes";
 import { autoCues } from "./sfx";
 
 export const TRANSITION_SECONDS = 0.4;
+export const VOICE_DELAY = 0.3; // la voz entra cuando ha terminado la transición
 export const transitionFrames = (fps: number) => Math.round(TRANSITION_SECONDS * fps);
 
 /** Fotograma en el que empieza cada escena (las transiciones se solapan). */
@@ -72,6 +73,7 @@ export const Reel: React.FC<ReelT> = (props) => {
   const { theme } = reel;
   const T = transitionFrames(fps);
   const starts = sceneStarts(reel, fps);
+  const voiceSpans = reel.scenes.flatMap((s, i) => s.voiceFile && s.voiceDuration ? [[starts[i] + VOICE_DELAY * fps, starts[i] + (VOICE_DELAY + s.voiceDuration) * fps] as [number, number]] : []);
   return (
     <AbsoluteFill style={{ background: theme.bg1 }}>
       <Background theme={theme} />
@@ -102,8 +104,20 @@ export const Reel: React.FC<ReelT> = (props) => {
       )}
 
       {reel.music && (
-        <Audio src={staticFile(reel.music)} volume={(f) => reel.musicVolume * interpolate(f, [0, fps, durationInFrames - fps * 1.5, durationInFrames], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })} />
+        <Audio src={staticFile(reel.music)} volume={(f) => {
+          const fade = interpolate(f, [0, fps, durationInFrames - fps * 1.5, durationInFrames], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+          // "ducking": la música baja mientras habla la voz, con rampas suaves de 0,25 s
+          const ramp = fps * 0.25;
+          let duck = 0;
+          voiceSpans.forEach(([a, b]) => { duck = Math.max(duck, interpolate(f, [a - ramp, a, b, b + ramp], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })); });
+          return reel.musicVolume * fade * (1 - duck * 0.6);
+        }} />
       )}
+      {reel.scenes.map((scene, i) => scene.voiceFile ? (
+        <Sequence key={`v${i}`} from={starts[i] + Math.round(VOICE_DELAY * fps)} layout="none">
+          <Audio src={staticFile(scene.voiceFile)} volume={reel.narrator.volume} />
+        </Sequence>
+      ) : null)}
       {reel.sfx && reel.scenes.map((scene, i) => {
         const cues = [...(i > 0 ? [{ sound: "whoosh" as const, at: -0.1, volume: 0.45 }] : []), ...autoCues(scene), ...(scene.sfx ?? [])];
         return cues.map((c, j) => (

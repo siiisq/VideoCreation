@@ -14,6 +14,10 @@ El usuario pide un tema y Claude produce el vídeo.
    - Varía los tipos de escena (no repitas el mismo tipo seguido). Usa `highlight` para 1–3 palabras clave.
    - Elige un `theme` acorde al tema (bg1/bg2 oscuros, accent/accent2 vivos y contrastados).
    - Datos y cifras: solo hechos verificables; si no estás seguro, no inventes números.
+   - **Voz en off obligatoria**: cada escena lleva `"voice"` con lo que dice el narrador (más completo que el texto en
+     pantalla, tono cercano, frases cortas). Escribe los números y símbolos con letras ("sesenta y tres miligramos",
+     no "63 mg") para que la voz los lea bien. Ritmo ≈ 2,8 palabras/s; el total no debe pasar de 60 s
+     (`scripts/tts.py` alarga las escenas para que quepa la voz y avisa si te pasas).
 2. **Render**: `npm run render -- videos/<slug>.json` → `out/<slug>.mp4` (~3-5 min a 60 fps; lanzar en background).
 3. **Revisión**: extrae una tira de fotogramas con ffmpeg y míralos antes de entregar
    (`ffmpeg -i out/x.mp4 -vf "fps=1/6,scale=270:480,tile=10x1" -frames:v 1 contact.png`). Corrige textos que desborden.
@@ -35,6 +39,12 @@ Antes del render completo, revisa capturas sueltas con
 añade `--gl=egl --browser-executable=/opt/pw-browsers/chromium_headless_shell-*/*/chrome-headless-shell`).
 Si un tema necesita algo que no existe (mapa, línea temporal, diagrama…), crea un nuevo tipo en
 `src/schema.ts` + componente en `src/scenes/Scenes.tsx`, manteniendo el estilo (springs, Title, Card, zonas seguras `SAFE`).
+
+## Voz en off
+- Kokoro TTS local (Apache-2.0) en `.venv` + `models/` (no versionados). `npm run render` los instala solo la primera vez
+  (`scripts/setup-voice.sh`, descarga ~350 MB de GitHub releases).
+- Voz por defecto en `"narrator": {"name": "ef_dora", "speed": 1.1}`. Otras: `em_alex`, `em_santa` (hombre).
+- La música baja automáticamente mientras habla la voz.
 
 ## Calidad y fluidez (ya configurado)
 - **60 fps** por defecto (`"fps": 60` en el guion; 30 para renders rápidos). Las animaciones están escritas en

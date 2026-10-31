@@ -2,7 +2,13 @@ import { z } from "zod";
 
 export const SOUNDS = ["whoosh", "pop", "ding", "click", "rise", "boing", "sparkle"] as const;
 const sfxItem = z.object({ sound: z.enum(SOUNDS), at: z.number().describe("segundos desde el inicio de la escena"), volume: z.number().optional() });
-const base = { duration: z.number().min(1).max(20).describe("segundos"), sfx: z.array(sfxItem).optional().describe("efectos extra") };
+const base = {
+  duration: z.number().min(1).max(30).describe("segundos (se alarga solo si la voz no cabe)"),
+  sfx: z.array(sfxItem).optional().describe("efectos extra"),
+  voice: z.string().optional().describe("frase que dice la voz en off en esta escena"),
+  voiceFile: z.string().optional().describe("rellenado por scripts/tts.py"),
+  voiceDuration: z.number().optional().describe("rellenado por scripts/tts.py"),
+};
 
 export const sceneSchema = z.discriminatedUnion("type", [
   // Gancho inicial: frase grande, palabra a palabra
@@ -56,6 +62,11 @@ export const reelSchema = z.object({
   music: z.string().default("music/lofi.mp3").describe("archivo en public/; cadena vacía = sin música"),
   musicVolume: z.number().default(0.22),
   sfx: z.boolean().default(true).describe("efectos de sonido automáticos"),
+  narrator: z.object({
+    name: z.string().default("ef_dora").describe("voz Kokoro: ef_dora (mujer), em_alex, em_santa (hombre)"),
+    speed: z.number().default(1.1),
+    volume: z.number().default(1),
+  }).default({}),
   sfxVolume: z.number().default(0.55),
   lightLeaks: z.boolean().default(true),
   grain: z.boolean().default(true).describe("grano de película sutil (evita bandas en degradados)"),

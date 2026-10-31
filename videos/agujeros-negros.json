@@ -1,0 +1,16 @@
+{
+  "title": "Agujeros negros en 1 minuto",
+  "handle": "@tucuenta",
+  "theme": { "bg1": "#05010f", "bg2": "#2a0b4a", "accent": "#ffb000", "accent2": "#ff3d81", "text": "#ffffff" },
+  "scenes": [
+    { "type": "hook", "duration": 4, "emoji": "🕳️", "text": "Nada escapa de aquí. Ni siquiera la luz.", "highlight": ["Nada", "luz"] },
+    { "type": "text", "duration": 7, "emoji": "⭐", "title": "¿Cómo nacen?", "text": "Cuando una estrella gigante se queda sin combustible, colapsa sobre sí misma y se comprime hasta un punto increíblemente denso.", "highlight": ["colapsa", "denso"] },
+    { "type": "stat", "duration": 6, "value": 300000, "suffix": " km/s", "label": "Ni a la velocidad de la luz podrías salir de él" },
+    { "type": "steps", "duration": 9, "title": "Sus partes", "steps": ["Disco de acreción: gas que gira y brilla", "Horizonte de sucesos: el punto sin retorno", "Singularidad: donde la física se rompe"] },
+    { "type": "compare", "duration": 8, "title": "El tiempo", "left": { "emoji": "🧑‍🚀", "title": "Cerca", "text": "El tiempo pasa más lento" }, "right": { "emoji": "🌍", "title": "En la Tierra", "text": "Pasan años mientras tanto" } },
+    { "type": "bars", "duration": 8, "title": "Masa (soles)", "unit": "", "bars": [ { "emoji": "☀️", "label": "Sol", "value": 1 }, { "emoji": "🌀", "label": "Estelar típico", "value": 10 }, { "emoji": "🌌", "label": "Sagitario A*", "value": 4300000 } ] },
+    { "type": "list", "duration": 8, "title": "Datos locos", "items": [ { "emoji": "🍝", "text": "Te estiraría como un espagueti" }, { "emoji": "📸", "text": "Primera foto real en 2019" }, { "emoji": "💨", "text": "Se evaporan muy, muy lentamente" } ] },
+    { "type": "quote", "duration": 5, "text": "Los agujeros negros no son tan negros.", "author": "Stephen Hawking" },
+    { "type": "outro", "duration": 5, "emoji": "🚀", "text": "¿Te lanzarías dentro de uno?", "cta": "Sígueme para más" }
+  ]
+}

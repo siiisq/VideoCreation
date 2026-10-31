@@ -8,6 +8,7 @@ const base = {
   voice: z.string().optional().describe("frase que dice la voz en off en esta escena"),
   voiceFile: z.string().optional().describe("rellenado por scripts/tts.py"),
   voiceDuration: z.number().optional().describe("rellenado por scripts/tts.py"),
+  overlay: z.string().optional().describe("vídeo con transparencia en public/ (p. ej. motion graphics de HyperFrames) encima de la escena"),
 };
 
 export const sceneSchema = z.discriminatedUnion("type", [
@@ -41,6 +42,7 @@ export const sceneSchema = z.discriminatedUnion("type", [
     text: z.string().optional(),
     highlight: z.array(z.string()).default([]),
     bigTitle: z.boolean().default(false).describe("título enorme estilo gancho"),
+    hideTitle: z.boolean().default(false).describe("reserva el hueco del título pero no lo pinta (p. ej. si lo pone un overlay)"),
     mascot: z.object({ mood: z.enum(["happy", "surprised", "wink", "thinking"]).optional(), say: z.string().optional(), side: z.enum(["left", "right"]).optional(), character: z.enum(["bean", "bot"]).optional() }).optional(),
   }),
   // ---- Gráficos de datos animados (src/scenes/Charts.tsx) ----

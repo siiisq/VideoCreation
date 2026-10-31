@@ -1,0 +1,34 @@
+{
+  "$schema": "https://hyperframes.heygen.com/schema/hyperframes.json",
+  "registry": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry",
+  "paths": {
+    "blocks": "compositions",
+    "components": "compositions/components",
+    "assets": "assets"
+  },
+  "media": {
+    "autoProxy": true
+  },
+  "registryItems": [
+    {
+      "name": "headline-slam",
+      "type": "hyperframes:component",
+      "target": "compositions/components/headline-slam.html"
+    },
+    {
+      "name": "marker-highlight",
+      "type": "hyperframes:component",
+      "target": "compositions/components/marker-highlight.html"
+    },
+    {
+      "name": "instagram-follow",
+      "type": "hyperframes:block",
+      "target": "compositions/instagram-follow.html"
+    },
+    {
+      "name": "char-slam-explode",
+      "type": "hyperframes:component",
+      "target": "compositions/components/char-slam-explode.html"
+    }
+  ]
+}

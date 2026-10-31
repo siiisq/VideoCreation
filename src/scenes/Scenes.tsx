@@ -1,7 +1,7 @@
 import { useT } from "../i18n";
 import { ANIM_FPS, useFrame } from "../time";
 import React from "react";
-import { interpolate, spring, Easing } from "remotion";
+import { AbsoluteFill, interpolate, OffthreadVideo, spring, staticFile, Easing } from "remotion";
 import { Emoji, EmojiGlyph } from "../components/Emoji";
 import { RichText } from "../components/RichText";
 import { body, display } from "../fonts";
@@ -223,7 +223,7 @@ const DrawingScene: React.FC<P<"drawing">> = ({ scene, theme }) => (
   <Stage gap={30}>
     {scene.title && (scene.bigTitle ? (
       <RichText text={scene.title} highlight={scene.highlight} accent={theme.accent} perWord={4}
-        style={{ fontFamily: display, fontWeight: 900, fontSize: 92, lineHeight: 1.05, color: theme.text, textTransform: "uppercase", letterSpacing: -2 }} />
+        style={{ fontFamily: display, fontWeight: 900, fontSize: 92, lineHeight: 1.05, color: theme.text, textTransform: "uppercase", letterSpacing: -2, visibility: scene.hideTitle ? "hidden" : undefined }} />
     ) : <Title theme={theme}>{scene.title}</Title>)}
     <div style={{ width: "100%" }}>
       <DrawingSvg name={scene.drawing} data={scene.data} theme={theme} mascot={scene.mascot} />
@@ -235,7 +235,18 @@ const DrawingScene: React.FC<P<"drawing">> = ({ scene, theme }) => (
   </Stage>
 );
 
-export const SceneView: React.FC<{ scene: Scene; theme: Theme }> = ({ scene, theme }) => {
+export const SceneView: React.FC<{ scene: Scene; theme: Theme }> = ({ scene, theme }) => (
+  <>
+    <SceneBody scene={scene} theme={theme} />
+    {scene.overlay && (
+      <AbsoluteFill style={{ pointerEvents: "none" }}>
+        <OffthreadVideo src={staticFile(scene.overlay)} transparent muted style={{ width: "100%", height: "100%" }} />
+      </AbsoluteFill>
+    )}
+  </>
+);
+
+const SceneBody: React.FC<{ scene: Scene; theme: Theme }> = ({ scene, theme }) => {
   switch (scene.type) {
     case "hook": return <Hook scene={scene} theme={theme} />;
     case "text": return <Text scene={scene} theme={theme} />;

@@ -101,13 +101,59 @@ export const Bean: React.FC<{ x: number; y: number; size?: number; rot?: number 
   </g>
 );
 
+/** Colores de esferas con volumen: <circle fill="url(#sph-yellow)"/> */
+export const SPHERES: Record<string, [string, string, string]> = {
+  yellow: ["#fff3b0", "#ffd23f", "#c98f00"],
+  purple: ["#efc4ff", "#c06bff", "#6d24a8"],
+  green: ["#e4ffc4", "#9be15d", "#4c8f1f"],
+  blue: ["#ffffff", "#8fdcff", "#2f8fd0"],
+  white: ["#ffffff", "#eef3f8", "#b9c6d3"],
+};
+
 export const Defs: React.FC = () => (
   <defs>
     <radialGradient id="beanShine" cx="35%" cy="30%" r="70%">
       <stop offset="0%" stopColor="#ffffff" stopOpacity={0.35} />
       <stop offset="60%" stopColor="#ffffff" stopOpacity={0} />
     </radialGradient>
+    {Object.entries(SPHERES).map(([k, [a, b, c]]) => (
+      <radialGradient key={k} id={`sph-${k}`} cx="35%" cy="30%" r="75%">
+        <stop offset="0%" stopColor={a} />
+        <stop offset="45%" stopColor={b} />
+        <stop offset="100%" stopColor={c} />
+      </radialGradient>
+    ))}
+    {Object.entries(SPHERES).map(([k, [, b]]) => (
+      <radialGradient key={`g${k}`} id={`glow-${k}`} cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stopColor={b} stopOpacity={0.55} />
+        <stop offset="100%" stopColor={b} stopOpacity={0} />
+      </radialGradient>
+    ))}
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stopColor="#d9a066" />
+      <stop offset="100%" stopColor="#9c6230" />
+    </linearGradient>
   </defs>
+);
+
+/** Esfera con volumen y halo opcional. */
+export const Sphere: React.FC<{ x: number; y: number; r: number; color: keyof typeof SPHERES; glow?: boolean; opacity?: number }> = ({ x, y, r, color, glow, opacity = 1 }) => (
+  <g opacity={opacity}>
+    {glow && <circle cx={x} cy={y} r={r * 2.4} fill={`url(#glow-${color})`} />}
+    <circle cx={x} cy={y} r={r} fill={`url(#sph-${color})`} />
+    <ellipse cx={x - r * 0.35} cy={y - r * 0.4} rx={r * 0.3} ry={r * 0.18} fill="#fff" opacity={0.75} />
+  </g>
+);
+
+/** Tabla de cortar de madera con veta. */
+export const Board: React.FC<{ x: number; y: number; w: number; h?: number }> = ({ x, y, w, h = 56 }) => (
+  <g>
+    <ellipse cx={x + w / 2} cy={y + h + 10} rx={w * 0.52} ry={14} fill="#000" opacity={0.25} />
+    <rect x={x} y={y} width={w} height={h} rx={22} fill="url(#wood)" stroke="#7a4a1e" strokeWidth={4} />
+    <rect x={x + 8} y={y + 5} width={w - 16} height={10} rx={5} fill="#f0c48a" opacity={0.6} />
+    {[0.25, 0.5, 0.72].map((k, i) => <path key={i} d={`M ${x + 30} ${y + h * k + 8} q ${w * 0.25} ${i % 2 ? 8 : -8} ${w * 0.5} 0 t ${w * 0.4} 0`} stroke="#8a5428" strokeWidth={2.5} fill="none" opacity={0.5} />)}
+    <circle cx={x + w - 34} cy={y + h / 2} r={9} fill="#7a4a1e" opacity={0.7} />
+  </g>
 );
 
 /** Etiqueta de texto SVG con entrada animada. */

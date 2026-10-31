@@ -13,9 +13,14 @@ export const TearStream: React.FC<{ x: number; y: number; dir?: number; t: numbe
       const p = ((t * 1.4 + i * 9) % 54) / 54;
       const tx = x + dir * (p * 70 + Math.sin(p * 6) * 6);
       const ty = y + p * p * 260;
-      return <path key={i} d={`M ${tx} ${ty - 16} q 10 14 0 22 q -10 -8 0 -22 Z`} fill="#7fd6ff" opacity={1 - p * 0.6} />;
+      return (
+        <g key={i} transform={`translate(${tx} ${ty})`} opacity={1 - p * 0.5}>
+          <path d="M 0 -18 C 7 -7 11 0 11 6 A 11 11 0 0 1 -11 6 C -11 0 -7 -7 0 -18 Z" fill="url(#tearGrad)" stroke="#4fb7ea" strokeWidth={1.5} />
+          <ellipse cx={-3.5} cy={3} rx={2.6} ry={4} fill="#fff" opacity={0.9} />
+        </g>
+      );
     })}
-    <path d={`M ${x} ${y} q ${dir * 30} 20 ${dir * 55} 80`} stroke="#7fd6ff" strokeWidth={7} fill="none" strokeLinecap="round" opacity={0.7} />
+    <path d={`M ${x} ${y} q ${dir * 30} 20 ${dir * 55} 80`} stroke="#bfeaff" strokeWidth={9} fill="none" strokeLinecap="round" opacity={0.55} />
   </g>
 );
 
@@ -38,17 +43,37 @@ export const Onion: React.FC<{ x: number; y: number; size?: number; mood?: Mood 
       <ellipse cx={0} cy={h * 0.95 - bounce} rx={w * 0.8} ry={16} fill="#000" opacity={0.25} />
       {/* raíces */}
       {[-14, -5, 5, 14].map((dx, i) => <path key={i} d={`M ${dx} ${h * 0.78} q ${dx * 0.8} 20 ${dx * 1.4} 34`} stroke={ONION.line} strokeWidth={5} fill="none" strokeLinecap="round" />)}
+      <defs>
+        <radialGradient id="onionBody" cx="38%" cy="35%" r="75%">
+          <stop offset="0%" stopColor="#ffe3a3" /><stop offset="45%" stopColor="#f0b54e" /><stop offset="85%" stopColor="#c27a22" /><stop offset="100%" stopColor="#9a5a14" />
+        </radialGradient>
+        <linearGradient id="onionTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#8a5a2b" /><stop offset="100%" stopColor="#c98a3a" stopOpacity={0} /></linearGradient>
+        <linearGradient id="sprout" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stopColor="#3f8a2e" /><stop offset="100%" stopColor="#9fe07a" /></linearGradient>
+        <linearGradient id="tearGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#ffffff" stopOpacity={0.95} /><stop offset="100%" stopColor="#7fd6ff" /></linearGradient>
+        <clipPath id="onionClip"><path d={`M 0 ${-h * 0.95} C ${w * 0.25} ${-h * 0.6} ${w} ${-h * 0.35} ${w} ${h * 0.15} C ${w} ${h * 0.6} ${w * 0.5} ${h * 0.82} 0 ${h * 0.82} C ${-w * 0.5} ${h * 0.82} ${-w} ${h * 0.6} ${-w} ${h * 0.15} C ${-w} ${-h * 0.35} ${-w * 0.25} ${-h * 0.6} 0 ${-h * 0.95} Z`} /></clipPath>
+      </defs>
       {/* cuerpo */}
-      <path d={`M 0 ${-h * 0.95} C ${w * 0.25} ${-h * 0.6} ${w} ${-h * 0.35} ${w} ${h * 0.15} C ${w} ${h * 0.6} ${w * 0.5} ${h * 0.82} 0 ${h * 0.82} C ${-w * 0.5} ${h * 0.82} ${-w} ${h * 0.6} ${-w} ${h * 0.15} C ${-w} ${-h * 0.35} ${-w * 0.25} ${-h * 0.6} 0 ${-h * 0.95} Z`} fill={ONION.skin} stroke={ONION.line} strokeWidth={7} />
-      {[-0.55, 0, 0.55].map((k, i) => <path key={i} d={`M 0 ${-h * 0.85} C ${w * k * 1.2} ${-h * 0.4} ${w * k * 1.3} ${h * 0.4} ${w * k * 0.5} ${h * 0.78}`} stroke={ONION.skinDark} strokeWidth={5} fill="none" opacity={0.6} />)}
-      {/* brote */}
-      <path d={`M 0 ${-h * 0.92} q -8 -40 -30 -60 M 0 ${-h * 0.92} q 10 -45 30 -70`} stroke="#5aa845" strokeWidth={10} fill="none" strokeLinecap="round" />
+      <path d={`M 0 ${-h * 0.95} C ${w * 0.25} ${-h * 0.6} ${w} ${-h * 0.35} ${w} ${h * 0.15} C ${w} ${h * 0.6} ${w * 0.5} ${h * 0.82} 0 ${h * 0.82} C ${-w * 0.5} ${h * 0.82} ${-w} ${h * 0.6} ${-w} ${h * 0.15} C ${-w} ${-h * 0.35} ${-w * 0.25} ${-h * 0.6} 0 ${-h * 0.95} Z`} fill="url(#onionBody)" />
+      <g clipPath="url(#onionClip)">
+        {[-0.75, -0.4, 0, 0.4, 0.75].map((k, i) => <path key={i} d={`M 0 ${-h * 0.9} C ${w * k * 1.25} ${-h * 0.45} ${w * k * 1.35} ${h * 0.4} ${w * k * 0.55} ${h * 0.85}`} stroke={i % 2 ? "#fff1c9" : "#a8641c"} strokeWidth={i % 2 ? 4 : 5} fill="none" opacity={i % 2 ? 0.45 : 0.4} />)}
+        <rect x={-w} y={-h} width={w * 2} height={h * 0.55} fill="url(#onionTop)" opacity={0.55} />
+        <ellipse cx={-w * 0.45} cy={-h * 0.25} rx={w * 0.18} ry={h * 0.32} fill="#fff" opacity={0.28} transform={`rotate(20 ${-w * 0.45} ${-h * 0.25})`} />
+        <path d={`M ${w * 0.95} ${-h * 0.1} C ${w * 0.95} ${h * 0.5} ${w * 0.5} ${h * 0.8} 0 ${h * 0.82}`} stroke="#7a3f0c" strokeWidth={18} fill="none" opacity={0.25} />
+      </g>
+      <path d={`M 0 ${-h * 0.95} C ${w * 0.25} ${-h * 0.6} ${w} ${-h * 0.35} ${w} ${h * 0.15} C ${w} ${h * 0.6} ${w * 0.5} ${h * 0.82} 0 ${h * 0.82} C ${-w * 0.5} ${h * 0.82} ${-w} ${h * 0.6} ${-w} ${h * 0.15} C ${-w} ${-h * 0.35} ${-w * 0.25} ${-h * 0.6} 0 ${-h * 0.95} Z`} fill="none" stroke={ONION.line} strokeWidth={6} />
+      {/* brote con hojas */}
+      <path d={`M -4 ${-h * 0.9} C -10 ${-h * 1.05} -30 ${-h * 1.15} -46 ${-h * 1.28} C -26 ${-h * 1.24} -8 ${-h * 1.1} 2 ${-h * 0.92} Z`} fill="url(#sprout)" stroke="#2f6b22" strokeWidth={3} />
+      <path d={`M 2 ${-h * 0.9} C 8 ${-h * 1.1} 26 ${-h * 1.25} 40 ${-h * 1.4} C 30 ${-h * 1.2} 16 ${-h * 1.05} 8 ${-h * 0.9} Z`} fill="url(#sprout)" stroke="#2f6b22" strokeWidth={3} />
       {/* mejillas */}
       <ellipse cx={-w * 0.55} cy={h * 0.18} rx={18} ry={11} fill="#ff7a8a" opacity={0.6} />
       <ellipse cx={w * 0.55} cy={h * 0.18} rx={18} ry={11} fill="#ff7a8a" opacity={0.6} />
       {/* ojos */}
       {[-1, 1].map((d) => crying ? (
-        <path key={d} d={`M ${d * w * 0.35 - 20} ${eyeY + 4} q 20 -16 40 0`} stroke="#3a1f05" strokeWidth={8} fill="none" strokeLinecap="round" />
+        <g key={d}>
+          <path d={`M ${d * w * 0.35 - 22} ${eyeY + 2} q 22 -18 44 0`} stroke="#3a1f05" strokeWidth={8} fill="none" strokeLinecap="round" />
+          <path d={`M ${d * w * 0.35 - 18} ${eyeY + 8} q 18 10 36 0`} stroke="#7fd6ff" strokeWidth={6} fill="none" strokeLinecap="round" opacity={0.9} />
+          <path d={`M ${d * w * 0.35 - 24} ${eyeY - 30} l ${d * 18} 8`} stroke="#3a1f05" strokeWidth={6} strokeLinecap="round" />
+        </g>
       ) : mood === "wink" && d === 1 ? (
         <path key={d} d={`M ${d * w * 0.35 - 16} ${eyeY} q 16 -12 32 0`} stroke="#3a1f05" strokeWidth={7} fill="none" strokeLinecap="round" />
       ) : (

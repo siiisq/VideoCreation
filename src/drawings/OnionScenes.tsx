@@ -4,7 +4,8 @@ import { display } from "../fonts";
 import { useT } from "../i18n";
 import { Theme } from "../schema";
 import { ANIM_FPS, useFrame } from "../time";
-import { Label } from "./parts";
+import { Board, Label, Sphere } from "./parts";
+import { Eye } from "./Eye";
 import { Onion, ONION } from "./Onion";
 
 type D = Record<string, unknown>;
@@ -23,9 +24,13 @@ export const Knife: React.FC<{ x: number; y: number; rot?: number; scale?: numbe
       <clipPath id="bladeClip"><path d="M -220 0 Q -120 -48 0 -48 L 0 18 L -220 0 Z" /></clipPath>
     </defs>
     <path d="M -220 0 Q -120 -48 0 -48 L 0 18 L -220 0 Z" fill="url(#blade)" stroke="#7d8a96" strokeWidth={4} />
+    <path d="M -214 1 Q -110 4 0 12" stroke="#ffffff" strokeWidth={3} fill="none" opacity={0.9} />
+    <path d="M -200 -6 Q -110 -30 -4 -34" stroke="#8d99a5" strokeWidth={2} fill="none" opacity={0.6} />
     <rect x={-240 + shine * 300} y={-60} width={30} height={90} fill="#ffffff" opacity={0.7} transform="skewX(-25)" clipPath="url(#bladeClip)" />
-    <rect x={0} y={-40} width={150} height={44} rx={16} fill="#3b2a20" />
-    {[40, 80, 120].map((cx) => <circle key={cx} cx={cx} cy={-18} r={6} fill="#c9b38f" />)}
+    <rect x={-4} y={-50} width={18} height={70} rx={6} fill="#9aa6b2" stroke="#6b7783" strokeWidth={3} />
+    <rect x={12} y={-42} width={150} height={48} rx={18} fill="#4a3226" stroke="#2a1a12" strokeWidth={3} />
+    <rect x={20} y={-38} width={134} height={12} rx={6} fill="#7a5644" opacity={0.6} />
+    {[50, 90, 130].map((cx) => <g key={cx}><circle cx={cx} cy={-18} r={7} fill="#d9c9a8" /><circle cx={cx - 2} cy={-20} r={2.5} fill="#fff" /></g>)}
   </g>
 );
 
@@ -35,8 +40,7 @@ export const OnionCry: React.FC<DP> = () => {
   const chop = Math.abs(Math.sin(t / 6));
   return (
     <>
-      <rect x={160} y={690} width={680} height={60} rx={20} fill="#b07a46" />
-      <rect x={160} y={690} width={680} height={14} rx={7} fill="#c99360" />
+      <Board x={150} y={690} w={700} />
       <Onion x={380} y={520} size={190} mood="crying" />
       <g transform={`translate(0 ${-chop * 90})`}><Knife x={880} y={660} rot={-8} scale={0.85} /></g>
       {[0, 1, 2].map((i) => {
@@ -50,25 +54,48 @@ export const OnionCry: React.FC<DP> = () => {
 
 /** Una célula: pared + vacuola con enzima + azufre en el citoplasma. Si broken>0, se rompe y se mezclan. */
 const Cell: React.FC<{ x: number; y: number; w: number; h: number; broken: number; t: number; seed: number }> = ({ x, y, w, h, broken, t, seed }) => {
-  const dots = (n: number, color: string, inVac: boolean, k: number) => Array.from({ length: n }, (_, i) => {
+  const dots = (n: number, color: "yellow" | "purple", inVac: boolean, k: number) => Array.from({ length: n }, (_, i) => {
     const r1 = ((i * 7919 + seed * 31 + k) % 101) / 101, r2 = ((i * 104729 + seed * 17 + k) % 97) / 97;
     let dx: number, dy: number;
-    if (inVac) { const a = r1 * Math.PI * 2, rr = r2 * 0.28; dx = Math.cos(a) * w * rr; dy = Math.sin(a) * h * rr; }
-    else { const a = r1 * Math.PI * 2, rr = 0.36 + r2 * 0.06; dx = Math.cos(a) * w * rr; dy = Math.sin(a) * h * rr; }
-    // al romperse, todo se mezcla hacia posiciones aleatorias y vibra
+    if (inVac) { const a = r1 * Math.PI * 2, rr = r2 * 0.24; dx = Math.cos(a) * w * rr; dy = Math.sin(a) * h * rr; }
+    else { const a = r1 * Math.PI * 2, rr = 0.35 + r2 * 0.05; dx = Math.cos(a) * w * rr; dy = Math.sin(a) * h * rr; }
     const mx = (r2 - 0.5) * w * 0.7, my = (r1 - 0.5) * h * 0.7;
     const jitter = broken * Math.sin((t + i * 13) / 3) * 4;
-    return <circle key={`${k}${i}`} cx={x + dx + (mx - dx) * broken + jitter} cy={y + dy + (my - dy) * broken - jitter} r={8} fill={color} />;
+    const drift = Math.sin((t + i * 17 + seed * 5) / 14) * 3;
+    return <Sphere key={`${k}${i}`} x={x + dx + (mx - dx) * broken + jitter + drift} y={y + dy + (my - dy) * broken - jitter} r={inVac ? 9 : 8.5} color={color} />;
   });
+  const wob = (k: number) => Math.sin(t / 10 + seed + k) * 3;
+  const wall = `M ${x - w / 2 + 30} ${y - h / 2 + wob(1)} Q ${x} ${y - h / 2 - 10 + wob(2)} ${x + w / 2 - 30} ${y - h / 2 + wob(3)} Q ${x + w / 2 + 6} ${y - h / 2 + 4} ${x + w / 2 + wob(4)} ${y - h / 2 + 34} Q ${x + w / 2 + 10 + wob(5)} ${y} ${x + w / 2} ${y + h / 2 - 34} Q ${x + w / 2 + 4} ${y + h / 2 + 2} ${x + w / 2 - 30} ${y + h / 2 + wob(6)} Q ${x} ${y + h / 2 + 10 + wob(7)} ${x - w / 2 + 30} ${y + h / 2} Q ${x - w / 2 - 4} ${y + h / 2 + 2} ${x - w / 2 + wob(8)} ${y + h / 2 - 34} Q ${x - w / 2 - 10} ${y} ${x - w / 2} ${y - h / 2 + 34} Q ${x - w / 2 - 4} ${y - h / 2 - 2} ${x - w / 2 + 30} ${y - h / 2 + wob(1)} Z`;
+  const dash = broken > 0.05 ? `${24 - broken * 10} ${8 + broken * 22}` : undefined;
   return (
     <g>
-      <rect x={x - w / 2} y={y - h / 2} width={w} height={h} rx={34} fill="#f6f1c7" opacity={0.18} stroke="#d9f08a" strokeWidth={6} strokeDasharray={broken > 0.05 ? "18 14" : undefined} />
-      <ellipse cx={x} cy={y} rx={w * 0.3} ry={h * 0.3} fill={ENZYME} opacity={0.15 * (1 - broken)} stroke={ENZYME} strokeWidth={4} strokeDasharray={broken > 0.05 ? "10 10" : undefined} strokeOpacity={1 - broken} />
-      {dots(5, ENZYME, true, 1)}
-      {dots(7, SULFUR, false, 2)}
+      <path d={wall} fill="url(#cellFill)" opacity={1 - broken * 0.4} />
+      <path d={wall} fill="none" stroke="#d9f08a" strokeWidth={8} strokeDasharray={dash} strokeLinejoin="round" />
+      <path d={wall} fill="none" stroke="#f7ffd6" strokeWidth={2.5} strokeDasharray={dash} opacity={0.8} transform={`translate(${x} ${y}) scale(0.93) translate(${-x} ${-y})`} />
+      <ellipse cx={x} cy={y} rx={w * 0.29} ry={h * 0.29} fill="url(#vacuole)" opacity={1 - broken} />
+      <ellipse cx={x} cy={y} rx={w * 0.29} ry={h * 0.29} fill="none" stroke="#d99bff" strokeWidth={4} strokeDasharray={broken > 0.05 ? "10 10" : undefined} strokeOpacity={1 - broken} />
+      {dots(5, "purple", true, 1)}
+      {dots(7, "yellow", false, 2)}
     </g>
   );
 };
+
+/** Molécula de gas irritante: tres esferas verdes con halo. */
+const GasBlob: React.FC<{ x: number; y: number; s?: number; opacity?: number }> = ({ x, y, s = 1, opacity = 1 }) => (
+  <g transform={`translate(${x} ${y}) scale(${s})`} opacity={opacity}>
+    <circle r={34} fill="url(#glow-green)" />
+    <Sphere x={0} y={0} r={12} color="green" />
+    <Sphere x={17} y={-7} r={8} color="green" />
+    <Sphere x={-13} y={-11} r={7} color="yellow" />
+  </g>
+);
+
+const CellDefs: React.FC = () => (
+  <defs>
+    <radialGradient id="cellFill" cx="45%" cy="40%" r="70%"><stop offset="0%" stopColor="#f6ffd0" stopOpacity={0.32} /><stop offset="100%" stopColor="#c8e86a" stopOpacity={0.12} /></radialGradient>
+    <radialGradient id="vacuole" cx="45%" cy="40%" r="60%"><stop offset="0%" stopColor="#e3b5ff" stopOpacity={0.45} /><stop offset="100%" stopColor="#8a3cc9" stopOpacity={0.18} /></radialGradient>
+  </defs>
+);
 
 /** Células de cebolla. data.cut=true: el cuchillo las corta, se mezclan y sale gas. */
 export const OnionCells: React.FC<DP> = ({ data }) => {
@@ -80,6 +107,7 @@ export const OnionCells: React.FC<DP> = ({ data }) => {
   const gasStart = 40;
   return (
     <>
+      <CellDefs />
       {Array.from({ length: cols * rows }, (_, i) => {
         const c = i % cols, r = Math.floor(i / cols);
         const cx = 210 + c * 290, cy = 260 + r * 250;
@@ -106,68 +134,53 @@ export const OnionCells: React.FC<DP> = ({ data }) => {
             if (t < gasStart + i * 2) return null;
             const gx = 120 + (i * 53) % 760 + Math.sin(p * 6 + i) * 25;
             const gy = 700 - p * 680;
-            return <g key={i} opacity={(1 - p) * 0.9} transform={`translate(${gx} ${gy})`}><circle r={12} fill={GAS} /><circle cx={16} cy={-6} r={8} fill={GAS} /><circle cx={-12} cy={-10} r={7} fill={GAS} /></g>;
+            return <GasBlob key={i} x={gx} y={gy} s={0.9 + (i % 3) * 0.15} opacity={(1 - p) * 0.95} />;
           })}
           <Label x={500} y={810} text={tr.gas} color={GAS} size={48} font={display} delay={gasStart} />
         </>
       )}
       {!cut && (
         <>
-          <circle cx={45} cy={790} r={14} fill={SULFUR} /><Label x={320} y={803} text={tr.sulfur} color={SULFUR} size={38} font={display} delay={30} />
-          <circle cx={590} cy={790} r={14} fill={ENZYME} /><Label x={710} y={803} text={tr.enzyme} color={ENZYME} size={38} font={display} delay={40} />
+          <Sphere x={45} y={790} r={15} color="yellow" /><Label x={320} y={803} text={tr.sulfur} color={SULFUR} size={38} font={display} delay={30} />
+          <Sphere x={590} y={790} r={15} color="purple" /><Label x={710} y={803} text={tr.enzyme} color={ENZYME} size={38} font={display} delay={40} />
         </>
       )}
     </>
   );
 };
 
-/** El gas sube desde la tabla hasta un ojo, que se irrita y llora. */
+/** El gas sube desde la tabla hasta un ojo detallado, que se irrita y llora. */
 export const GasEye: React.FC<DP> = () => {
   const t = useFrame();
   const tr = useT();
-  const irritate = interpolate(t, [40, 70], [0, 1], clamp);
-  const squint = 1 - 0.45 * irritate + (t % 50 > 46 ? -0.5 : 0) * irritate;
-  const ex = 500, ey = 230;
+  const irritation = interpolate(t, [35, 80], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
   return (
     <>
-      {/* ojo */}
-      <g transform={`translate(${ex} ${ey}) scale(1 ${Math.max(0.15, squint)})`}>
-        <path d="M -230 0 Q 0 -170 230 0 Q 0 170 -230 0 Z" fill="#fff" stroke="#3a1f05" strokeWidth={8} />
-        {[-60, 0, 60].map((a, i) => <path key={i} d={`M ${a * 2.2} -55 q ${a * 0.4} -10 ${a * 0.8} 30`} stroke="#ff4d4d" strokeWidth={4} fill="none" opacity={irritate * 0.8} transform={`translate(0 ${i % 2 ? 60 : 0})`} />)}
-        <circle r={78} fill="#4f8fd8" />
-        <circle r={38} fill="#0b1726" />
-        <circle cx={22} cy={-24} r={14} fill="#fff" />
-      </g>
-      {/* pestañas */}
-      {Array.from({ length: 7 }, (_, i) => {
-        const a = -150 + i * 20;
-        const r = (a * Math.PI) / 180;
-        return <line key={i} x1={ex + Math.cos(r) * 200} y1={ey + Math.sin(r) * 120 * squint} x2={ex + Math.cos(r) * 250} y2={ey + Math.sin(r) * 165 * squint} stroke="#3a1f05" strokeWidth={8} strokeLinecap="round" />;
-      })}
-      {/* rayos de nervio */}
-      {irritate > 0.3 && [-1, 1].map((d) => (
-        <path key={d} d={`M ${ex + d * 260} ${ey - 60} l ${d * 30} -20 l ${-d * 10} -10 l ${d * 40} -30`} stroke="#ffd23f" strokeWidth={8} fill="none" strokeLinecap="round" opacity={Math.abs(Math.sin(t / 3))} />
+      <Eye x={500} y={300} w={520} irritation={irritation} lookY={0.25} />
+      {/* chispazos de los nervios */}
+      {irritation > 0.3 && [-1, 1].map((d) => (
+        <g key={d} opacity={Math.abs(Math.sin(t / 3)) * irritation}>
+          <path d={`M ${500 + d * 320} ${200} l ${d * 34} -24 l ${-d * 12} -8 l ${d * 44} -34`} stroke="#ffd23f" strokeWidth={9} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx={500 + d * 320} cy={200} r={22} fill="url(#glow-yellow)" />
+        </g>
       ))}
-      {/* lágrimas */}
-      {irritate > 0.6 && Array.from({ length: 5 }, (_, i) => {
-        const p = ((t + i * 11) % 40) / 40;
-        const tx = ex + (i % 2 ? 190 : -190);
-        return <path key={i} d={`M ${tx} ${ey + 40 + p * 200 - 18} q 12 16 0 26 q -12 -10 0 -26 Z`} fill="#7fd6ff" opacity={1 - p * 0.5} />;
-      })}
-      {/* tabla y media cebolla */}
-      <rect x={250} y={720} width={500} height={44} rx={16} fill="#b07a46" />
-      <path d="M 390 720 A 110 90 0 0 1 610 720 Z" fill={ONION.skin} stroke={ONION.line} strokeWidth={6} />
-      {[30, 55, 80].map((r) => <path key={r} d={`M ${500 - r} 720 A ${r} ${r * 0.8} 0 0 1 ${500 + r} 720`} stroke="#fff6d6" strokeWidth={5} fill="none" />)}
+      {/* tabla y media cebolla cortada */}
+      <Board x={260} y={730} w={480} h={46} />
+      <defs>
+        <radialGradient id="onionCut" cx="50%" cy="100%" r="100%"><stop offset="0%" stopColor="#fffbe8" /><stop offset="70%" stopColor="#f5e3a8" /><stop offset="100%" stopColor="#e2b85a" /></radialGradient>
+      </defs>
+      <path d="M 380 730 A 120 100 0 0 1 620 730 Z" fill="url(#onionCut)" stroke="#a8641c" strokeWidth={6} />
+      {[28, 52, 76, 98].map((r) => <path key={r} d={`M ${500 - r} 730 A ${r} ${r * 0.83} 0 0 1 ${500 + r} 730`} stroke="#e3c47a" strokeWidth={4} fill="none" />)}
       {/* gas subiendo hacia el ojo */}
       {Array.from({ length: 14 }, (_, i) => {
         const p = ((t + i * 7) % 60) / 60;
         const sx = 430 + (i * 37) % 140;
-        const gx = interpolate(p, [0, 1], [sx, ex + ((i % 3) - 1) * 120]) + Math.sin(p * 8 + i) * 20;
-        const gy = interpolate(p, [0, 1], [700, ey + 120]);
-        return <g key={i} opacity={interpolate(p, [0, 0.1, 0.85, 1], [0, 1, 1, 0])} transform={`translate(${gx} ${gy})`}><circle r={11} fill={GAS} /><circle cx={14} cy={-6} r={7} fill={GAS} /></g>;
+        const gx = interpolate(p, [0, 1], [sx, 500 + ((i % 3) - 1) * 140]) + Math.sin(p * 8 + i) * 22;
+        const gy = interpolate(p, [0, 1], [700, 450]);
+        return <GasBlob key={i} x={gx} y={gy} s={0.75 + (i % 3) * 0.12} opacity={interpolate(p, [0, 0.1, 0.85, 1], [0, 1, 1, 0])} />;
       })}
-      <Label x={780} y={560} text={tr.gas} color={GAS} size={40} font={display} delay={10} />
-      <Label x={220} y={560} text={tr.tears} color="#7fd6ff" size={40} font={display} delay={70} />
+      <Label x={830} y={640} text={tr.gas} color={GAS} size={42} font={display} delay={10} />
+      <Label x={170} y={640} text={tr.tears} color="#7fd6ff" size={42} font={display} delay={75} />
     </>
   );
 };
@@ -182,12 +195,20 @@ export const OnionTips: React.FC<DP> = ({ data, theme }) => {
   const temp = interpolate(t, [at[0] * fps + 10, at[0] * fps + 50], [0.85, 0.2], clamp);
   return (
     <>
+      <defs>
+        <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#ffffff" stopOpacity={0.16} /><stop offset="100%" stopColor="#ffffff" stopOpacity={0.04} /></linearGradient>
+        <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#ffffff" stopOpacity={0.95} /><stop offset="100%" stopColor="#dfe8f1" /></linearGradient>
+        <radialGradient id="fanBlade" cx="50%" cy="20%" r="80%"><stop offset="0%" stopColor="#d6f0ff" /><stop offset="100%" stopColor="#5fb3e8" /></radialGradient>
+      </defs>
       {/* 1. frío: termómetro + copos */}
       <g transform={`translate(170 380) scale(${p0})`}>
-        <rect x={-110} y={-260} width={220} height={440} rx={30} fill="#ffffff10" stroke="#ffffff30" strokeWidth={4} />
-        <rect x={-18} y={-200} width={36} height={250} rx={18} fill="#fff" />
+        <rect x={-110} y={-260} width={220} height={440} rx={30} fill="url(#panel)" stroke="#ffffff40" strokeWidth={4} />
+        <rect x={-22} y={-204} width={44} height={258} rx={22} fill="url(#glass)" stroke="#b9c6d3" strokeWidth={3} />
+        {[-150, -110, -70, -30, 10].map((yy) => <line key={yy} x1={22} x2={36} y1={yy} y2={yy} stroke="#ffffff88" strokeWidth={3} />)}
         <rect x={-10} y={-192 + (1 - temp) * 234} width={20} height={temp * 234} rx={10} fill={temp > 0.5 ? "#ff6b4a" : "#4fc3ff"} />
         <circle cy={80} r={40} fill={temp > 0.5 ? "#ff6b4a" : "#4fc3ff"} stroke="#fff" strokeWidth={8} />
+        <ellipse cx={-12} cy={66} rx={10} ry={7} fill="#fff" opacity={0.7} />
+        <rect x={-14} y={-196} width={6} height={240} rx={3} fill="#fff" opacity={0.6} />
         {[0, 1, 2, 3].map((i) => {
           const p = ((t + i * 15) % 60) / 60;
           return <g key={i} transform={`translate(${-70 + i * 45} ${-240 + p * 380}) rotate(${t * 3})`} opacity={(1 - p) * p0}>
@@ -197,21 +218,23 @@ export const OnionTips: React.FC<DP> = ({ data, theme }) => {
       </g>
       {/* 2. cuchillo afilado con brillo */}
       <g transform={`translate(500 380) scale(${p1})`}>
-        <rect x={-130} y={-260} width={260} height={440} rx={30} fill="#ffffff10" stroke="#ffffff30" strokeWidth={4} />
+        <rect x={-130} y={-260} width={260} height={440} rx={30} fill="url(#panel)" stroke="#ffffff40" strokeWidth={4} />
         <g transform="rotate(-60)"><Knife x={90} y={10} scale={0.8} shine={((t - at[1] * fps) % 40) / 40} /></g>
       </g>
       {/* 3. ventilador que aparta el gas */}
       <g transform={`translate(830 380) scale(${p2})`}>
-        <rect x={-110} y={-260} width={220} height={440} rx={30} fill="#ffffff10" stroke="#ffffff30" strokeWidth={4} />
+        <rect x={-110} y={-260} width={220} height={440} rx={30} fill="url(#panel)" stroke="#ffffff40" strokeWidth={4} />
+        <circle cx={0} cy={-40} r={92} fill="#ffffff0d" stroke="#cfe3f2" strokeWidth={4} />
         <g transform={`translate(0 -40) rotate(${t * 18})`}>
-          {[0, 120, 240].map((a) => <ellipse key={a} cx={0} cy={-50} rx={26} ry={50} fill="#9fd3ff" transform={`rotate(${a})`} />)}
-          <circle r={18} fill="#fff" />
+          {[0, 120, 240].map((a) => <path key={a} d="M 0 -8 C 30 -30 34 -78 6 -86 C -16 -80 -22 -40 0 -8 Z" fill="url(#fanBlade)" stroke="#3f8fc4" strokeWidth={2} transform={`rotate(${a})`} />)}
+          <circle r={18} fill="#eef3f8" stroke="#9fb3c8" strokeWidth={3} />
         </g>
+        {[30, 60, 90].map((a) => <line key={a} x1={0} y1={-40} x2={Math.cos((a * Math.PI) / 60) * 92} y2={-40 + Math.sin((a * Math.PI) / 60) * 92} stroke="#cfe3f2" strokeWidth={2} opacity={0.5} />)}
         <rect x={-6} y={0} width={12} height={130} fill="#9fb3c8" />
         <rect x={-50} y={130} width={100} height={20} rx={10} fill="#9fb3c8" />
         {Array.from({ length: 5 }, (_, i) => {
           const p = ((t + i * 9) % 40) / 40;
-          return <circle key={i} cx={-60 + p * -60} cy={-140 + i * 40} r={9} fill={GAS} opacity={(1 - p) * p2} />;
+          return <GasBlob key={i} x={-70 - p * 70} y={-130 + i * 40} s={0.55} opacity={(1 - p) * p2} />;
         })}
       </g>
       <Label x={170} y={680} text={tr.cold} color="#4fc3ff" size={44} font={display} delay={at[0] * fps + 8} />

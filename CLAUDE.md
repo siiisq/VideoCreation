@@ -137,8 +137,14 @@ La música baja automáticamente mientras habla la voz. Caché de audios en `pub
 - **yt-dlp** (`scripts/reference.sh <url>`): descarga vídeos de referencia SOLO para analizar ritmo y estilo
   (tira de fotogramas + transcripción en `references/`, no versionado). Nunca reutilizar su contenido.
   Necesita los dominios de YouTube/Instagram/TikTok permitidos.
-- **HyperFrames** (HeyGen, npm `hyperframes`): motor alternativo HTML→vídeo. No se usa: Remotion cubre lo mismo y
-  mezclar dos motores complica el proyecto.
+- **HyperFrames** (HeyGen, `experiments/hyperframes/`, versión fijada 0.8.166): SOLO como complemento para
+  motion graphics de texto (títulos del gancho, palabras destacadas, subtítulos animados). El usuario aprobó usarlo
+  en los ganchos. Flujo: componer en `experiments/hyperframes/<proyecto>/index.html` con bloques del catálogo
+  (`npx hyperframes catalog`, `add <bloque>`), GSAP y fuentes en local (este entorno no confía en los CDN),
+  `--bg: transparent`, cajas altas (los componentes escalan con la altura de su caja), revisar con
+  `npx hyperframes snapshot`, renderizar `npx hyperframes render --format webm --fps 60 -q delivery` (con alfa),
+  copiar a `public/overlays/` y usar en la escena con `"overlay": "overlays/x.webm"` + `"hideTitle": true`.
+  Usa `DO_NOT_TRACK=1`. Remotion sigue siendo el motor principal. Ejemplo: `experiments/hyperframes/hook-test`.
 
 ## Notas técnicas
 - Fuentes locales en `public/fonts` (Montserrat + Inter, OFL); emojis con la fuente del sistema (Noto Color Emoji).

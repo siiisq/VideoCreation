@@ -24,7 +24,9 @@
       "highlight": [
         "LLORAS"
       ],
-      "voice": "¿Por qué lloras cuando cortas cebolla? Spoiler: no es tristeza. Es una trampa química."
+      "voice": "¿Por qué lloras cuando cortas cebolla? Spoiler: no es tristeza. Es una trampa química.",
+      "overlay": "overlays/cebolla-hook.webm",
+      "hideTitle": true
     },
     {
       "type": "drawing",

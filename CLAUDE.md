@@ -129,6 +129,17 @@ La música baja automáticamente mientras habla la voz. Caché de audios en `pub
 - Fugas de luz en los cortes y grano de película sutil (`lightLeaks`, `grain`).
 - Skills oficiales de Remotion en `.claude/skills/` (remotion-best-practices, etc.): consúltalas para técnicas nuevas.
 
+## Herramientas de apoyo
+- **FFmpeg**: volumen (-14 LUFS), compresión, tiras de fotogramas para revisar.
+- **Whisper** (`faster-whisper`, `scripts/transcribe.py`): tiempos exactos por palabra para sincronizar `atWords`,
+  marcadores y subtítulos, y para comprobar que la voz dice el guion. Necesita `huggingface.co` permitido en la red
+  (el modelo se guarda en `models/whisper/`). Si no está, se usa la estimación por caracteres.
+- **yt-dlp** (`scripts/reference.sh <url>`): descarga vídeos de referencia SOLO para analizar ritmo y estilo
+  (tira de fotogramas + transcripción en `references/`, no versionado). Nunca reutilizar su contenido.
+  Necesita los dominios de YouTube/Instagram/TikTok permitidos.
+- **HyperFrames** (HeyGen, npm `hyperframes`): motor alternativo HTML→vídeo. No se usa: Remotion cubre lo mismo y
+  mezclar dos motores complica el proyecto.
+
 ## Notas técnicas
 - Fuentes locales en `public/fonts` (Montserrat + Inter, OFL); emojis con la fuente del sistema (Noto Color Emoji).
 - `npm run studio` abre el editor visual de Remotion para previsualizar.

@@ -13,3 +13,4 @@ videos/*.slides.json
 !videos/ejemplo-presentacion.slides.json
 videos/sms-2026-wrapup.json
 __pycache__/
+references/

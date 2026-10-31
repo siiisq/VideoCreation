@@ -1,5 +1,6 @@
+import { ANIM_FPS, useFrame } from "../time";
 import React from "react";
-import { interpolate, spring, useCurrentFrame, useVideoConfig, Easing } from "remotion";
+import { interpolate, spring, Easing } from "remotion";
 import { body, display } from "../fonts";
 import { Theme } from "../schema";
 import { Bean, COFFEE, Counter, Cup, Defs, Label, Molecule, WATER } from "./parts";
@@ -12,13 +13,13 @@ const num = (d: D, k: string, def = 0) => (typeof d[k] === "number" ? (d[k] as n
 const bool = (d: D, k: string) => d[k] === true;
 
 const useFill = (start = 0, dur = 40) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   return interpolate(frame, [start, start + dur], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.inOut(Easing.cubic) });
 };
 
 /** Taza pequeña (espresso) vs taza grande (filtro). Opcional: moléculas, mg, interrogantes. */
 const CupsVs: React.FC<DP> = ({ data, theme }) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const fill = useFill(4, 36);
   const q = bool(data, "question");
   const showMg = typeof data.leftMg === "number";
@@ -63,8 +64,8 @@ const Concentration: React.FC<DP> = ({ data, theme }) => (
 
 /** Goteo: agua cae sobre el café molido en un filtro y arrastra cafeína hasta la jarra. */
 const Filter: React.FC<DP> = ({ theme }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const frame = useFrame();
+  const fps = ANIM_FPS;
   const fill = useFill(20, 200);
   const enter = spring({ frame, fps, config: { damping: 14 } });
   // gotas de agua desde la tetera
@@ -115,8 +116,8 @@ const Filter: React.FC<DP> = ({ theme }) => {
 
 /** Granos que caen en dos montones (gramos de café). */
 const Beans: React.FC<DP> = ({ data, theme }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const frame = useFrame();
+  const fps = ANIM_FPS;
   const pile = (cx: number, n: number, delay: number) =>
     Array.from({ length: n }, (_, i) => {
       const s = spring({ frame: frame - delay - i * 3, fps, config: { damping: 11, stiffness: 160 } });
@@ -145,8 +146,8 @@ const Beans: React.FC<DP> = ({ data, theme }) => {
 
 /** Americano: espresso + agua = mismas moléculas, más repartidas. */
 const Americano: React.FC<DP> = ({ data, theme }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const frame = useFrame();
+  const fps = ANIM_FPS;
   const n = num(data, "molecules", 6);
   const pour = interpolate(frame, [40, 110], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const eq = spring({ frame: frame - 120, fps, config: { damping: 8 } });
@@ -180,8 +181,8 @@ const MascotOnly: React.FC<DP> = ({ data, theme }) => (
 
 /** Cerebro/persona con energía: la cafeína llega al cuerpo. */
 const Energy: React.FC<DP> = ({ data, theme }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const frame = useFrame();
+  const fps = ANIM_FPS;
   const bolts = Array.from({ length: 6 }, (_, i) => {
     const a = (i / 6) * Math.PI * 2 + frame / 40;
     const s = spring({ frame: frame - 20 - i * 5, fps, config: { damping: 9 } });

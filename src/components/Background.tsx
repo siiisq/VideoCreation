@@ -1,10 +1,11 @@
+import { ANIM_FPS, useFrame } from "../time";
 import React from "react";
-import { AbsoluteFill, useCurrentFrame } from "remotion";
+import { AbsoluteFill } from "remotion";
 import { Theme } from "../schema";
 
 /** Fondo degradado con manchas de color que flotan y partículas. */
 export const Background: React.FC<{ theme: Theme }> = ({ theme }) => {
-  const f = useCurrentFrame();
+  const f = useFrame();
   const blob = (x: number, y: number, size: number, color: string, speed: number, phase: number) => (
     <div
       style={{
@@ -14,9 +15,9 @@ export const Background: React.FC<{ theme: Theme }> = ({ theme }) => {
         width: size,
         height: size,
         borderRadius: "50%",
-        background: color,
-        filter: "blur(140px)",
-        opacity: 0.45,
+        // degradado radial en vez de filter: blur() → mismo aspecto, mucho más rápido de renderizar
+        background: `radial-gradient(circle, ${color} 0%, ${color}00 70%)`,
+        opacity: 0.55,
       }}
     />
   );

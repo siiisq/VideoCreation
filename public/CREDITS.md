@@ -1,0 +1,3 @@
+- Fuentes Montserrat e Inter: SIL Open Font License (ver fonts/OFL-*.txt)
+- Emojis 3D: Microsoft Fluent Emoji, licencia MIT (https://github.com/microsoft/fluentui-emoji)
+- Música y efectos de sonido: sintetizados por scripts/make_sfx.py (dominio público / propios)

@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-const base = { duration: z.number().min(1).max(20).describe("segundos") };
+export const SOUNDS = ["whoosh", "pop", "ding", "click", "rise", "boing", "sparkle"] as const;
+const sfxItem = z.object({ sound: z.enum(SOUNDS), at: z.number().describe("segundos desde el inicio de la escena"), volume: z.number().optional() });
+const base = { duration: z.number().min(1).max(20).describe("segundos"), sfx: z.array(sfxItem).optional().describe("efectos extra") };
 
 export const sceneSchema = z.discriminatedUnion("type", [
   // Gancho inicial: frase grande, palabra a palabra
@@ -50,8 +52,13 @@ export const reelSchema = z.object({
   title: z.string(),
   handle: z.string().optional().describe("@usuario que aparece abajo"),
   theme: themeSchema.default({}),
-  music: z.string().optional().describe("archivo en public/, p.ej. music.mp3"),
-  musicVolume: z.number().default(0.25),
+  fps: z.union([z.literal(30), z.literal(60)]).default(60),
+  music: z.string().default("music/lofi.mp3").describe("archivo en public/; cadena vacía = sin música"),
+  musicVolume: z.number().default(0.22),
+  sfx: z.boolean().default(true).describe("efectos de sonido automáticos"),
+  sfxVolume: z.number().default(0.55),
+  lightLeaks: z.boolean().default(true),
+  grain: z.boolean().default(true).describe("grano de película sutil (evita bandas en degradados)"),
   scenes: z.array(sceneSchema).min(1),
 });
 

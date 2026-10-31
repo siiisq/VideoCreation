@@ -1,5 +1,6 @@
+import { ANIM_FPS, useFrame } from "../time";
 import React from "react";
-import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { interpolate, spring } from "remotion";
 
 export const COFFEE = "#6f3d1f";
 export const COFFEE_LIGHT = "#a0612f";
@@ -10,8 +11,8 @@ export const WATER = "#5ec8ff";
 
 /** Molécula de cafeína estilizada: hexágono + pentágono brillantes. */
 export const Molecule: React.FC<{ x: number; y: number; size?: number; color: string; delay?: number; float?: number }> = ({ x, y, size = 26, color, delay = 0, float = 6 }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const frame = useFrame();
+  const fps = ANIM_FPS;
   const s = spring({ frame: frame - delay, fps, config: { damping: 10, stiffness: 140 } });
   const dy = Math.sin((frame + x * 3) / 11) * float;
   const dx = Math.cos((frame + y * 2) / 13) * float * 0.6;
@@ -36,7 +37,7 @@ export const Molecule: React.FC<{ x: number; y: number; size?: number; color: st
 
 /** Vapor animado (líneas onduladas que suben). */
 export const Steam: React.FC<{ x: number; y: number; width: number; color?: string; count?: number }> = ({ x, y, width, color = "#ffffff", count = 3 }) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   return (
     <g>
       {Array.from({ length: count }, (_, i) => {
@@ -57,7 +58,7 @@ export const Cup: React.FC<{
   x: number; y: number; w: number; h: number; fill: number; liquid?: string;
   molecules?: number; moleculeColor?: string; moleculeDelay?: number; steam?: boolean; id: string;
 }> = ({ x, y, w, h, fill, liquid = COFFEE, molecules = 0, moleculeColor = "#ffcc00", moleculeDelay = 0, steam = true, id }) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const top = y - h;
   const inset = w * 0.12;
   const body = `M ${x - w / 2} ${top} L ${x + w / 2} ${top} L ${x + w / 2 - inset} ${y - 18} Q ${x + w / 2 - inset} ${y} ${x + w / 2 - inset - 20} ${y} L ${x - w / 2 + inset + 20} ${y} Q ${x - w / 2 + inset} ${y} ${x - w / 2 + inset} ${y - 18} Z`;
@@ -111,8 +112,8 @@ export const Defs: React.FC = () => (
 
 /** Etiqueta de texto SVG con entrada animada. */
 export const Label: React.FC<{ x: number; y: number; text: string; color: string; size?: number; delay?: number; weight?: number; font: string }> = ({ x, y, text, color, size = 44, delay = 0, weight = 800, font }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const frame = useFrame();
+  const fps = ANIM_FPS;
   const s = spring({ frame: frame - delay, fps, config: { damping: 12 } });
   return (
     <text x={x} y={y + (1 - s) * 30} textAnchor="middle" fontFamily={font} fontWeight={weight} fontSize={size} fill={color} opacity={s}>
@@ -123,10 +124,10 @@ export const Label: React.FC<{ x: number; y: number; text: string; color: string
 
 /** Contador numérico SVG. */
 export const Counter: React.FC<{ x: number; y: number; to: number; suffix?: string; prefix?: string; color: string; size?: number; delay?: number; dur?: number; font: string }> = ({ x, y, to, suffix = "", prefix = "", color, size = 90, delay = 0, dur = 40, font }) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const p = interpolate(frame, [delay, delay + dur], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const eased = 1 - Math.pow(1 - p, 3);
-  const { fps } = useVideoConfig();
+  const fps = ANIM_FPS;
   const pop = spring({ frame: frame - delay - dur, fps, config: { damping: 6 } });
   return (
     <text x={x} y={y} textAnchor="middle" fontFamily={font} fontWeight={900} fontSize={size} fill={color} opacity={p > 0 ? 1 : 0} transform={`translate(${x} ${y}) scale(${0.9 + 0.1 * pop}) translate(${-x} ${-y})`} style={{ filter: `drop-shadow(0 0 18px ${color}88)` }}>

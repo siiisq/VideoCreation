@@ -1,8 +1,9 @@
+import { ANIM_FPS, useFrame } from "../time";
 import React from "react";
-import { interpolate, spring, useCurrentFrame, useVideoConfig, Easing } from "remotion";
-import { Emoji } from "../components/Emoji";
+import { interpolate, spring, Easing } from "remotion";
+import { Emoji, EmojiGlyph } from "../components/Emoji";
 import { RichText } from "../components/RichText";
-import { body, display, emojiFont } from "../fonts";
+import { body, display } from "../fonts";
 import { Scene, Theme } from "../schema";
 import { Card, Stage, Title } from "./common";
 import { Drawing as DrawingSvg } from "../drawings/Drawings";
@@ -10,7 +11,7 @@ import { Drawing as DrawingSvg } from "../drawings/Drawings";
 type P<T extends Scene["type"]> = { scene: Extract<Scene, { type: T }>; theme: Theme };
 
 const Hook: React.FC<P<"hook">> = ({ scene, theme }) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const shake = frame < 12 ? Math.sin(frame * 2.5) * (12 - frame) : 0;
   return (
     <Stage>
@@ -33,7 +34,7 @@ const Text: React.FC<P<"text">> = ({ scene, theme }) => (
 );
 
 const List: React.FC<P<"list">> = ({ scene, theme }) => {
-  const { fps } = useVideoConfig();
+  const fps = ANIM_FPS;
   const step = Math.min(fps * 1.2, (scene.duration * fps - 30) / scene.items.length);
   return (
     <Stage gap={36}>
@@ -41,7 +42,7 @@ const List: React.FC<P<"list">> = ({ scene, theme }) => {
       <div style={{ display: "flex", flexDirection: "column", gap: 26, width: "100%" }}>
         {scene.items.map((it, i) => (
           <Card key={i} theme={theme} delay={14 + i * step} from={i % 2 ? "right" : "left"} style={{ display: "flex", alignItems: "center", gap: 30, textAlign: "left", padding: "28px 36px" }}>
-            <div style={{ fontFamily: it.emoji ? emojiFont : display, fontWeight: 900, fontSize: 64, minWidth: 80, textAlign: "center", color: theme.accent }}>{it.emoji ?? i + 1}</div>
+            <div style={{ fontFamily: display, fontWeight: 900, fontSize: 64, minWidth: 80, textAlign: "center", color: theme.accent }}>{it.emoji ? <EmojiGlyph e={it.emoji} size={80} /> : i + 1}</div>
             <div style={{ fontWeight: 700, fontSize: 50, lineHeight: 1.2 }}>{it.text}</div>
           </Card>
         ))}
@@ -51,8 +52,8 @@ const List: React.FC<P<"list">> = ({ scene, theme }) => {
 };
 
 const Stat: React.FC<P<"stat">> = ({ scene, theme }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const frame = useFrame();
+  const fps = ANIM_FPS;
   const p = interpolate(frame, [6, fps * 1.8], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.cubic) });
   const v = (scene.value * p).toLocaleString("es-ES", { minimumFractionDigits: scene.decimals, maximumFractionDigits: scene.decimals });
   const pop = spring({ frame: frame - fps * 1.8, fps, config: { damping: 6 } });
@@ -68,13 +69,13 @@ const Stat: React.FC<P<"stat">> = ({ scene, theme }) => {
 };
 
 const Compare: React.FC<P<"compare">> = ({ scene, theme }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const frame = useFrame();
+  const fps = ANIM_FPS;
   const vs = spring({ frame: frame - 24, fps, config: { damping: 8 } });
   const side = (s: typeof scene.left, d: number, from: "left" | "right", color: string) => (
     <Card theme={theme} delay={d} from={from} style={{ width: "100%", borderColor: color }}>
       <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-        {s.emoji && <div style={{ fontFamily: emojiFont, fontSize: 90 }}>{s.emoji}</div>}
+        {s.emoji && <EmojiGlyph e={s.emoji} size={100} />}
         <div style={{ textAlign: "left" }}>
           <div style={{ fontFamily: display, fontWeight: 900, fontSize: 56, color, textTransform: "uppercase" }}>{s.title}</div>
           <div style={{ fontWeight: 600, fontSize: 42, lineHeight: 1.25, marginTop: 8 }}>{s.text}</div>
@@ -93,8 +94,8 @@ const Compare: React.FC<P<"compare">> = ({ scene, theme }) => {
 };
 
 const Steps: React.FC<P<"steps">> = ({ scene, theme }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const frame = useFrame();
+  const fps = ANIM_FPS;
   const step = Math.min(fps * 1.5, (scene.duration * fps - 30) / scene.steps.length);
   return (
     <Stage gap={40}>
@@ -116,8 +117,8 @@ const Steps: React.FC<P<"steps">> = ({ scene, theme }) => {
 };
 
 const Quote: React.FC<P<"quote">> = ({ scene, theme }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const frame = useFrame();
+  const fps = ANIM_FPS;
   const s = spring({ frame, fps, config: { damping: 10 } });
   const a = spring({ frame: frame - fps * 2, fps });
   return (
@@ -130,8 +131,8 @@ const Quote: React.FC<P<"quote">> = ({ scene, theme }) => {
 };
 
 const Bars: React.FC<P<"bars">> = ({ scene, theme }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const frame = useFrame();
+  const fps = ANIM_FPS;
   const max = Math.max(...scene.bars.map((b) => b.value));
   return (
     <Stage gap={44}>
@@ -143,7 +144,7 @@ const Bars: React.FC<P<"bars">> = ({ scene, theme }) => {
           return (
             <div key={i} style={{ textAlign: "left", color: theme.text }}>
               <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: 42, marginBottom: 10 }}>
-                <span>{b.emoji && <span style={{ fontFamily: emojiFont }}>{b.emoji} </span>}{b.label}</span>
+                <span>{b.emoji && <EmojiGlyph e={b.emoji} size={48} style={{ marginRight: 12 }} />}{b.label}</span>
                 <span style={{ color, fontFamily: display, fontWeight: 900 }}>{(b.value * p).toLocaleString("es-ES", { maximumFractionDigits: 1 })}{scene.unit}</span>
               </div>
               <div style={{ height: 54, borderRadius: 27, background: "rgba(255,255,255,0.1)", overflow: "hidden" }}>
@@ -158,8 +159,8 @@ const Bars: React.FC<P<"bars">> = ({ scene, theme }) => {
 };
 
 const Outro: React.FC<P<"outro">> = ({ scene, theme }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const frame = useFrame();
+  const fps = ANIM_FPS;
   const c = spring({ frame: frame - fps, fps, config: { damping: 9 } });
   const pulse = 1 + Math.sin(frame / 6) * 0.03 * c;
   return (

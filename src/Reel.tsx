@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Audio, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Audio, interpolate, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { linearTiming, TransitionPresentation, TransitionSeries } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
 import { slide } from "@remotion/transitions/slide";
@@ -8,8 +8,21 @@ import { Background } from "./components/Background";
 import { body } from "./fonts";
 import { Reel as ReelT, reelSchema } from "./schema";
 import { SceneView } from "./scenes/Scenes";
+import { autoCues } from "./sfx";
 
-export const TRANSITION_FRAMES = 12;
+export const TRANSITION_SECONDS = 0.4;
+export const transitionFrames = (fps: number) => Math.round(TRANSITION_SECONDS * fps);
+
+/** Fotograma en el que empieza cada escena (las transiciones se solapan). */
+export const sceneStarts = (reel: ReelT, fps: number) => {
+  const T = transitionFrames(fps);
+  let acc = 0;
+  return reel.scenes.map((s) => {
+    const start = acc;
+    acc += Math.round(s.duration * fps) - T;
+    return start;
+  });
+};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const transitions: Array<() => TransitionPresentation<any>> = [
@@ -29,10 +42,36 @@ const ProgressBar: React.FC<{ color: string }> = ({ color }) => {
   );
 };
 
+/** Fuga de luz cálida que barre la pantalla en los cortes (CSS puro → render rápido). */
+const LightLeak: React.FC<{ seed: number; colors: [string, string] }> = ({ seed, colors }) => {
+  const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
+  const p = frame / (durationInFrames - 1);
+  const intensity = Math.sin(Math.min(1, p) * Math.PI);
+  const dir = seed % 2 ? 1 : -1;
+  const x = interpolate(p, [0, 1], [-30, 130]) * (dir > 0 ? 1 : -1) + (dir > 0 ? 0 : 100);
+  const y = 20 + ((seed * 37) % 60);
+  return (
+    <AbsoluteFill style={{ mixBlendMode: "screen", opacity: intensity * 0.75, pointerEvents: "none",
+      background: `radial-gradient(ellipse 70% 45% at ${x}% ${y}%, ${colors[0]}ee 0%, ${colors[0]}00 70%), radial-gradient(ellipse 50% 70% at ${100 - x}% ${100 - y}%, ${colors[1]}cc 0%, ${colors[1]}00 65%), radial-gradient(circle at ${x}% ${y}%, #ffffffaa 0%, #ffffff00 25%)` }} />
+  );
+};
+
+const Grain: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const k = Math.floor((frame * 12) / fps); // el grano cambia 12 veces por segundo
+  const x = (k * 7919) % 540;
+  const y = (k * 104729) % 960;
+  return <AbsoluteFill style={{ backgroundImage: `url(${staticFile("fx/grain.png")})`, backgroundSize: "540px 960px", backgroundPosition: `${x}px ${y}px`, mixBlendMode: "overlay", opacity: 0.07, pointerEvents: "none" }} />;
+};
+
 export const Reel: React.FC<ReelT> = (props) => {
   const reel = reelSchema.parse(props);
   const { fps, durationInFrames } = useVideoConfig();
   const { theme } = reel;
+  const T = transitionFrames(fps);
+  const starts = sceneStarts(reel, fps);
   return (
     <AbsoluteFill style={{ background: theme.bg1 }}>
       <Background theme={theme} />
@@ -44,23 +83,35 @@ export const Reel: React.FC<ReelT> = (props) => {
             </TransitionSeries.Sequence>,
           ];
           if (i < reel.scenes.length - 1) {
-            items.push(
-              <TransitionSeries.Transition key={`t${i}`} presentation={transitions[i % transitions.length]()} timing={linearTiming({ durationInFrames: TRANSITION_FRAMES })} />,
-            );
+            items.push(<TransitionSeries.Transition key={`t${i}`} presentation={transitions[i % transitions.length]()} timing={linearTiming({ durationInFrames: T })} />);
           }
           return items;
         })}
       </TransitionSeries>
+
+      {reel.lightLeaks && starts.slice(1).filter((_, i) => i % 2 === 0).map((st, i) => (
+        <Sequence key={`ll${i}`} from={Math.max(0, st - Math.round(fps * 0.3))} durationInFrames={Math.round(fps * 0.9)} layout="none">
+          <LightLeak seed={i * 3 + 1} colors={[theme.accent, theme.accent2]} />
+        </Sequence>
+      ))}
+
+      {reel.grain && <Grain />}
       <ProgressBar color={theme.accent} />
       {reel.handle && (
         <div style={{ position: "absolute", bottom: 300, width: "100%", textAlign: "center", fontFamily: body, fontWeight: 700, fontSize: 36, color: theme.text, opacity: 0.6 }}>{reel.handle}</div>
       )}
+
       {reel.music && (
-        <Audio
-          src={staticFile(reel.music)}
-          volume={(f) => reel.musicVolume * interpolate(f, [0, fps, durationInFrames - fps * 1.5, durationInFrames], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })}
-        />
+        <Audio src={staticFile(reel.music)} volume={(f) => reel.musicVolume * interpolate(f, [0, fps, durationInFrames - fps * 1.5, durationInFrames], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })} />
       )}
+      {reel.sfx && reel.scenes.map((scene, i) => {
+        const cues = [...(i > 0 ? [{ sound: "whoosh" as const, at: -0.1, volume: 0.45 }] : []), ...autoCues(scene), ...(scene.sfx ?? [])];
+        return cues.map((c, j) => (
+          <Sequence key={`sfx${i}-${j}`} from={Math.max(0, starts[i] + Math.round(c.at * fps))} durationInFrames={fps * 2} layout="none">
+            <Audio src={staticFile(`sfx/${c.sound}.wav`)} volume={reel.sfxVolume * (c.volume ?? 1)} />
+          </Sequence>
+        ));
+      })}
     </AbsoluteFill>
   );
 };

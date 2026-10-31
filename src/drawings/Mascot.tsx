@@ -1,13 +1,14 @@
+import { ANIM_FPS, useFrame } from "../time";
 import React from "react";
-import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { interpolate, spring } from "remotion";
 import { body } from "../fonts";
 
 export type Mood = "happy" | "surprised" | "wink" | "thinking";
 
 /** Mascota: grano de café con cara, brazos y piernas. Coordenadas: centro (x, y). */
 export const Mascot: React.FC<{ x: number; y: number; size?: number; mood?: Mood; delay?: number; say?: string; accent?: string; flip?: boolean }> = ({ x, y, size = 120, mood = "happy", delay = 0, say, accent = "#ffcc00", flip = false }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const frame = useFrame();
+  const fps = ANIM_FPS;
   const f = frame - delay;
   const s = spring({ frame: f, fps, config: { damping: 8, stiffness: 120 } });
   const bounce = Math.abs(Math.sin(f / 7)) * -14;

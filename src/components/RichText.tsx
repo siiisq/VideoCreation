@@ -1,5 +1,6 @@
+import { ANIM_FPS, useFrame } from "../time";
 import React from "react";
-import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { interpolate, spring } from "remotion";
 
 const norm = (w: string) => w.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
 
@@ -12,8 +13,8 @@ export const RichText: React.FC<{
   perWord?: number;
   style?: React.CSSProperties;
 }> = ({ text, highlight = [], accent, delay = 0, perWord = 3, style }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const frame = useFrame();
+  const fps = ANIM_FPS;
   const hl = new Set(highlight.flatMap((h) => h.split(/\s+/)).map(norm));
   const words = text.split(/\s+/).filter(Boolean);
   return (

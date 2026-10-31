@@ -7,7 +7,9 @@ El usuario pide un tema y Claude produce el vídeo.
 
 ## Flujo cuando el usuario pide "hazme un vídeo/reel sobre X"
 
-1. **Guion**: crea `videos/<slug>.json` siguiendo `src/schema.ts`. Idioma: el del usuario (por defecto español).
+1. **Guion**: crea `videos/<slug>.json` siguiendo `src/schema.ts`. Por defecto **español de España** (`"lang": "es"`,
+   vocabulario y expresiones de España). Si el usuario pide inglés, crea `videos/<slug>.en.json` con `"lang": "en"`
+   (traducción natural y adaptada, no literal; cifras escritas con letras en `voice`).
    - Duración total ≈ 55–60 s: suma de `duration` de las escenas, menos 0,4 s por transición.
    - Estructura de reel que retiene: `hook` (3–4 s, frase impactante) → 5–7 escenas de contenido variadas → `outro` con CTA.
    - Textos CORTOS: máx. ~25 palabras por escena `text`, ~8 palabras por item de `list`/`steps`. Calcula ~3 palabras/segundo de lectura.
@@ -43,7 +45,9 @@ Si un tema necesita algo que no existe (mapa, línea temporal, diagrama…), cre
 ## Voz en off
 - Kokoro TTS local (Apache-2.0) en `.venv` + `models/` (no versionados). `npm run render` los instala solo la primera vez
   (`scripts/setup-voice.sh`, descarga ~350 MB de GitHub releases).
-- Voz por defecto en `"narrator": {"name": "ef_dora", "speed": 1.1}`. Otras: `em_alex`, `em_santa` (hombre).
+- **Voz masculina** por defecto: `em_alex` en español (pronunciación de España, con θ) y `am_michael` en inglés.
+  Se cambia con `"narrator": {"name": "...", "speed": 1.1}`. Otras: `em_santa`, `am_adam`, `bm_george` (británico).
+- Textos fijos de los dibujos traducidos en `src/i18n.tsx`; añade ahí cualquier texto nuevo de dibujos.
 - La música baja automáticamente mientras habla la voz.
 
 ## Calidad y fluidez (ya configurado)

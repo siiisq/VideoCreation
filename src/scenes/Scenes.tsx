@@ -1,3 +1,4 @@
+import { useT } from "../i18n";
 import { ANIM_FPS, useFrame } from "../time";
 import React from "react";
 import { interpolate, spring, Easing } from "remotion";
@@ -52,10 +53,11 @@ const List: React.FC<P<"list">> = ({ scene, theme }) => {
 };
 
 const Stat: React.FC<P<"stat">> = ({ scene, theme }) => {
+  const t = useT();
   const frame = useFrame();
   const fps = ANIM_FPS;
   const p = interpolate(frame, [6, fps * 1.8], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.cubic) });
-  const v = (scene.value * p).toLocaleString("es-ES", { minimumFractionDigits: scene.decimals, maximumFractionDigits: scene.decimals });
+  const v = (scene.value * p).toLocaleString(t.locale, { minimumFractionDigits: scene.decimals, maximumFractionDigits: scene.decimals });
   const pop = spring({ frame: frame - fps * 1.8, fps, config: { damping: 6 } });
   const len = (scene.prefix + v + scene.suffix).length;
   return (
@@ -131,6 +133,7 @@ const Quote: React.FC<P<"quote">> = ({ scene, theme }) => {
 };
 
 const Bars: React.FC<P<"bars">> = ({ scene, theme }) => {
+  const t = useT();
   const frame = useFrame();
   const fps = ANIM_FPS;
   const max = Math.max(...scene.bars.map((b) => b.value));
@@ -145,7 +148,7 @@ const Bars: React.FC<P<"bars">> = ({ scene, theme }) => {
             <div key={i} style={{ textAlign: "left", color: theme.text }}>
               <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: 42, marginBottom: 10 }}>
                 <span>{b.emoji && <EmojiGlyph e={b.emoji} size={48} style={{ marginRight: 12 }} />}{b.label}</span>
-                <span style={{ color, fontFamily: display, fontWeight: 900 }}>{(b.value * p).toLocaleString("es-ES", { maximumFractionDigits: 1 })}{scene.unit}</span>
+                <span style={{ color, fontFamily: display, fontWeight: 900 }}>{(b.value * p).toLocaleString(t.locale, { maximumFractionDigits: 1 })}{scene.unit}</span>
               </div>
               <div style={{ height: 54, borderRadius: 27, background: "rgba(255,255,255,0.1)", overflow: "hidden" }}>
                 <div style={{ height: "100%", width: `${(b.value / max) * 100 * p}%`, borderRadius: 27, background: `linear-gradient(90deg, ${color}aa, ${color})`, boxShadow: `0 0 30px ${color}88` }} />

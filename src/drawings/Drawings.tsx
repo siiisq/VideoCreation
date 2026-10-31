@@ -1,3 +1,4 @@
+import { useT } from "../i18n";
 import { ANIM_FPS, useFrame } from "../time";
 import React from "react";
 import { interpolate, spring, Easing } from "remotion";
@@ -19,6 +20,7 @@ const useFill = (start = 0, dur = 40) => {
 
 /** Taza pequeña (espresso) vs taza grande (filtro). Opcional: moléculas, mg, interrogantes. */
 const CupsVs: React.FC<DP> = ({ data, theme }) => {
+  const t = useT();
   const frame = useFrame();
   const fill = useFill(4, 36);
   const q = bool(data, "question");
@@ -27,8 +29,8 @@ const CupsVs: React.FC<DP> = ({ data, theme }) => {
     <>
       <Cup id="l" x={270} y={600} w={230} h={170} fill={fill} molecules={num(data, "leftMolecules")} moleculeColor={theme.accent} moleculeDelay={30} />
       <Cup id="r" x={690} y={600} w={330} h={430} fill={fill} liquid={str(data, "rightLiquid") === "light" ? "#8a5a35" : COFFEE} molecules={num(data, "rightMolecules")} moleculeColor={theme.accent} moleculeDelay={40} />
-      <Label x={270} y={700} text={str(data, "leftLabel", "Espresso")} color={theme.text} font={display} delay={10} />
-      <Label x={690} y={700} text={str(data, "rightLabel", "Café de filtro")} color={theme.text} font={display} delay={16} />
+      <Label x={270} y={700} text={str(data, "leftLabel", t.espresso)} color={theme.text} font={display} delay={10} />
+      <Label x={690} y={700} text={str(data, "rightLabel", t.filterCoffee)} color={theme.text} font={display} delay={16} />
       {str(data, "leftSub") && <Label x={270} y={752} text={str(data, "leftSub")} color={theme.text} size={32} weight={600} font={body} delay={14} />}
       {str(data, "rightSub") && <Label x={690} y={752} text={str(data, "rightSub")} color={theme.text} size={32} weight={600} font={body} delay={20} />}
       {showMg && (
@@ -48,12 +50,15 @@ const CupsVs: React.FC<DP> = ({ data, theme }) => {
 };
 
 /** Leyenda: molécula = cafeína. */
-const Legend: React.FC<{ theme: Theme; y?: number; delay?: number }> = ({ theme, y = 60, delay = 20 }) => (
+const Legend: React.FC<{ theme: Theme; y?: number; delay?: number }> = ({ theme, y = 60, delay = 20 }) => {
+  const t = useT();
+  return (
   <g>
     <Molecule x={340} y={y} size={20} color={theme.accent} delay={delay} float={2} />
-    <Label x={500} y={y + 16} text="= cafeína" color={theme.accent} size={46} font={display} delay={delay + 4} />
+    <Label x={500} y={y + 16} text={t.caffeine} color={theme.accent} size={46} font={display} delay={delay + 4} />
   </g>
-);
+  );
+};
 
 const Concentration: React.FC<DP> = ({ data, theme }) => (
   <>
@@ -64,6 +69,7 @@ const Concentration: React.FC<DP> = ({ data, theme }) => (
 
 /** Goteo: agua cae sobre el café molido en un filtro y arrastra cafeína hasta la jarra. */
 const Filter: React.FC<DP> = ({ theme }) => {
+  const t = useT();
   const frame = useFrame();
   const fps = ANIM_FPS;
   const fill = useFill(20, 200);
@@ -108,14 +114,15 @@ const Filter: React.FC<DP> = ({ theme }) => {
       {/* jarra */}
       <Cup id="jar" x={500} y={760} w={360} h={330} fill={fill} molecules={0} steam={false} />
       {travellers}
-      <Label x={830} y={330} text="agua" color={WATER} font={display} size={48} delay={10} />
-      <Label x={830} y={385} text="+ tiempo" color={theme.accent} font={display} size={48} delay={30} />
+      <Label x={830} y={330} text={t.water} color={WATER} font={display} size={48} delay={10} />
+      <Label x={830} y={385} text={t.time} color={theme.accent} font={display} size={48} delay={30} />
     </g>
   );
 };
 
 /** Granos que caen en dos montones (gramos de café). */
 const Beans: React.FC<DP> = ({ data, theme }) => {
+  const t = useT();
   const frame = useFrame();
   const fps = ANIM_FPS;
   const pile = (cx: number, n: number, delay: number) =>
@@ -138,14 +145,15 @@ const Beans: React.FC<DP> = ({ data, theme }) => {
       <rect x={560} y={610} width={360} height={22} rx={11} fill="#ffffff33" />
       <Counter x={260} y={720} to={num(data, "leftGrams", 8)} prefix="≈ " suffix=" g" color={theme.accent2} size={78} delay={20} font={display} />
       <Counter x={740} y={720} to={num(data, "rightGrams", 15)} prefix="≈ " suffix=" g" color={theme.accent} size={78} delay={45} font={display} />
-      <Label x={260} y={790} text={str(data, "leftLabel", "Espresso")} color={theme.text} size={40} font={display} delay={14} />
-      <Label x={740} y={790} text={str(data, "rightLabel", "Filtro")} color={theme.text} size={40} font={display} delay={34} />
+      <Label x={260} y={790} text={str(data, "leftLabel", t.espresso)} color={theme.text} size={40} font={display} delay={14} />
+      <Label x={740} y={790} text={str(data, "rightLabel", t.filter)} color={theme.text} size={40} font={display} delay={34} />
     </>
   );
 };
 
 /** Americano: espresso + agua = mismas moléculas, más repartidas. */
 const Americano: React.FC<DP> = ({ data, theme }) => {
+  const t = useT();
   const frame = useFrame();
   const fps = ANIM_FPS;
   const n = num(data, "molecules", 6);
@@ -165,7 +173,7 @@ const Americano: React.FC<DP> = ({ data, theme }) => {
       <Cup id="ame" x={780} y={620} w={300} h={380} fill={interpolate(pour, [0, 1], [0.3, 1])} liquid="#7b4a28" molecules={n} moleculeColor={theme.accent} moleculeDelay={110} />
       <g opacity={eq} transform={`translate(500 760) scale(${eq}) translate(-500 -760)`}>
         <rect x={180} y={700} width={640} height={100} rx={50} fill={theme.accent} />
-        <text x={500} y={770} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={52} fill="#1a0d05">{str(data, "equal", `${n} = ${n} ¡misma cafeína!`)}</text>
+        <text x={500} y={770} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={52} fill="#1a0d05">{str(data, "equal", `${n} = ${n} ${t.same}`)}</text>
       </g>
     </>
   );
@@ -212,11 +220,12 @@ const registry: Record<string, React.FC<DP>> = {
 export const DRAWINGS = Object.keys(registry);
 
 export const Drawing: React.FC<{ name: string; data: D; theme: Theme; mascot?: { mood?: Mood; say?: string; side?: "left" | "right" } }> = ({ name, data, theme, mascot }) => {
+  const t = useT();
   const C = registry[name];
   return (
     <svg viewBox="0 0 1000 820" style={{ width: "100%", overflow: "visible" }}>
       <Defs />
-      {C ? <C data={data} theme={theme} /> : <text x={500} y={400} textAnchor="middle" fill="red" fontSize={40}>Dibujo desconocido: {name}</text>}
+      {C ? <C data={data} theme={theme} /> : <text x={500} y={400} textAnchor="middle" fill="red" fontSize={40}>{t.unknown}: {name}</text>}
       {mascot && <Mascot x={mascot.side === "left" ? 120 : 880} y={150} size={90} mood={mascot.mood} say={mascot.say} delay={25} accent={theme.accent} flip={mascot.side !== "left"} />}
     </svg>
   );

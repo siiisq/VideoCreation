@@ -56,6 +56,7 @@ export const themeSchema = z.object({
 
 export const reelSchema = z.object({
   title: z.string(),
+  lang: z.enum(["es", "en"]).default("es").describe("es = español de España, en = inglés"),
   handle: z.string().optional().describe("@usuario que aparece abajo"),
   theme: themeSchema.default({}),
   fps: z.union([z.literal(30), z.literal(60)]).default(60),
@@ -63,7 +64,7 @@ export const reelSchema = z.object({
   musicVolume: z.number().default(0.22),
   sfx: z.boolean().default(true).describe("efectos de sonido automáticos"),
   narrator: z.object({
-    name: z.string().default("ef_dora").describe("voz Kokoro: ef_dora (mujer), em_alex, em_santa (hombre)"),
+    name: z.string().optional().describe("voz Kokoro; por defecto em_alex (es) / am_michael (en)"),
     speed: z.number().default(1.1),
     volume: z.number().default(1),
   }).default({}),

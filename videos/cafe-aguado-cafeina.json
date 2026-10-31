@@ -1,5 +1,10 @@
 {
   "title": "¿Por qué el café aguado te da más cafeína?",
+  "lang": "es",
+  "narrator": {
+    "name": "em_alex",
+    "speed": 1.1
+  },
   "handle": "@less_thanaminute",
   "theme": {
     "bg1": "#1a0f0a",
@@ -141,9 +146,5 @@
       "cta": "Sígueme para más",
       "voice": "¿Y tú, eres de espresso o de taza grande? Sígueme para más."
     }
-  ],
-  "narrator": {
-    "name": "ef_dora",
-    "speed": 1.1
-  }
+  ]
 }

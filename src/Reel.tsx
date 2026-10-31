@@ -9,6 +9,7 @@ import { body } from "./fonts";
 import { Reel as ReelT, reelSchema } from "./schema";
 import { SceneView } from "./scenes/Scenes";
 import { autoCues } from "./sfx";
+import { LangProvider } from "./i18n";
 
 export const TRANSITION_SECONDS = 0.4;
 export const VOICE_DELAY = 0.3; // la voz entra cuando ha terminado la transición
@@ -75,6 +76,7 @@ export const Reel: React.FC<ReelT> = (props) => {
   const starts = sceneStarts(reel, fps);
   const voiceSpans = reel.scenes.flatMap((s, i) => s.voiceFile && s.voiceDuration ? [[starts[i] + VOICE_DELAY * fps, starts[i] + (VOICE_DELAY + s.voiceDuration) * fps] as [number, number]] : []);
   return (
+    <LangProvider lang={reel.lang}>
     <AbsoluteFill style={{ background: theme.bg1 }}>
       <Background theme={theme} />
       <TransitionSeries>
@@ -127,5 +129,6 @@ export const Reel: React.FC<ReelT> = (props) => {
         ));
       })}
     </AbsoluteFill>
+    </LangProvider>
   );
 };

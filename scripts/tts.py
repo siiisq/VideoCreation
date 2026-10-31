@@ -13,6 +13,8 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 VOICE_DELAY = 0.3      # igual que VOICE_DELAY en src/Reel.tsx
 TAIL = 0.45            # respiro tras la frase
 TRANSITION = 0.4       # igual que TRANSITION_SECONDS
+DEFAULT_VOICE = {"es": "em_alex", "en": "am_michael"}   # voces masculinas
+ESPEAK_LANG = {"es": "es", "en": "en-us"}               # "es" = pronunciación de España (θ en "cerveza")
 
 
 def trim(a, sr, thr=0.01):
@@ -25,7 +27,9 @@ def trim(a, sr, thr=0.01):
 
 def main(src, dst):
     reel = json.load(open(src, encoding="utf-8"))
-    nar = {"name": "ef_dora", "speed": 1.1, **reel.get("narrator", {})}
+    lang = reel.get("lang", "es")
+    nar = {"speed": 1.1, **reel.get("narrator", {})}
+    nar.setdefault("name", DEFAULT_VOICE[lang])
     kokoro = None
     os.makedirs(os.path.join(ROOT, "public", "voice"), exist_ok=True)
     for i, sc in enumerate(reel["scenes"]):
@@ -39,8 +43,7 @@ def main(src, dst):
             if kokoro is None:
                 from kokoro_onnx import Kokoro
                 kokoro = Kokoro(os.path.join(ROOT, "models/kokoro-v1.0.onnx"), os.path.join(ROOT, "models/voices-v1.0.bin"))
-            lang = "pt-br" if nar["name"].startswith("p") else "es"
-            audio, sr = kokoro.create(text, voice=nar["name"], speed=nar["speed"], lang=lang)
+            audio, sr = kokoro.create(text, voice=nar["name"], speed=nar["speed"], lang=ESPEAK_LANG[lang])
             sf.write(path, trim(audio, sr), sr)
         info = sf.info(path)
         dur = info.frames / info.samplerate

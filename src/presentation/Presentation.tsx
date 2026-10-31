@@ -108,7 +108,7 @@ const SlideView: React.FC<{ seg: Seg; p: PresT; total: number }> = ({ seg, p, to
   let tx = 0, ty = 0;
   if (s.focus) {
     const f = s.focus;
-    const end = f.until ?? Infinity;
+    const end = f.until ?? durA / fps + 5; // sin "until": el zoom se mantiene hasta el final
     const z = interpolate(frame, [f.at * fps, f.at * fps + 30, end * fps, end * fps + 30], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.inOut(Easing.cubic) });
     const target = Math.min(2.5, 0.85 / Math.max(f.w, f.h * 0.9));
     scale *= 1 + (target - 1) * z;

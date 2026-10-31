@@ -4,3 +4,10 @@ out/
 .venv/
 models/
 public/voice/
+# Presentaciones del usuario (pueden ser confidenciales): no se versionan
+presentations/*
+!presentations/ejemplo-presentacion.pptx
+public/slides/*
+!public/slides/ejemplo-presentacion/
+videos/*.slides.json
+!videos/ejemplo-presentacion.slides.json

@@ -144,7 +144,10 @@ La música baja automáticamente mientras habla la voz. Caché de audios en `pub
   `--bg: transparent`, cajas altas (los componentes escalan con la altura de su caja), revisar con
   `npx hyperframes snapshot`, renderizar `npx hyperframes render --format webm --fps 60 -q delivery` (con alfa),
   copiar a `public/overlays/` y usar en la escena con `"overlay": "overlays/x.webm"` + `"hideTitle": true`.
-  Usa `DO_NOT_TRACK=1`. Remotion sigue siendo el motor principal. Ejemplo: `experiments/hyperframes/hook-test`.
+  Usa `DO_NOT_TRACK=1`. Remotion sigue siendo el motor principal. Ejemplos: `experiments/hyperframes/hook-test`
+  (cebolla) y `fomo-hook`. **Ojo**: los componentes del catálogo traen su propia duración interna (3,5 s) que el
+  host NO sobrescribe; edita `data-duration`/`data-composition-duration` en la copia local del componente para que
+  dure al menos lo que la escena (con voz, ~6–8 s). Si no, el título desaparece a mitad de escena.
 
 ## Notas técnicas
 - Fuentes locales en `public/fonts` (Montserrat + Inter, OFL); emojis con la fuente del sistema (Noto Color Emoji).

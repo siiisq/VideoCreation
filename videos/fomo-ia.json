@@ -1,0 +1,98 @@
+{
+  "title": "FOMO con la IA: la carrera que nunca termina",
+  "lang": "es",
+  "handle": "@less_thanaminute",
+  "narrator": {
+    "provider": "gemini",
+    "name": "Charon",
+    "speed": 1.05
+  },
+  "theme": {
+    "bg1": "#0a1020",
+    "bg2": "#1d2b52",
+    "accent": "#ff6b4a",
+    "accent2": "#5ee6ff",
+    "text": "#f4f7ff"
+  },
+  "scenes": [
+    {
+      "type": "drawing",
+      "duration": 5,
+      "drawing": "treadmill",
+      "bigTitle": true,
+      "hideTitle": true,
+      "overlay": "overlays/fomo-hook.webm",
+      "title": "¿La IA va MÁS RÁPIDO que tú?",
+      "highlight": [
+        "MÁS",
+        "RÁPIDO"
+      ],
+      "voice": "¿Sientes que la IA va más rápido que tú? Aprendes una herramienta, y al día siguiente ya hay otra mejor."
+    },
+    {
+      "type": "drawing",
+      "duration": 8,
+      "drawing": "release-feed",
+      "title": "Novedades sin fin",
+      "text": "Tu cerebro lo vive como algo que te pierdes.",
+      "highlight": [
+        "pierdes."
+      ],
+      "voice": "Cada semana sale un modelo nuevo, una función nueva, un truco nuevo. Y tu cerebro lo vive como algo que te pierdes: eso es el FOMO."
+    },
+    {
+      "type": "drawing",
+      "duration": 8,
+      "drawing": "goal-moves",
+      "title": "La meta se mueve",
+      "text": "Nunca llegas, y aprender se vuelve una obligación.",
+      "highlight": [
+        "obligación."
+      ],
+      "voice": "Aprender debería darte satisfacción. Pero si la meta se mueve cada día, nunca llegas, y aprender se vuelve una obligación."
+    },
+    {
+      "type": "drawing",
+      "duration": 8,
+      "drawing": "brain-tabs",
+      "title": "Saturación",
+      "text": "Comparas sin parar y no profundizas en nada.",
+      "highlight": [
+        "profundizas"
+      ],
+      "voice": "Demasiadas opciones agotan tu capacidad de decidir. Comparas sin parar, saltas de una a otra, y no profundizas en ninguna."
+    },
+    {
+      "type": "compare",
+      "duration": 7,
+      "title": "La trampa",
+      "left": {
+        "title": "Explorar",
+        "text": "Probar diez herramientas"
+      },
+      "right": {
+        "title": "Avanzar",
+        "text": "Terminar un proyecto"
+      },
+      "voice": "Y lo más traicionero: explorar parece productivo. Pero probar diez herramientas no es lo mismo que terminar un proyecto."
+    },
+    {
+      "type": "steps",
+      "duration": 10,
+      "title": "Sal de la rueda",
+      "steps": [
+        "Aprende principios, no herramientas",
+        "Aprende cuando lo necesites",
+        "Termina lo que empiezas"
+      ],
+      "voice": "¿Cómo salir de la rueda? Aprende principios, no herramientas. Aprende cuando lo necesites. Y termina lo que empiezas."
+    },
+    {
+      "type": "outro",
+      "duration": 5,
+      "text": "¿Te pasa a ti también?",
+      "cta": "Sígueme para más",
+      "voice": "¿Te pasa a ti también? Cuéntamelo, y sígueme para más ideas en menos de un minuto."
+    }
+  ]
+}

@@ -19,21 +19,21 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="4.5" data-width="1080" data-height="1920" data-fps="60">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="8" data-width="1080" data-height="1920" data-fps="60">
       <!-- 1) "¿POR QUÉ" explota en letras y se reensambla -->
       <div class="slot" id="por-que" style="top: 200px; height: 400px"
            data-composition-id="cse" data-composition-src="compositions/components/char-slam-explode.html"
-           data-start="0" data-duration="4.5" data-track-index="0"
+           data-start="0" data-duration="8" data-track-index="0"
            data-variable-values='{"text":"¿POR QUÉ","accent":"blue","spread":"wild"}'></div>
       <!-- 2) "LLORAS" cae de golpe con sacudida -->
       <div class="slot" id="lloras" style="top: 350px; height: 380px; --hs-font-size: 17cqw"
            data-composition-id="hs" data-composition-src="compositions/components/headline-slam.html"
-           data-start="0.55" data-duration="3.95" data-track-index="1"
+           data-start="0.55" data-duration="7.45" data-track-index="1"
            data-variable-values='{"text":"LLORAS","accent_word_index":0,"accent":"blue"}'></div>
       <!-- 3) "al cortar cebolla?" con rotulador que tacha "cebolla" -->
       <div class="slot" id="cebolla" style="top: 450px; height: 560px"
            data-composition-id="mh" data-composition-src="compositions/components/marker-highlight.html"
-           data-start="1.1" data-duration="3.4" data-track-index="2"
+           data-start="1.1" data-duration="6.9" data-track-index="2"
            data-variable-values='{"text":"AL CORTAR CEBOLLA?","emphasis_word":"CEBOLLA","style":"circle","draw_at":0.7,"accent":"violet"}'></div>
     </div>
     <script>

@@ -9,6 +9,7 @@ import { Mascot, Mood } from "./Mascot";
 import { Bot } from "./Bot";
 import { Code, Factories, Queries, Speed, Users } from "./Wrapup";
 import { GasEye, OnionCells, OnionCry, OnionMascot, OnionTips } from "./OnionScenes";
+import { BrainTabs, GoalMoves, ReleaseFeed, Treadmill } from "./Fomo";
 
 type D = Record<string, unknown>;
 type DP = { data: D; theme: Theme };
@@ -237,6 +238,10 @@ const registry: Record<string, React.FC<DP>> = {
   "gas-eye": GasEye,
   "onion-tips": OnionTips,
   onion: OnionMascot,
+  treadmill: Treadmill,
+  "release-feed": ReleaseFeed,
+  "goal-moves": GoalMoves,
+  "brain-tabs": BrainTabs,
 };
 export const DRAWINGS = Object.keys(registry);
 

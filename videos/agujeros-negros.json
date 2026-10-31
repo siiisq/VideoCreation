@@ -1,6 +1,6 @@
 {
   "title": "Agujeros negros en 1 minuto",
-  "handle": "@tucuenta",
+  "handle": "@less_thanaminute",
   "theme": { "bg1": "#05010f", "bg2": "#2a0b4a", "accent": "#ffb000", "accent2": "#ff3d81", "text": "#ffffff" },
   "scenes": [
     { "type": "hook", "duration": 4, "emoji": "🕳️", "text": "Nada escapa de aquí. Ni siquiera la luz.", "highlight": ["Nada", "luz"] },

@@ -3,6 +3,8 @@
 Este repo genera vídeos verticales (1080x1920, 30 fps, MP4) animados con **Remotion** (React).
 El usuario pide un tema y Claude produce el vídeo.
 
+**Cuenta del usuario: `@less_thanaminute`** → ponla siempre en `handle`.
+
 ## Flujo cuando el usuario pide "hazme un vídeo/reel sobre X"
 
 1. **Guion**: crea `videos/<slug>.json` siguiendo `src/schema.ts`. Idioma: el del usuario (por defecto español).

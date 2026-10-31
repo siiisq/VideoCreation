@@ -1,6 +1,6 @@
 {
   "title": "¿Por qué el café aguado te da más cafeína?",
-  "handle": "@tucuenta",
+  "handle": "@less_thanaminute",
   "theme": { "bg1": "#1a0f0a", "bg2": "#4a2414", "accent": "#ffc23d", "accent2": "#ff6b4a", "text": "#fff7ec" },
   "scenes": [
     { "type": "drawing", "duration": 4, "drawing": "cups-vs", "bigTitle": true,

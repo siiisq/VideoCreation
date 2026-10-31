@@ -33,10 +33,26 @@ def pick_provider(requested):
     return "kokoro"
 
 
-def _post(url, body, headers):
-    req = urllib.request.Request(url, data=json.dumps(body).encode(), headers={"Content-Type": "application/json", **headers})
-    with urllib.request.urlopen(req, timeout=120) as r:
-        return r.read()
+def _post(url, body, headers, tries=8):
+    """POST con reintentos: los planes gratuitos limitan peticiones por minuto (HTTP 429)."""
+    import time, urllib.error
+    for attempt in range(tries):
+        req = urllib.request.Request(url, data=json.dumps(body).encode(), headers={"Content-Type": "application/json", **headers})
+        try:
+            with urllib.request.urlopen(req, timeout=180) as r:
+                return r.read()
+        except urllib.error.HTTPError as e:
+            if e.code not in (429, 500, 503) or attempt == tries - 1:
+                raise
+            wait = 20
+            try:
+                for d in json.loads(e.read()).get("error", {}).get("details", []):
+                    if "retryDelay" in d:
+                        wait = float(d["retryDelay"].rstrip("s")) + 2
+            except Exception:
+                pass
+            print(f"    límite de la API ({e.code}); reintento en {wait:.0f}s…")
+            time.sleep(wait)
 
 
 def _pcm16(raw, sr):

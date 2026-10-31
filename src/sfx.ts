@@ -19,8 +19,15 @@ export const autoCues = (scene: Scene): Cue[] => {
     case "stat": return [{ sound: "rise", at: 0.1, volume: 0.5 }, { sound: "ding", at: 1.8 }];
     case "compare": return [{ sound: "pop", at: f(8) }, { sound: "boing", at: f(24), volume: 0.6 }, { sound: "pop", at: f(30) }];
     case "bars": return [{ sound: "rise", at: 0.3, volume: 0.6 }];
-    case "outro": return [{ sound: "sparkle", at: 1.0 }];
+    case "outro": return scene.confetti ? [{ sound: "pop", at: 0.05 }, { sound: "sparkle", at: 0.3 }, { sound: "sparkle", at: 1.0 }] : [{ sound: "sparkle", at: 1.0 }];
     case "quote": return [];
+    case "kpis": return scene.tiles.flatMap((_, i) => [{ sound: "pop" as const, at: f(8 + i * 10), volume: 0.5 }, ...(scene.tiles[i].delta ? [{ sound: "click" as const, at: f(53 + i * 10), volume: 0.5 }] : [])]);
+    case "waffle": return [{ sound: "rise", at: f(20), volume: 0.5 }, { sound: "ding", at: f(80) }];
+    case "dumbbell": return scene.rows.map((_, i): Cue => ({ sound: "click", at: f(22 + i * 7), volume: 0.5 })).concat([{ sound: "ding", at: f(52 + (scene.rows.length - 1) * 7), volume: 0.6 }]);
+    case "linechart": return [{ sound: "rise", at: f(12), volume: 0.5 }, { sound: "ding", at: f(85), volume: 0.7 }];
+    case "columns": return [{ sound: "rise", at: f(8), volume: 0.5 }, { sound: "ding", at: f(90), volume: 0.7 }];
+    case "donut": return [{ sound: "whoosh", at: f(6), volume: 0.5 }, { sound: "pop", at: f(40), volume: 0.6 }];
+    case "multibars": return scene.rows.map((_, i): Cue => ({ sound: "click", at: f(14 + i * 12), volume: 0.5 })).concat([{ sound: "ding", at: f(80), volume: 0.6 }]);
     case "drawing": {
       const c: Cue[] = [];
       const d = scene.data as Record<string, unknown>;

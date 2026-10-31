@@ -53,6 +53,14 @@ Solo si el usuario pide expresamente ver las diapositivas, usa la composición `
    `npx remotion still src/index.ts Presentation ... --props=out/<slug>.props.json` antes del render final.
 Composición en `src/presentation/` (schema.ts + Presentation.tsx). Demo: `videos/ejemplo-presentacion.slides.json`.
 
+## Estilo para datos y empresa (preferencia del usuario)
+**No quiere iconos típicos de IA** (emojis 3D, robots, mascotas) en vídeos de datos/empresa: quiere MÁS estadísticas y
+animaciones visuales de datos. Usa los gráficos animados de `src/scenes/Charts.tsx`:
+`kpis` (fichas que cuentan + chip de variación), `waffle` (K de N cuadrados), `dumbbell` (antes → después por fila con %),
+`linechart` (líneas que se dibujan, área, valor en la punta, `annotate`), `columns` (columnas agrupadas + `totals`),
+`donut` (segmentos + centro), `multibars` (varias métricas 0–1 por fila). `hook` admite `chart` (línea de fondo) y
+`outro` admite `confetti`. Extrae datos reales de los gráficos nativos del PPTX con python-pptx (`chart.plots[].series`).
+
 ## Tipos de escena (ver `src/schema.ts`)
 `hook`, `text`, `list`, `stat` (cifra que cuenta), `compare` (A vs B), `steps`, `quote`, `bars` (gráfico), `outro`,
 y `drawing`: ilustración SVG animada (`src/drawings/`), con `title`, `text`, `data` y una `mascot` opcional

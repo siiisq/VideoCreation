@@ -12,7 +12,8 @@ const base = {
 
 export const sceneSchema = z.discriminatedUnion("type", [
   // Gancho inicial: frase grande, palabra a palabra
-  z.object({ type: z.literal("hook"), ...base, emoji: z.string().optional(), text: z.string(), highlight: z.array(z.string()).default([]) }),
+  z.object({ type: z.literal("hook"), ...base, emoji: z.string().optional(), text: z.string(), highlight: z.array(z.string()).default([]),
+    chart: z.array(z.number()).optional().describe("serie que se dibuja de fondo como línea ascendente") }),
   // Texto explicativo con título opcional
   z.object({ type: z.literal("text"), ...base, emoji: z.string().optional(), title: z.string().optional(), text: z.string(), highlight: z.array(z.string()).default([]) }),
   // Lista con viñetas que aparecen una a una
@@ -42,8 +43,23 @@ export const sceneSchema = z.discriminatedUnion("type", [
     bigTitle: z.boolean().default(false).describe("título enorme estilo gancho"),
     mascot: z.object({ mood: z.enum(["happy", "surprised", "wink", "thinking"]).optional(), say: z.string().optional(), side: z.enum(["left", "right"]).optional(), character: z.enum(["bean", "bot"]).optional() }).optional(),
   }),
+  // ---- Gráficos de datos animados (src/scenes/Charts.tsx) ----
+  z.object({ type: z.literal("kpis"), ...base, title: z.string().optional(), text: z.string().optional(),
+    tiles: z.array(z.object({ value: z.number(), prefix: z.string().default(""), suffix: z.string().default(""), decimals: z.number().default(0), label: z.string(), delta: z.string().optional() })).min(1).max(6) }),
+  z.object({ type: z.literal("waffle"), ...base, title: z.string().optional(), text: z.string().optional(), total: z.number().min(1).max(100), highlight: z.number(), decimals: z.number().default(0) }),
+  z.object({ type: z.literal("dumbbell"), ...base, title: z.string().optional(), text: z.string().optional(), fromLabel: z.string(), toLabel: z.string(), showGrowth: z.boolean().default(true),
+    rows: z.array(z.object({ label: z.string(), from: z.number(), to: z.number() })).min(1).max(7) }),
+  z.object({ type: z.literal("linechart"), ...base, title: z.string().optional(), text: z.string().optional(), categories: z.array(z.string()),
+    series: z.array(z.object({ name: z.string(), values: z.array(z.number()) })).min(1).max(3), unit: z.enum(["", "k", "M", "%"]).default(""), decimals: z.number().default(0),
+    annotate: z.object({ index: z.number(), text: z.string() }).optional() }),
+  z.object({ type: z.literal("columns"), ...base, title: z.string().optional(), text: z.string().optional(), categories: z.array(z.string()),
+    series: z.array(z.object({ name: z.string(), values: z.array(z.number()) })).min(1).max(3), totals: z.array(z.object({ value: z.number(), label: z.string() })).optional() }),
+  z.object({ type: z.literal("donut"), ...base, title: z.string().optional(), text: z.string().optional(), unit: z.string().default("%"), decimals: z.number().default(1),
+    segments: z.array(z.object({ label: z.string(), value: z.number() })).min(1).max(6), center: z.object({ value: z.string(), label: z.string() }).optional() }),
+  z.object({ type: z.literal("multibars"), ...base, title: z.string().optional(), text: z.string().optional(), metrics: z.array(z.string()).min(1).max(3),
+    rows: z.array(z.object({ label: z.string(), values: z.array(z.number()) })).min(1).max(5) }),
   // Cierre / llamada a la acción
-  z.object({ type: z.literal("outro"), ...base, emoji: z.string().optional(), text: z.string(), cta: z.string().optional() }),
+  z.object({ type: z.literal("outro"), ...base, emoji: z.string().optional(), text: z.string(), cta: z.string().optional(), confetti: z.boolean().default(false) }),
 ]);
 
 export const themeSchema = z.object({

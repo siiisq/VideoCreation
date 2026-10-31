@@ -74,7 +74,7 @@ def main(src, dst):
         print(f"  {'parte' if is_pres else 'escena'} {i + 1}: voz {dur:4.1f}s → {sc['duration']}s")
     total = sum(s["duration"] for s in items) - trans * (len(items) - 1)
     m, sec = divmod(total, 60)
-    print(f"Duración total: {int(m)}:{sec:04.1f}" + ("  ⚠️  ¡supera 60 s! Acorta el guion." if total > 60 and not is_pres else ""))
+    print(f"Duración total: {int(m)}:{sec:04.1f}" + ("  ⚠️  ¡supera 60 s! Acorta el guion." if total > 60 and not is_pres and not reel.get("longForm") else ""))
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     json.dump(reel, open(dst, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 

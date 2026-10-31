@@ -35,7 +35,17 @@ export const autoCues = (scene: Scene): Cue[] => {
         case "beans": c.push(...[10, 22, 30, 42, 54].map((x) => ({ sound: "click" as const, at: f(x), volume: 0.6 }))); break;
         case "americano": c.push({ sound: "whoosh", at: f(45), volume: 0.5 }, { sound: "ding", at: f(120) }); break;
         case "energy": c.push({ sound: "sparkle", at: f(20) }); break;
-        case "mascot": c.push({ sound: "boing", at: 0.1 }); break;
+        case "mascot": case "bot": c.push({ sound: "boing", at: 0.1 }); break;
+        case "factories": {
+          const n = Number(d.to ?? 44) - Number(d.from ?? 32);
+          for (let j = 0; j < n; j += 2) c.push({ sound: "pop", at: f(55 + j * 5), volume: 0.5 });
+          c.push({ sound: "ding", at: f(100) });
+          break;
+        }
+        case "code": c.push(...[10, 19, 28, 37, 46, 55, 64].map((x) => ({ sound: "click" as const, at: f(x), volume: 0.5 })), { sound: "ding", at: f(95), volume: 0.7 }); break;
+        case "queries": c.push({ sound: "whoosh", at: 0.1, volume: 0.4 }, { sound: "sparkle", at: f(85), volume: 0.6 }); break;
+        case "users": c.push({ sound: "pop", at: f(5), volume: 0.5 }, { sound: "rise", at: f(35), volume: 0.4 }, { sound: "ding", at: f(90) }); break;
+        case "speed": c.push({ sound: "rise", at: f(5), volume: 0.6 }, { sound: "whoosh", at: f(55), volume: 0.6 }, { sound: "ding", at: f(80) }); break;
       }
       return c;
     }

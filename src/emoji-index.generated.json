@@ -1,6 +1,7 @@
 {
  "2600": "sun",
  "2615": "hot-beverage",
+ "2699": "gear",
  "1f573": "hole",
  "2b50": "star",
  "1f9d1-200d-1f680": "astronaut",
@@ -11,5 +12,18 @@
  "1f4f8": "camera-with-flash",
  "1f4a8": "dashing-away",
  "1f680": "rocket",
- "1f4a7": "droplet"
+ "1f4a7": "droplet",
+ "1f3ed": "factory",
+ "1f3f7": "label",
+ "1f4e6": "package",
+ "1f9ba": "safety-vest",
+ "1f6e0": "hammer-and-wrench",
+ "1f30e": "globe-showing-americas",
+ "1f30f": "globe-showing-asia-australia",
+ "1f4ca": "bar-chart",
+ "1f527": "wrench",
+ "1f69a": "delivery-truck",
+ "1f525": "fire",
+ "1f441": "eye",
+ "1f389": "party-popper"
 }

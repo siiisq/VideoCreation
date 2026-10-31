@@ -26,7 +26,16 @@ El usuario pide un tema y Claude produce el vídeo.
 4. **Entrega**: envía el MP4 al usuario (SendUserFile) y haz commit del JSON (los MP4 en `out/` no se versionan).
 
 ## Vídeos a partir de presentaciones (sin límite de duración)
-Cuando el usuario aporte una presentación (PPTX, PPT, KEY, ODP o PDF; en `presentations/` o desde Google Drive):
+**Por defecto el usuario NO quiere ver las diapositivas**: quiere un vídeo animado al estilo de los reels (composición
+`Reel`, escenas `drawing`, mascota, cifras animadas) que cuente el contenido de forma amena. Flujo por defecto:
+1. Importa la presentación (paso 1 de abajo) solo para LEER texto, notas e imágenes.
+2. Usa solo las diapositivas completas (descarta plantillas con [TBC], borradores, huecos por rellenar) y avisa cuáles.
+3. Escribe un guion `videos/<slug>.json` tipo reel con `"longForm": true` (puede pasar de 60 s; ~2–3 min),
+   narración cercana y datos fieles a la presentación (sin inventar; respeta matices de las notas).
+   Crea dibujos SVG nuevos para el tema si hace falta. Mascota: `"character": "bot"` para temas técnicos/empresa.
+4. Las presentaciones del usuario pueden ser confidenciales: nunca las subas a git (ya están en .gitignore; añade
+   también el guion del reel si contiene datos internos).
+Solo si el usuario pide expresamente ver las diapositivas, usa la composición `Presentation`:
 1. **Importar**: `npm run import -- presentations/<archivo> [--lang es|en] [--format landscape|vertical|square]`
    → imágenes en `public/slides/<slug>/` + guion `videos/<slug>.slides.json` con `_text` y `_notes` de cada diapositiva.
    Formato por defecto `landscape` (1920x1080, YouTube/LinkedIn); `vertical` (1080x1920) para Reels/TikTok.
@@ -50,7 +59,8 @@ y `drawing`: ilustración SVG animada (`src/drawings/`), con `title`, `text`, `d
 (grano de café con cara, `mood`: happy/surprised/wink/thinking, `say`: bocadillo).
 
 **El usuario prefiere vídeos con muchas animaciones y dibujos**: prioriza escenas `drawing`. Si el tema no encaja
-con los dibujos existentes (`cups-vs`, `concentration`, `filter`, `beans`, `americano`, `mascot`, `energy`),
+con los dibujos existentes (`cups-vs`, `concentration`, `filter`, `beans`, `americano`, `mascot`, `energy`, `factories`, `code`,
+`queries`, `users`, `speed`, `bot`),
 DIBUJA nuevos componentes SVG para ese tema en `src/drawings/Drawings.tsx` (regístralos en `registry`), reutilizando
 `parts.tsx` (Molecule, Steam, Label, Counter…). viewBox 1000x820. Todo debe moverse: springs, llenados, partículas.
 Duración: la necesaria, máximo 60 s.

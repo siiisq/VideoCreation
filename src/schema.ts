@@ -34,13 +34,13 @@ export const sceneSchema = z.discriminatedUnion("type", [
   // Ilustración animada (ver src/drawings/Drawings.tsx) con título y texto
   z.object({
     type: z.literal("drawing"), ...base,
-    drawing: z.string().describe("cups-vs | concentration | filter | beans | americano | mascot | energy"),
+    drawing: z.string().describe("cups-vs | concentration | filter | beans | americano | mascot | energy | factories | code | queries | users | speed | bot"),
     data: z.record(z.unknown()).default({}),
     title: z.string().optional(),
     text: z.string().optional(),
     highlight: z.array(z.string()).default([]),
     bigTitle: z.boolean().default(false).describe("título enorme estilo gancho"),
-    mascot: z.object({ mood: z.enum(["happy", "surprised", "wink", "thinking"]).optional(), say: z.string().optional(), side: z.enum(["left", "right"]).optional() }).optional(),
+    mascot: z.object({ mood: z.enum(["happy", "surprised", "wink", "thinking"]).optional(), say: z.string().optional(), side: z.enum(["left", "right"]).optional(), character: z.enum(["bean", "bot"]).optional() }).optional(),
   }),
   // Cierre / llamada a la acción
   z.object({ type: z.literal("outro"), ...base, emoji: z.string().optional(), text: z.string(), cta: z.string().optional() }),
@@ -57,6 +57,7 @@ export const themeSchema = z.object({
 export const reelSchema = z.object({
   title: z.string(),
   lang: z.enum(["es", "en"]).default("es").describe("es = español de España, en = inglés"),
+  longForm: z.boolean().default(false).describe("permite pasar de 60 s (p. ej. resúmenes de presentaciones)"),
   handle: z.string().optional().describe("@usuario que aparece abajo"),
   theme: themeSchema.default({}),
   fps: z.union([z.literal(30), z.literal(60)]).default(60),

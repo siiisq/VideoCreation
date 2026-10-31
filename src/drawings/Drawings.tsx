@@ -6,6 +6,8 @@ import { body, display } from "../fonts";
 import { Theme } from "../schema";
 import { Bean, COFFEE, Counter, Cup, Defs, Label, Molecule, WATER } from "./parts";
 import { Mascot, Mood } from "./Mascot";
+import { Bot } from "./Bot";
+import { Code, Factories, Queries, Speed, Users } from "./Wrapup";
 
 type D = Record<string, unknown>;
 type DP = { data: D; theme: Theme };
@@ -179,6 +181,11 @@ const Americano: React.FC<DP> = ({ data, theme }) => {
   );
 };
 
+/** Robot grande solo, con bocadillo. */
+const BotOnly: React.FC<DP> = ({ data, theme }) => (
+  <Bot x={500} y={430} size={210} mood={(str(data, "mood", "happy") as Mood)} say={str(data, "say") || undefined} accent={theme.accent} />
+);
+
 /** Mascota grande sola, con bocadillo. */
 const MascotOnly: React.FC<DP> = ({ data, theme }) => (
   <>
@@ -203,7 +210,9 @@ const Energy: React.FC<DP> = ({ data, theme }) => {
     <>
       <Defs />
       {bolts}
-      <Mascot x={500} y={430} size={190} mood={(str(data, "mood", "surprised") as Mood)} say={str(data, "say") || undefined} accent={theme.accent} />
+      {str(data, "character") === "bot"
+        ? <Bot x={500} y={400} size={170} mood={(str(data, "mood", "surprised") as Mood)} say={str(data, "say") || undefined} accent={theme.accent} />
+        : <Mascot x={500} y={430} size={190} mood={(str(data, "mood", "surprised") as Mood)} say={str(data, "say") || undefined} accent={theme.accent} />}
     </>
   );
 };
@@ -216,17 +225,25 @@ const registry: Record<string, React.FC<DP>> = {
   americano: Americano,
   mascot: MascotOnly,
   energy: Energy,
+  factories: Factories,
+  code: Code,
+  queries: Queries,
+  users: Users,
+  speed: Speed,
+  bot: BotOnly,
 };
 export const DRAWINGS = Object.keys(registry);
 
-export const Drawing: React.FC<{ name: string; data: D; theme: Theme; mascot?: { mood?: Mood; say?: string; side?: "left" | "right" } }> = ({ name, data, theme, mascot }) => {
+export const Drawing: React.FC<{ name: string; data: D; theme: Theme; mascot?: { mood?: Mood; say?: string; side?: "left" | "right"; character?: "bean" | "bot" } }> = ({ name, data, theme, mascot }) => {
   const t = useT();
   const C = registry[name];
   return (
     <svg viewBox="0 0 1000 820" style={{ width: "100%", overflow: "visible" }}>
       <Defs />
       {C ? <C data={data} theme={theme} /> : <text x={500} y={400} textAnchor="middle" fill="red" fontSize={40}>{t.unknown}: {name}</text>}
-      {mascot && <Mascot x={mascot.side === "left" ? 120 : 880} y={150} size={90} mood={mascot.mood} say={mascot.say} delay={25} accent={theme.accent} flip={mascot.side !== "left"} />}
+      {mascot && (mascot.character === "bot"
+        ? <Bot x={mascot.side === "left" ? 120 : 880} y={130} size={80} mood={mascot.mood} say={mascot.say} delay={25} accent={theme.accent} flip={mascot.side !== "left"} />
+        : <Mascot x={mascot.side === "left" ? 120 : 880} y={150} size={90} mood={mascot.mood} say={mascot.say} delay={25} accent={theme.accent} flip={mascot.side !== "left"} />)}
     </svg>
   );
 };

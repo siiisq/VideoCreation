@@ -123,7 +123,7 @@ export const Label: React.FC<{ x: number; y: number; text: string; color: string
 };
 
 /** Contador numérico SVG. */
-export const Counter: React.FC<{ x: number; y: number; to: number; suffix?: string; prefix?: string; color: string; size?: number; delay?: number; dur?: number; font: string }> = ({ x, y, to, suffix = "", prefix = "", color, size = 90, delay = 0, dur = 40, font }) => {
+export const Counter: React.FC<{ x: number; y: number; to: number; suffix?: string; prefix?: string; color: string; size?: number; delay?: number; dur?: number; font: string; decimals?: number }> = ({ x, y, to, suffix = "", prefix = "", color, size = 90, delay = 0, dur = 40, font, decimals = 0 }) => {
   const frame = useFrame();
   const p = interpolate(frame, [delay, delay + dur], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const eased = 1 - Math.pow(1 - p, 3);
@@ -131,7 +131,7 @@ export const Counter: React.FC<{ x: number; y: number; to: number; suffix?: stri
   const pop = spring({ frame: frame - delay - dur, fps, config: { damping: 6 } });
   return (
     <text x={x} y={y} textAnchor="middle" fontFamily={font} fontWeight={900} fontSize={size} fill={color} opacity={p > 0 ? 1 : 0} transform={`translate(${x} ${y}) scale(${0.9 + 0.1 * pop}) translate(${-x} ${-y})`} style={{ filter: `drop-shadow(0 0 18px ${color}88)` }}>
-      {prefix}{Math.round(to * eased)}{suffix}
+      {prefix}{(to * eased).toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}{suffix}
     </text>
   );
 };

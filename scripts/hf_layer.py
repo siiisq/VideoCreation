@@ -46,7 +46,8 @@ def main(props_path):
         for k, w in enumerate(words):
             cur.append(k)
             if len(cur) >= 4 or re.search(r"[.,:;!?]$", w) or k == len(words) - 1:
-                chunks.append({"words": [words[j] for j in cur], "t": [times[j] for j in cur], "end": ends[cur[-1]]})
+                chunks.append({"words": [words[j] for j in cur], "t": [times[j] for j in cur], "end": ends[cur[-1]],
+                               "high": i == len(scenes) - 1})  # en el cierre, por encima de la tarjeta de seguir
                 cur = []
         # partículas en las palabras destacadas de la escena
         keys = {norm(h) for h in s.get("highlight", []) if len(norm(h)) > 2}
@@ -83,6 +84,7 @@ def main(props_path):
   .cap {{ position: absolute; left: 70px; right: 70px; top: 1450px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 14px; opacity: 0; }}
   .cap span {{ font-weight: 900; font-size: 62px; line-height: 1.15; text-transform: uppercase; padding: 4px 20px; border-radius: 40px; color: {T['text']};
               text-shadow: 0 4px 18px rgba(0,0,0,.55); background: rgba(0,0,0,0); opacity: 0; }}
+  .cap.high {{ top: 1230px; }}
   .p {{ position: absolute; left: 540px; top: 1420px; border-radius: 50%; opacity: 0; }}
   .grid {{ position: absolute; inset: 0; display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(16, 1fr); }}
   .grid div {{ transform: scale(0); }}
@@ -106,7 +108,7 @@ def main(props_path):
   // subtítulos karaoke
   const caps = document.getElementById("caps");
   D.chunks.forEach((c, ci) => {{
-    const box = document.createElement("div"); box.className = "cap";
+    const box = document.createElement("div"); box.className = c.high ? "cap high" : "cap";
     c.words.forEach((w) => {{ const s = document.createElement("span"); s.textContent = w; box.appendChild(s); }});
     caps.appendChild(box);
     const spans = box.querySelectorAll("span");

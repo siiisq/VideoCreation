@@ -185,7 +185,7 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
   const nerveA = prog(shot, 0, t, at(1, 3.2) - 6, 24);
   const wrA = prog(shot, 0, t, at(1, 3.2), 50, Easing.out(Easing.cubic));
   const closeS = sp(6, 30, 9);
-  const fA = 0.3 + 0.7 * focus(shot, t, [0, 6]);
+  const fA = shot === 0 ? 1 : 0.3 + 0.7 * focus(shot, t, [0, 6]); // el gancho se ve entero desde el fotograma 1
 
   // ---------- B · mito ----------
   const soak = prog(shot, 1, t, 10, 70);
@@ -248,8 +248,8 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
         </g>
         {/* gancho escrito, visible desde el primer fotograma (mucha gente ve sin sonido); vuelve en el cierre (bucle) */}
         <g opacity={shot === 0 || shot >= 6 ? 1 : 0.4}>
-          <text x={540} y={540} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={66} fill={INK}>{tr.dHook1}</text>
-          <text x={540} y={620} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={66} fill={GOLD}>{tr.dHook2}</text>
+          <text x={540} y={540} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={66} stroke="#0b0c0f" strokeWidth={14} strokeLinejoin="round" paintOrder="stroke" fill={INK}>{tr.dHook1}</text>
+          <text x={540} y={620} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={66} stroke="#0b0c0f" strokeWidth={14} strokeLinejoin="round" paintOrder="stroke" fill={GOLD}>{tr.dHook2}</text>
         </g>
         {/* cierre: neumáticos de serie */}
         {shot >= 6 && (
@@ -262,7 +262,7 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
 
       {/* ================= B · MITO: la piel no es una esponja ================= */}
       <g opacity={fB}>
-        <text x={540} y={1960} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={38} letterSpacing={4} fill={MUTED} opacity={shot >= 6 ? 0 : 1}>{tr.dSponge}</text>
+        <text x={540} y={1960} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={38} letterSpacing={4} fill={MUTED} opacity={shot === 0 || shot >= 6 ? 0 : 1}>{tr.dSponge}</text>
         <Finger id="b" x={540} tip={2860} len={880} wr={0} g={g} sponge={sp(1, 4)} sx={1 + 0.1 * soak} />
         {Array.from({ length: 10 }, (_, i) => {
           const born = 10 + i * 7;

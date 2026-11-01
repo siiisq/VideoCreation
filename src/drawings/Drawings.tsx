@@ -10,6 +10,7 @@ import { Bot } from "./Bot";
 import { Code, Factories, Queries, Speed, Users } from "./Wrapup";
 import { GasEye, OnionCells, OnionCry, OnionMascot, OnionTips } from "./OnionScenes";
 import { BrainTabs, GoalMoves, ReleaseFeed, Treadmill } from "./Fomo";
+import { BracketBar, InflationScale, PiggyLeak, TaxJars, TaxRace } from "./Taxes";
 
 type D = Record<string, unknown>;
 type DP = { data: D; theme: Theme };
@@ -242,6 +243,11 @@ const registry: Record<string, React.FC<DP>> = {
   "release-feed": ReleaseFeed,
   "goal-moves": GoalMoves,
   "brain-tabs": BrainTabs,
+  "piggy-leak": PiggyLeak,
+  "inflation-scale": InflationScale,
+  "tax-jars": TaxJars,
+  "bracket-bar": BracketBar,
+  "tax-race": TaxRace,
 };
 export const DRAWINGS = Object.keys(registry);
 

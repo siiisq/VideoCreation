@@ -1,0 +1,87 @@
+{
+  "title": "Me suben el sueldo y no noto nada: inflación y tramos del IRPF",
+  "lang": "es",
+  "handle": "@less_thanaminute",
+  "theme": {
+    "bg1": "#0b1a14",
+    "bg2": "#173a2c",
+    "accent": "#3ddc84",
+    "accent2": "#ff5a5f",
+    "text": "#f2fbf6"
+  },
+  "scenes": [
+    {
+      "type": "drawing",
+      "duration": 5,
+      "drawing": "piggy-leak",
+      "bigTitle": true,
+      "title": "Te suben el SUELDO y no notas nada",
+      "highlight": ["SUELDO"],
+      "hookTitle": { "top": "Te suben el", "main": "SUELDO", "bottom": "y no notas nada", "emphasis": "nada" },
+      "voice": "¿Te suben el sueldo y no notas nada? No es tu imaginación. Que no te engañen."
+    },
+    {
+      "type": "drawing",
+      "duration": 7,
+      "drawing": "inflation-scale",
+      "title": "Primero, la inflación",
+      "text": "Si sueldo y precios suben lo mismo, compras lo mismo.",
+      "highlight": ["inflación"],
+      "voice": "Primero, la inflación. Si tu sueldo sube un cinco por ciento y la compra también, no ganas nada: compras lo mismo."
+    },
+    {
+      "type": "drawing",
+      "duration": 8,
+      "drawing": "tax-jars",
+      "title": "Mito: subir de tramo",
+      "text": "Solo la parte que entra en el tramo nuevo paga más.",
+      "highlight": ["Mito:"],
+      "voice": "Y un mito: subir de tramo no te hace cobrar menos. Solo la parte nueva del sueldo paga el porcentaje más alto."
+    },
+    {
+      "type": "drawing",
+      "duration": 7,
+      "drawing": "bracket-bar",
+      "data": { "mode": "frozen" },
+      "title": "La trampa: tramos congelados",
+      "text": "Los precios suben. Los tramos, no.",
+      "highlight": ["congelados"],
+      "voice": "La trampa de verdad: la escala estatal del IRPF no se actualiza con los precios desde dos mil quince."
+    },
+    {
+      "type": "drawing",
+      "duration": 11,
+      "drawing": "tax-race",
+      "title": "Ejemplo: 30.000 € brutos",
+      "text": "Ejemplo simplificado: escala general y mínimo personal.",
+      "highlight": ["30.000"],
+      "voice": "Ejemplo: cobras treinta mil euros y te suben un dieciséis por ciento, lo mismo que los precios de dos mil veintiuno a dos mil veintitrés. Tu IRPF sube un veinticuatro."
+    },
+    {
+      "type": "stat",
+      "duration": 6,
+      "prefix": "−",
+      "value": 398,
+      "suffix": " €",
+      "label": "de poder adquisitivo al año: progresividad en frío",
+      "voice": "Resultado: casi cuatrocientos euros menos al año de poder adquisitivo. Lo llaman progresividad en frío."
+    },
+    {
+      "type": "drawing",
+      "duration": 7,
+      "drawing": "bracket-bar",
+      "data": { "mode": "deflate" },
+      "title": "La solución: deflactar",
+      "text": "Subir los tramos al ritmo de los precios.",
+      "highlight": ["deflactar"],
+      "voice": "La solución: deflactar, subir los tramos al ritmo de los precios. Varias comunidades lo han hecho en su parte; el Estado, no."
+    },
+    {
+      "type": "outro",
+      "duration": 5,
+      "text": "Mira lo que puedes comprar, no tu bruto",
+      "cta": "Sígueme para más",
+      "voice": "Mira lo que puedes comprar, no tu bruto. Sígueme para más."
+    }
+  ]
+}

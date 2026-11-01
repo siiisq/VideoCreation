@@ -4,6 +4,7 @@ import { Reel, transitionFrames } from "./Reel";
 import { Reel as ReelT, reelSchema } from "./schema";
 import { Presentation, presentationDuration } from "./presentation/Presentation";
 import { FORMATS, Presentation as PresT, presentationSchema } from "./presentation/schema";
+import { Hipoteca3D } from "./three/Hipoteca3D";
 import ejemplo from "../videos/cafe-aguado-cafeina.json";
 import ejemploPres from "../videos/ejemplo-presentacion.slides.json";
 
@@ -26,6 +27,7 @@ export const RemotionRoot: React.FC = () => {
   return (
     <>
       <Composition id="Reel" component={Reel} schema={reelSchema} width={1080} height={1920} fps={60} durationInFrames={3600} defaultProps={reelProps} calculateMetadata={reelMeta} />
+      <Composition id="Hipoteca3D" component={Hipoteca3D} width={1080} height={1920} fps={30} durationInFrames={150} />
       <Composition id="Presentation" component={Presentation} schema={presentationSchema} width={1920} height={1080} fps={30} durationInFrames={900} defaultProps={presProps} calculateMetadata={presMeta} />
     </>
   );

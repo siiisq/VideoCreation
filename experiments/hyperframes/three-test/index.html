@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="assets/gsap.min.js"></script>
+<script type="importmap">{ "imports": { "three": "./assets/three.module.js" } }</script>
+<style>
+  @font-face { font-family: "Montserrat"; src: url("assets/fonts/montserrat-latin.woff2") format("woff2"); font-weight: 700 900; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0b0c0f; }
+  #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Montserrat", sans-serif; }
+  #gl { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+  #marker { position: absolute; top: 470px; left: 50%; transform: translateX(-50%); padding: 22px 46px; border-radius: 30px; text-align: center;
+            background: rgba(20,22,27,.85); border: 4px solid #f2b84b; }
+  #label { font-weight: 900; font-size: 34px; letter-spacing: 4px; color: #ffe2a3; }
+  #amount { font-weight: 900; font-size: 100px; color: #e9ecf1; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-fps="30">
+  <canvas id="gl" width="1080" height="1920"></canvas>
+  <div id="marker"><div id="label">PIDES</div><div id="amount">200.000 €</div></div>
+</div>
+<script type="module">
+  import * as THREE from "three";
+  import { RoomEnvironment } from "./assets/RoomEnvironment.js";
+  // Prueba: la misma escena del gancho de la hipoteca, en Three.js puro dentro de HyperFrames.
+  // GSAP lleva el tiempo (HyperFrames hace "seek" fotograma a fotograma) y en cada actualización se renderiza.
+  const r = new THREE.WebGLRenderer({ canvas: document.getElementById("gl"), antialias: true, preserveDrawingBuffer: true });
+  r.setPixelRatio(1); r.setSize(1080, 1920, false);
+  r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap; r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 0.9;
+  const scene = new THREE.Scene(); scene.background = new THREE.Color("#0b0c0f"); scene.fog = new THREE.Fog("#0b0c0f", 14, 30);
+  const pm = new THREE.PMREMGenerator(r); scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture; scene.environmentIntensity = 0.45;
+  const cam = new THREE.PerspectiveCamera(40, 1080 / 1920, 0.1, 80);
+  const tex = (draw, rep) => { const c = document.createElement("canvas"); c.width = c.height = 256; draw(c.getContext("2d")); const t = new THREE.CanvasTexture(c);
+    t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(...rep); t.colorSpace = THREE.SRGBColorSpace; return t; };
+  const noise = (c, a) => { let s = 7; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647; for (let i = 0; i < 1300; i++) { c.fillStyle = `rgba(0,0,0,${rnd() * a})`; c.fillRect(rnd() * 256, rnd() * 256, 2, 2); } };
+  // suelo
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(60, 60), new THREE.MeshStandardMaterial({ roughness: 0.42, metalness: 0.2, map: tex((c) => {
+    c.fillStyle = "#121418"; c.fillRect(0, 0, 256, 256); c.strokeStyle = "rgba(255,255,255,0.06)"; c.lineWidth = 2;
+    for (let i = 0; i <= 256; i += 64) { c.beginPath(); c.moveTo(i, 0); c.lineTo(i, 256); c.moveTo(0, i); c.lineTo(256, i); c.stroke(); } noise(c, 0.2); }, [16, 16]) }));
+  floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
+  // casa
+  const house = new THREE.Group(); house.position.set(-1.1, 0, -0.4); house.scale.setScalar(0.85); scene.add(house);
+  const wall = new THREE.MeshStandardMaterial({ roughness: 0.9, map: tex((c) => { for (let y = 0; y < 256; y += 32) { const g = c.createLinearGradient(0, y, 0, y + 32); g.addColorStop(0, "#e4d1b0"); g.addColorStop(1, "#bfa67f"); c.fillStyle = g; c.fillRect(0, y, 256, 30); } noise(c, 0.12); }, [2, 2]) });
+  const roofM = new THREE.MeshStandardMaterial({ roughness: 0.6, map: tex((c) => { c.fillStyle = "#4a1810"; c.fillRect(0, 0, 256, 256);
+    for (let row = 0; row < 8; row++) for (let col = -1; col < 9; col++) { const x = col * 32 + (row % 2) * 16, y = row * 32; const g = c.createRadialGradient(x + 12, y + 8, 2, x + 16, y + 16, 22);
+      g.addColorStop(0, "#a8442f"); g.addColorStop(1, "#5e2016"); c.fillStyle = g; c.beginPath(); c.roundRect(x + 1, y + 1, 30, 30, [0, 0, 14, 14]); c.fill(); } noise(c, 0.15); }, [3, 2]) });
+  const body = new THREE.Mesh(new THREE.BoxGeometry(3.2, 2.2, 2.6), wall); body.position.y = 1.1; body.castShadow = body.receiveShadow = true; house.add(body);
+  const sh = new THREE.Shape(); sh.moveTo(-1.75, 0); sh.lineTo(0, 1.35); sh.lineTo(1.75, 0); sh.lineTo(-1.75, 0);
+  const rg = new THREE.ExtrudeGeometry(sh, { depth: 3, bevelEnabled: true, bevelSize: 0.04, bevelThickness: 0.04, bevelSegments: 2 }); rg.translate(0, 0, -1.5);
+  const roof = new THREE.Mesh(rg, roofM); roof.position.y = 2.2; roof.castShadow = true; house.add(roof);
+  const chim = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.8, 0.35), roofM); chim.position.set(0.8, 3.1, -0.4); chim.castShadow = true; house.add(chim);
+  const winM = new THREE.MeshStandardMaterial({ color: "#ffcf73", emissive: "#ffb347", emissiveIntensity: 2.2 });
+  for (const x of [-0.8, 0.8]) { const w = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 0.7), winM); w.position.set(x, 1.35, 1.31); house.add(w);
+    const f1 = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.72, 0.02), new THREE.MeshStandardMaterial({ color: "#5a4128" })); f1.position.set(x, 1.35, 1.32); house.add(f1);
+    const f2 = f1.clone(); f2.scale.set(12, 1 / 12, 1); house.add(f2); }
+  const door = new THREE.Mesh(new THREE.PlaneGeometry(0.6, 1.1), new THREE.MeshStandardMaterial({ color: "#5a3a22", roughness: 0.6 })); door.position.set(0, 0.55, 1.31); house.add(door);
+  const warm = new THREE.PointLight("#ffb347", 6, 6); warm.position.set(0, 1.4, 2.2); house.add(warm);
+  // luces
+  const key = new THREE.DirectionalLight("#ffffff", 2.2); key.position.set(5, 9, 6); key.castShadow = true; key.shadow.mapSize.set(2048, 2048); key.shadow.bias = -0.0004;
+  Object.assign(key.shadow.camera, { left: -8, right: 8, top: 8, bottom: -8 }); scene.add(key);
+  const rim = new THREE.DirectionalLight("#7fa8ff", 1.4); rim.position.set(-6, 5, -8); scene.add(rim);
+  // monedas (perfil de torno con canto)
+  const coinGeo = new THREE.LatheGeometry([[0, 0], [0.42, 0], [0.5, 0.01], [0.5, 0.11], [0.42, 0.12], [0.4, 0.105], [0, 0.105]].map(([x, y]) => new THREE.Vector2(x, y)), 72);
+  const stack = (x, z, n, start, color) => { const m = new THREE.MeshPhysicalMaterial({ color, metalness: 1, roughness: 0.22, clearcoat: 0.6, clearcoatRoughness: 0.15 });
+    return Array.from({ length: n }, (_, i) => { const c = new THREE.Mesh(coinGeo, m); c.castShadow = c.receiveShadow = true; c.position.set(x + Math.sin(i * 1.7) * 0.025, -10, z + Math.cos(i * 2.3) * 0.025); c.rotation.y = i * 0.7; scene.add(c); return { c, i, start }; }); };
+  const coins = [...stack(1.25, 1.0, 20, 10 / 30, "#f2b84b"), ...stack(2.3, 0.7, 10, 78 / 30, "#ff4d4f")];
+  const back = (p) => { const s = 1.70158; return 1 + (s + 1) * Math.pow(p - 1, 3) + s * Math.pow(p - 1, 2); };
+  const amountEl = document.getElementById("amount"), labelEl = document.getElementById("label"), marker = document.getElementById("marker");
+  const fmt = (v) => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
+  const state = { t: 0 };
+  function draw() {
+    const t = state.t; // segundos
+    const p = gsap.parseEase("power2.inOut")(Math.min(1, t / 5));
+    const ang = -0.5 + p * 0.45, rr = 21 - p * 5;
+    cam.position.set(Math.sin(ang) * rr + 0.3, 8 - p * 4, Math.cos(ang) * rr); cam.lookAt(0.3, 2.9 - p * 0.3, 0);
+    for (const { c, i, start } of coins) { const q = Math.min(1, Math.max(0, (t - start - i * 0.073) / 0.35)); c.position.y = q <= 0 ? -10 : i * 0.118 + (1 - back(q)) * 3; }
+    warm.intensity = 6 * (1 + Math.sin(t * 4.3) * 0.05);
+    const owe = Math.min(1, Math.max(0, (t - 70 / 30) / 1.5)); const red = owe > 0.02;
+    amountEl.textContent = fmt(200000 + 103555 * gsap.parseEase("power2.inOut")(owe));
+    amountEl.style.color = red ? "#ff4d4f" : "#e9ecf1"; labelEl.textContent = red ? "DEVUELVES" : "PIDES"; labelEl.style.color = red ? "#ff4d4f" : "#ffe2a3";
+    marker.style.borderColor = red ? "#ff4d4f" : "#f2b84b"; marker.style.boxShadow = red ? "0 0 80px rgba(255,77,79,.45)" : "0 0 40px rgba(242,184,75,.25)";
+    r.render(scene, cam);
+  }
+  const tl = gsap.timeline({ paused: true });
+  tl.to(state, { t: 5, duration: 5, ease: "none", onUpdate: draw }, 0);
+  tl.fromTo("#marker", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 0.2);
+  window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl;
+  tl.seek(0); draw();
+</script>
+</body>
+</html>

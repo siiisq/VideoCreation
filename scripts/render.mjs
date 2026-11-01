@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Uso: npm run render -- videos/mi-video.json          →  out/mi-video.mp4  (reel)
+// Uso: npm run render -- videos/mi-video.json [nombre] →  out/mi-video.mp4  (reel)
 //      npm run render -- videos/charla.slides.json     →  out/charla.mp4    (presentación)
 import { spawnSync } from "node:child_process";
 import { existsSync, globSync, mkdirSync, readFileSync, renameSync } from "node:fs";
@@ -10,7 +10,7 @@ if (!file || !existsSync(file)) {
   console.error("Uso: npm run render -- videos/<nombre>.json");
   process.exit(1);
 }
-const name = path.basename(file, ".json").replace(/\.slides$/, "");
+const name = process.argv[3] ?? path.basename(file, ".json").replace(/\.slides$/, "");
 mkdirSync("out", { recursive: true });
 const out = `out/${name}.mp4`;
 

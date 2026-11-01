@@ -20,9 +20,15 @@ El usuario pide un tema y Claude produce el vídeo.
      pantalla, tono cercano, frases cortas). Escribe los números y símbolos con letras ("sesenta y tres miligramos",
      no "63 mg") para que la voz los lea bien. Ritmo ≈ 2,8 palabras/s; el total no debe pasar de 60 s
      (`scripts/tts.py` alarga las escenas para que quepa la voz y avisa si te pasas).
-2. **Render**: `npm run render -- videos/<slug>.json` → `out/<slug>.mp4` (~3-5 min a 60 fps; lanzar en background).
-3. **Revisión**: extrae una tira de fotogramas con ffmpeg y míralos antes de entregar
-   (`ffmpeg -i out/x.mp4 -vf "fps=1/6,scale=270:480,tile=10x1" -frames:v 1 contact.png`). Corrige textos que desborden.
+   - La escena 0 debe ser un `drawing` con `bigTitle: true` y `title` con 1–2 palabras en `highlight`: la capa de
+     HyperFrames convierte ese título en el gancho animado (antes del destacado → letras que explotan; destacado →
+     cae de golpe; después → rotulador con círculo en la última palabra). Para controlarlo: `"hookTitle":
+     {"top": "...", "main": "...", "bottom": "...", "emphasis": "..."}` en la escena 0.
+2. **Render (UN SOLO COMANDO, estilo aprobado)**: `npm run reel -- videos/<slug>.json` → `out/<slug>.mp4`
+   (lanzar en background, ~12 min). Hace: voz → capa HyperFrames sincronizada → render → controles (duración,
+   volumen, maquetación de la capa, tira `out/<slug>.contact.png`). Si no hay clave de voz, PARA (no usa Kokoro).
+   `--classic` = sin capa. `npm run render` sigue existiendo para renders sueltos.
+3. **Revisión**: mira `out/<slug>.contact.png` (y capturas sueltas si algo es dudoso) antes de entregar.
 4. **Entrega**: envía el MP4 al usuario (SendUserFile) y haz commit del JSON (los MP4 en `out/` no se versionan).
 
 ## Vídeos a partir de presentaciones (sin límite de duración)
@@ -56,10 +62,11 @@ Composición en `src/presentation/` (schema.ts + Presentation.tsx). Demo: `video
 ## Estilo combinado: ilustraciones + capa de HyperFrames (preferencia del usuario)
 El usuario veía sus reels "mucho menos animados que el resto". La fórmula aprobada es **combinar**:
 ilustraciones de calidad (Remotion, escenas `drawing`) + una **capa de motion graphics de HyperFrames** encima de
-todo el reel, sincronizada con la voz. Flujo tras generar la voz (`scripts/tts.py`):
+todo el reel, sincronizada con la voz. `npm run reel` lo hace todo; detalle de lo que ocurre por dentro:
 1. `python3 scripts/hf_layer.py out/<slug>.props.json` → genera `experiments/hyperframes/layers/<slug>/` con
    subtítulos karaoke de la narración, explosiones de partículas en las palabras de `highlight`, transición de
-   rejilla en cada corte, destello en el gancho y tarjeta de "Seguir" al final.
+   rejilla en cada corte, título animado del gancho, destello y tarjeta de "Seguir" al final (los subtítulos del
+   cierre van más arriba para no pisar la tarjeta).
 2. Revisar con `npx hyperframes snapshot` y renderizar a `public/overlays/<slug>-layer.webm` (WebM con alfa).
 3. En el guion: `"overlay": "overlays/<slug>-layer.webm"`, `"captions": true` (oculta los textos de apoyo para no
    duplicar), `"hideHandleAtEnd": true`, `"hideCtaAtEnd": true`. Render normal con `npm run render`.

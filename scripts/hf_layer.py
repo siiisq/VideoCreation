@@ -55,20 +55,62 @@ def main(props_path):
             if norm(w) in keys:
                 bursts.append(times[k]); keys.discard(norm(w))
 
+    # título animado del gancho (escena 0): arriba (letras que explotan), principal (cae de golpe), abajo (rotulador)
+    hook = None
+    s0 = scenes[0]
+    title = (s0.get("title") or s0.get("text") or "").strip()
+    if title:
+        ht = s0.get("hookTitle") or {}
+        ws = title.split()
+        hl = {norm(h) for h in s0.get("highlight", [])}
+        idx = [k for k, w in enumerate(ws) if norm(w) in hl]
+        if ht.get("main"):
+            top, main, bottom = ht.get("top", ""), ht["main"], ht.get("bottom", "")
+        elif idx:
+            a, b = idx[0], idx[-1]
+            top, main, bottom = " ".join(ws[:a]), " ".join(ws[a:b + 1]), " ".join(ws[b + 1:])
+        else:
+            n = len(ws)
+            top, main, bottom = " ".join(ws[: n // 3]), " ".join(ws[n // 3: 2 * n // 3]), " ".join(ws[2 * n // 3:])
+        emph = ht.get("emphasis") or (re.sub(r"[^\wÁÉÍÓÚÜÑáéíóúüñ]", "", bottom.split()[-1]) if bottom else "")
+        hook = {"top": top.upper(), "main": main.upper(), "bottom": bottom.upper(), "emphasis": emph.upper(),
+                "size": round(min(17.0, 130.0 / max(1, len(main))), 2), "accentIndex": max(0, len(main.split()) - 1),
+                "dur": round(s0["duration"] + 0.6, 2)}
+
     data = {"total": total, "cuts": starts[1:], "chunks": chunks, "bursts": bursts,
-            "outro": starts[-1], "theme": theme, "flash": 0.62}
+            "outro": starts[-1], "theme": theme, "flash": 0.62, "hook": hook}
 
     out = os.path.join(ROOT, "experiments", "hyperframes", "layers", slug)
     shutil.rmtree(out, ignore_errors=True)
     os.makedirs(os.path.join(out, "compositions"))
     shutil.copytree(os.path.join(TEMPLATE, "assets"), os.path.join(out, "assets"), ignore=shutil.ignore_patterns("lofi.mp3", "*.jpg"))
     shutil.copy(os.path.join(TEMPLATE, "compositions", "instagram-follow.html"), os.path.join(out, "compositions"))
+    if hook:
+        os.makedirs(os.path.join(out, "compositions", "components"))
+        for comp in ("char-slam-explode", "headline-slam", "marker-highlight"):
+            src = open(os.path.join(TEMPLATE, "compositions", "components", comp + ".html"), encoding="utf-8").read()
+            # los componentes traen una duración interna fija: la igualamos a la del gancho (si no, el título desaparece)
+            d = str(hook["dur"])
+            src = re.sub(r'data-composition-duration="[\d.]+"', f'data-composition-duration="{d}"', src)
+            src = re.sub(r'data-duration="[\d.]+"', f'data-duration="{d}"', src)
+            src = re.sub(r'root\.dataset\.duration \|\| "[\d.]+"', f'root.dataset.duration || "{d}"', src)
+            open(os.path.join(out, "compositions", "components", comp + ".html"), "w", encoding="utf-8").write(src)
     for f in ("hyperframes.json", "meta.json", "package.json"):
         shutil.copy(os.path.join(TEMPLATE, f), out)
     nm = os.path.join(out, "node_modules")
     if not os.path.exists(nm):
-        os.symlink(os.path.join(ROOT, "experiments", "hyperframes", "hook-test", "node_modules"), nm)
+        os.symlink(os.path.join(ROOT, "experiments", "hyperframes", "node_modules"), nm)
     T = theme
+    hook_html = ""
+    if hook:
+        def vv(o):
+            return json.dumps(o, ensure_ascii=False).replace("'", "&#39;")
+        d = hook["dur"]
+        if hook["top"]:
+            hook_html += f"""  <div class="slot" id="hook-top" style="top:200px;height:400px" data-composition-id="hk1" data-composition-src="compositions/components/char-slam-explode.html" data-start="0" data-duration="{d}" data-track-index="1" data-variable-values='{vv({"text": hook["top"], "accent": "violet", "spread": "wild"})}'></div>\n"""
+        hook_html += f"""  <div class="slot" id="hook-main" style="top:350px;height:380px;--hs-font-size:{hook['size']}cqw" data-composition-id="hk2" data-composition-src="compositions/components/headline-slam.html" data-start="0.55" data-duration="{round(d - 0.55, 2)}" data-track-index="2" data-variable-values='{vv({"text": hook["main"], "accent_word_index": hook["accentIndex"], "accent": "blue"})}'></div>\n"""
+        if hook["bottom"]:
+            hook_html += f"""  <div class="slot" id="hook-bottom" style="top:420px;height:560px" data-composition-id="hk3" data-composition-src="compositions/components/marker-highlight.html" data-start="1.1" data-duration="{round(d - 1.1, 2)}" data-track-index="3" data-variable-values='{vv({"text": hook["bottom"], "emphasis_word": hook["emphasis"], "style": "circle", "draw_at": 0.7, "accent": "violet"})}'></div>\n"""
     html = f"""<!doctype html>
 <html lang="es" data-resolution="portrait">
 <head>
@@ -80,6 +122,8 @@ def main(props_path):
   @font-face {{ font-family: "Montserrat"; src: url("assets/fonts/montserrat-latin-ext.woff2") format("woff2"); font-weight: 700 900; unicode-range: U+0100-024F; }}
   * {{ margin: 0; padding: 0; box-sizing: border-box; }}
   html, body {{ width: 1080px; height: 1920px; overflow: hidden; background: transparent; }}
+  #root {{ --fg: {T['text']}; --bg: transparent; --accent: {T['accent']}; --accent-2: {T['accent2']}; --font-display: "Montserrat", sans-serif; }}
+  .slot {{ position: absolute; left: 0; width: 1080px; }}
   #root[data-composition-id="layer"] {{ position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Montserrat", sans-serif; }}
   .cap {{ position: absolute; left: 70px; right: 70px; top: 1450px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 14px; opacity: 0; }}
   .cap span {{ font-weight: 900; font-size: 62px; line-height: 1.15; text-transform: uppercase; padding: 4px 20px; border-radius: 40px; color: {T['text']};
@@ -93,6 +137,7 @@ def main(props_path):
 </head>
 <body>
 <div id="root" data-composition-id="layer" data-start="0" data-duration="{total}" data-width="1080" data-height="1920" data-fps="60">
+{hook_html}
   <div id="caps"></div>
   <div id="parts"></div>
   <div class="grid" id="grid"></div>

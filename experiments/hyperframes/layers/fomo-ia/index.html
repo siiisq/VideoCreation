@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="assets/gsap.min.js"></script>
+<style>
+  @font-face { font-family: "Montserrat"; src: url("assets/fonts/montserrat-latin.woff2") format("woff2"); font-weight: 700 900; unicode-range: U+0000-00FF, U+2000-206F; }
+  @font-face { font-family: "Montserrat"; src: url("assets/fonts/montserrat-latin-ext.woff2") format("woff2"); font-weight: 700 900; unicode-range: U+0100-024F; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+  #root { --fg: #f4f7ff; --bg: transparent; --accent: #ff6b4a; --accent-2: #5ee6ff; --font-display: "Montserrat", sans-serif; }
+  .slot { position: absolute; left: 0; width: 1080px; }
+  #root[data-composition-id="layer"] { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Montserrat", sans-serif; }
+  .cap { position: absolute; left: 70px; right: 70px; top: 1450px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 14px; opacity: 0; }
+  .cap span { font-weight: 900; font-size: 62px; line-height: 1.15; text-transform: uppercase; padding: 4px 20px; border-radius: 40px; color: #f4f7ff;
+              text-shadow: 0 4px 18px rgba(0,0,0,.55); background: rgba(0,0,0,0); opacity: 0; }
+  .cap.high { top: 1230px; }
+  .p { position: absolute; left: 540px; top: 1420px; border-radius: 50%; opacity: 0; }
+  .grid { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(16, 1fr); }
+  .grid div { transform: scale(0); }
+  .flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="layer" data-start="0" data-duration="54.8" data-width="1080" data-height="1920" data-fps="60">
+  <div class="slot" id="hook-top" style="top:200px;height:400px" data-composition-id="hk1" data-composition-src="compositions/components/char-slam-explode.html" data-start="0" data-duration="7.7" data-track-index="1" data-variable-values='{"text": "¿LA IA VA", "accent": "violet", "spread": "wild"}'></div>
+  <div class="slot" id="hook-main" style="top:350px;height:380px;--hs-font-size:13.0cqw" data-composition-id="hk2" data-composition-src="compositions/components/headline-slam.html" data-start="0.55" data-duration="7.15" data-track-index="2" data-variable-values='{"text": "MÁS RÁPIDO", "accent_word_index": 1, "accent": "blue"}'></div>
+  <div class="slot" id="hook-bottom" style="top:420px;height:560px" data-composition-id="hk3" data-composition-src="compositions/components/marker-highlight.html" data-start="1.1" data-duration="6.6" data-track-index="3" data-variable-values='{"text": "QUE TÚ?", "emphasis_word": "TÚ", "style": "circle", "draw_at": 0.7, "accent": "violet"}'></div>
+
+  <div id="caps"></div>
+  <div id="parts"></div>
+  <div class="grid" id="grid"></div>
+  <div class="flash" id="flash"></div>
+  <div id="follow" data-composition-id="instagram-follow" data-composition-src="compositions/instagram-follow.html" data-start="49.9" data-duration="4.9" data-track-index="5" data-width="1080" data-height="1920" style="position:absolute;inset:0"></div>
+</div>
+<script>
+  const D = {"total": 54.8, "cuts": [6.7, 15.5, 23.8, 31.9, 39.7, 49.3], "chunks": [{"words": ["¿Sientes", "que", "la", "IA"], "t": [0.3, 0.844, 1.086, 1.267], "end": 1.449, "high": false}, {"words": ["va", "más", "rápido", "que"], "t": [1.449, 1.63, 1.872, 2.295], "end": 2.537, "high": false}, {"words": ["tú?"], "t": [2.537], "end": 2.778, "high": false}, {"words": ["Aprendes", "una", "herramienta,"], "t": [2.778, 3.322, 3.564], "end": 4.35, "high": false}, {"words": ["y", "al", "día", "siguiente"], "t": [4.35, 4.471, 4.652, 4.894], "end": 5.498, "high": false}, {"words": ["ya", "hay", "otra", "mejor."], "t": [5.498, 5.68, 5.922, 6.224], "end": 6.647, "high": false}, {"words": ["Cada", "semana", "sale", "un"], "t": [7.0, 7.317, 7.76, 8.076], "end": 8.266, "high": false}, {"words": ["modelo", "nuevo,"], "t": [8.266, 8.709], "end": 9.152, "high": false}, {"words": ["una", "función", "nueva,"], "t": [9.152, 9.406, 9.912], "end": 10.355, "high": false}, {"words": ["un", "truco", "nuevo."], "t": [10.355, 10.545, 10.925], "end": 11.368, "high": false}, {"words": ["Y", "tu", "cerebro", "lo"], "t": [11.368, 11.495, 11.684, 12.191], "end": 12.381, "high": false}, {"words": ["vive", "como", "algo", "que"], "t": [12.381, 12.697, 13.014, 13.33], "end": 13.584, "high": false}, {"words": ["te", "pierdes:"], "t": [13.584, 13.773], "end": 14.343, "high": false}, {"words": ["eso", "es", "el", "FOMO."], "t": [14.343, 14.596, 14.786, 14.976], "end": 15.356, "high": false}, {"words": ["Aprender", "debería", "darte", "satisfacción."], "t": [15.8, 16.38, 16.895, 17.282], "end": 18.184, "high": false}, {"words": ["Pero", "si", "la", "meta"], "t": [18.184, 18.506, 18.699, 18.893], "end": 19.215, "high": false}, {"words": ["se", "mueve", "cada", "día,"], "t": [19.215, 19.408, 19.795, 20.117], "end": 20.439, "high": false}, {"words": ["nunca", "llegas,"], "t": [20.439, 20.826], "end": 21.341, "high": false}, {"words": ["y", "aprender", "se", "vuelve"], "t": [21.341, 21.47, 22.05, 22.243], "end": 22.694, "high": false}, {"words": ["una", "obligación."], "t": [22.694, 22.952], "end": 23.725, "high": false}, {"words": ["Demasiadas", "opciones", "agotan", "tu"], "t": [24.1, 24.792, 25.359, 25.799], "end": 25.988, "high": false}, {"words": ["capacidad", "de", "decidir."], "t": [25.988, 26.617, 26.806], "end": 27.372, "high": false}, {"words": ["Comparas", "sin", "parar,"], "t": [27.372, 27.939, 28.19], "end": 28.631, "high": false}, {"words": ["saltas", "de", "una", "a"], "t": [28.631, 29.071, 29.26, 29.512], "end": 29.638, "high": false}, {"words": ["otra,"], "t": [29.638], "end": 30.015, "high": false}, {"words": ["y", "no", "profundizas", "en"], "t": [30.015, 30.141, 30.33, 31.085], "end": 31.274, "high": false}, {"words": ["ninguna."], "t": [31.274], "end": 31.84, "high": false}, {"words": ["Y", "lo", "más", "traicionero:"], "t": [32.2, 32.322, 32.505, 32.75], "end": 33.544, "high": false}, {"words": ["explorar", "parece", "productivo."], "t": [33.544, 34.093, 34.521], "end": 35.254, "high": false}, {"words": ["Pero", "probar", "diez", "herramientas"], "t": [35.254, 35.559, 35.987, 36.292], "end": 37.086, "high": false}, {"words": ["no", "es", "lo", "mismo"], "t": [37.086, 37.269, 37.452, 37.636], "end": 38.002, "high": false}, {"words": ["que", "terminar", "un", "proyecto."], "t": [38.002, 38.246, 38.796, 38.979], "end": 39.59, "high": false}, {"words": ["¿Cómo", "salir", "de", "la"], "t": [40.0, 40.385, 40.769, 40.962], "end": 41.154, "high": false}, {"words": ["rueda?"], "t": [41.154], "end": 41.603, "high": false}, {"words": ["Aprende", "principios,"], "t": [41.603, 42.115], "end": 42.885, "high": false}, {"words": ["no", "herramientas."], "t": [42.885, 43.077], "end": 43.974, "high": false}, {"words": ["Aprende", "cuando", "lo", "necesites."], "t": [43.974, 44.487, 44.936, 45.128], "end": 45.833, "high": false}, {"words": ["Y", "termina", "lo", "que"], "t": [45.833, 45.961, 46.474, 46.667], "end": 46.923, "high": false}, {"words": ["empiezas."], "t": [46.923], "end": 47.564, "high": false}, {"words": ["¿Te", "pasa", "a", "ti"], "t": [49.6, 49.825, 50.107, 50.22], "end": 50.389, "high": true}, {"words": ["también?"], "t": [50.389], "end": 50.896, "high": true}, {"words": ["Cuéntamelo,"], "t": [50.896], "end": 51.572, "high": true}, {"words": ["y", "sígueme", "para", "más"], "t": [51.572, 51.684, 52.135, 52.417], "end": 52.642, "high": true}, {"words": ["ideas", "en", "menos", "de"], "t": [52.642, 52.98, 53.149, 53.487], "end": 53.656, "high": true}, {"words": ["un", "minuto."], "t": [53.656, 53.825], "end": 54.276, "high": true}], "bursts": [1.63, 1.872, 13.773, 22.952, 30.33], "outro": 49.3, "theme": {"bg1": "#0a1020", "accent": "#ff6b4a", "accent2": "#5ee6ff", "text": "#f4f7ff", "bg2": "#1d2b52"}, "flash": 0.62, "hook": {"top": "¿LA IA VA", "main": "MÁS RÁPIDO", "bottom": "QUE TÚ?", "emphasis": "TÚ", "size": 13.0, "accentIndex": 1, "dur": 7.7}};
+  const tl = gsap.timeline({ paused: true });
+  const A = D.theme.accent, A2 = D.theme.accent2, BG = D.theme.bg1;
+  // destello del gancho
+  tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.8, duration: 0.05 }, D.flash).to("#flash", { opacity: 0, duration: 0.35 }, D.flash + 0.05);
+  // subtítulos karaoke
+  const caps = document.getElementById("caps");
+  D.chunks.forEach((c, ci) => {
+    const box = document.createElement("div"); box.className = c.high ? "cap high" : "cap";
+    c.words.forEach((w) => { const s = document.createElement("span"); s.textContent = w; box.appendChild(s); });
+    caps.appendChild(box);
+    const spans = box.querySelectorAll("span");
+    tl.set(box, { opacity: 1 }, c.t[0] - 0.02);
+    spans.forEach((s, k) => {
+      tl.fromTo(s, { opacity: 0, y: 30, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.22, ease: "back.out(2.4)", immediateRender: false }, c.t[k] - 0.02);
+      tl.to(s, { backgroundColor: A, color: BG, textShadow: "none", duration: 0.08 }, c.t[k]);
+      const off = k < c.t.length - 1 ? c.t[k + 1] : c.end;
+      tl.to(s, { backgroundColor: "rgba(0,0,0,0.35)", color: D.theme.text, duration: 0.1 }, off);
+    });
+    tl.to(box, { opacity: 0, y: -16, duration: 0.07 }, c.end - 0.09);
+    tl.set(box, { y: 0 }, c.end + 0.2);
+  });
+  // explosiones de partículas en palabras clave
+  const parts = document.getElementById("parts"), cols = [A, A2, "#c06bff", "#ffffff"];
+  D.bursts.forEach((t0, b) => {
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement("div"); p.className = "p"; p.style.top = "1500px"; const s = 9 + ((i * 7 + b * 3) % 20);
+      p.style.width = p.style.height = s + "px"; p.style.background = cols[i % 4]; parts.appendChild(p);
+      const a = (i / 30) * Math.PI * 2, d = 180 + ((i * 53 + b * 31) % 260);
+      tl.fromTo(p, { x: 0, y: 0, opacity: 1, scale: 1 }, { x: Math.cos(a) * d, y: Math.sin(a) * d * 0.8 - 60, opacity: 0, scale: 0.3, duration: 0.9, ease: "power3.out", immediateRender: false }, t0);
+    }
+  });
+  // transición de rejilla en cada corte (tapa el cambio de escena)
+  const grid = document.getElementById("grid");
+  for (let i = 0; i < 144; i++) { const d = document.createElement("div"); d.style.background = i % 2 ? A : A2; grid.appendChild(d); }
+  const froms = ["center", "edges", "start", "end", "random"];
+  D.cuts.forEach((t0, i) => {
+    tl.to("#grid div", { scale: 1.03, duration: 0.22, ease: "power2.in", stagger: { each: 0.0018, from: froms[i % 5], grid: [16, 9] } }, t0 - 0.3);
+    tl.to("#grid div", { scale: 0, duration: 0.25, ease: "power2.out", stagger: { each: 0.0018, from: froms[(i + 1) % 5], grid: [16, 9] } }, t0 + 0.12);
+  });
+  window.__timelines["layer"] = tl;
+  tl.seek(0);
+</script>
+</body>
+</html>

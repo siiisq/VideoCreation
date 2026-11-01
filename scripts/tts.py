@@ -31,6 +31,10 @@ def main(src, dst):
     lang = reel.get("lang", "es")
     nar = {"speed": 1.05 if "slides" in reel else 1.1, **reel.get("narrator", {})}
     provider = pick_provider(nar.get("provider", "auto"))
+    if provider == "kokoro" and nar.get("provider") != "kokoro":
+        # el usuario rechazó la voz Kokoro: mejor parar que generar un vídeo con voz mala
+        sys.exit("✋ No hay clave de voz (GEMINI_API_KEY / GOOGLE_TTS_API_KEY). Añádela como variable de entorno. "
+                 "Para usar Kokoro a propósito: \"narrator\": {\"provider\": \"kokoro\"}")
     nar.setdefault("name", DEFAULTS[provider][lang])
     print(f"Voz: {provider} · {nar['name']}" + ("   (calidad baja: añade GOOGLE_TTS_API_KEY o GEMINI_API_KEY para voces realistas)" if provider == "kokoro" else ""))
     os.makedirs(os.path.join(ROOT, "public", "voice"), exist_ok=True)

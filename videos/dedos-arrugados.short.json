@@ -69,7 +69,9 @@
       "shot": 6,
       "duration": 5,
       "data": {
-        "atWords": [],
+        "atWords": [
+          "Mándaselo"
+        ],
         "fromShot": 4
       },
       "highlight": [

@@ -130,6 +130,24 @@ const Lens: React.FC<{ id: string; cx: number; cy: number; r: number; wr: number
   </g>
 );
 
+/** Pastilla "Mándaselo a…" con icono de avión de papel (invita a compartir). */
+const ShareChip: React.FC<{ x: number; y: number; text: string; s: number; g: number; size?: number }> = ({ x, y, text, s, g, size = 30 }) => {
+  const W = text.length * size * 0.6 + 120, H = size * 2;
+  const bob = Math.sin(g / 8) * 3;
+  return (
+    <g transform={`translate(${x} ${y + bob}) scale(${s})`} opacity={Math.min(1, s * 1.5)}>
+      <rect x={-W / 2 + 8} y={-H / 2 + 12} width={W} height={H} rx={H / 2} fill="#000" opacity={0.45} />
+      <rect x={-W / 2} y={-H / 2} width={W} height={H} rx={H / 2} fill="#f4f6f9" stroke={GOLD} strokeWidth={4} />
+      <rect x={-W / 2 + 16} y={-H / 2 + 6} width={W - 32} height={H * 0.28} rx={H * 0.14} fill="#fff" opacity={0.8} />
+      <g transform={`translate(${-W / 2 + 46} 0) rotate(-20) scale(${1 + 0.08 * Math.sin(g / 5)})`}>
+        <path d="M -22 2 L 24 -18 L 10 22 L 2 8 Z" fill="#2f8fd0" stroke="#1d5c94" strokeWidth={3} strokeLinejoin="round" />
+        <path d="M 2 8 L 24 -18" stroke="#1d5c94" strokeWidth={3} />
+      </g>
+      <text x={24} y={size * 0.36} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={size} fill="#14110a">{text}</text>
+    </g>
+  );
+};
+
 /** Gota de agua con volumen. */
 const Drop: React.FC<{ x: number; y: number; s?: number; rot?: number; o?: number }> = ({ x, y, s = 1, rot = 0, o = 1 }) => (
   <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${s})`} opacity={o}>
@@ -243,8 +261,9 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
         {/* cierre: neumáticos de serie */}
         {shot >= 6 && (
           <g>
-            <ellipse cx={540} cy={1640} rx={420} ry={110} fill="url(#dGoldGlow)" opacity={closeS * (0.6 + 0.3 * Math.sin(g / 7))} />
-            <Chip x={540} y={1650} text={tr.dStock} color={GOLD} s={closeS} size={52} />
+            <ellipse cx={540} cy={1570} rx={420} ry={100} fill="url(#dGoldGlow)" opacity={closeS * (0.6 + 0.3 * Math.sin(g / 7))} />
+            <Chip x={540} y={1580} text={tr.dStock} color={GOLD} s={closeS} size={46} />
+            <ShareChip x={540} y={1700} text={tr.dShareEnd} s={sp(6, at(0, 3.4) - 4, 9)} g={g} size={29} />
           </g>
         )}
       </g>
@@ -269,6 +288,7 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
           <rect x={-232} y={-72} width={464} height={144} rx={16} fill="none" stroke={RED} strokeWidth={4} />
           <text y={44} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={128} letterSpacing={10} fill={RED}>{tr.dMyth}</text>
         </g>
+        <ShareChip x={540} y={2990} text={tr.dShareMyth} s={sp(1, at(0, 4.2) + 28, 9)} g={g} size={32} />
       </g>
 
       {/* ================= C · 1935: nervio dañado = no se arruga ================= */}

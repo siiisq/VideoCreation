@@ -115,7 +115,9 @@
       "shot": 6,
       "duration": 6,
       "data": {
-        "atWords": []
+        "atWords": [
+          "Mándaselo"
+        ]
       },
       "highlight": [
         "neumáticos"

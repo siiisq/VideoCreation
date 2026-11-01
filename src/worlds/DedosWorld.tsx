@@ -1,5 +1,5 @@
-import React from "react";
-import { Easing, interpolate, spring } from "remotion";
+import React, { useEffect, useState } from "react";
+import { continueRender, delayRender, Easing, interpolate, spring, staticFile } from "remotion";
 import { body, display } from "../fonts";
 import { useT } from "../i18n";
 import { ANIM_FPS } from "../time";
@@ -71,77 +71,43 @@ const Chip: React.FC<{ x: number; y: number; text: string; color: string; s?: nu
   );
 };
 
-/**
- * Dedo visto por la yema, apuntando hacia abajo. `wr` 0–1 = cuánto se arruga (surcos + borde ondulado).
- * `nerve` 0–1 = nervio dorado con impulsos; `cut` = nervio cortado (no llegan impulsos a la yema).
- */
-const Finger: React.FC<{ id: string; x: number; tip: number; len: number; w?: number; wr: number; g: number; nerve?: number; cut?: boolean; sponge?: number; sx?: number }> = ({ id, x, tip, len, w = 230, wr, g, nerve = 0, cut, sponge = 0, sx = 1 }) => {
-  const r = w / 2, top = tip - len, cy = tip - r;
-  const k = (y: number) => interpolate(y, [tip - 380, tip - 300], [0, 1], clamp);
-  const pts: string[] = [];
-  for (let y = top; y <= cy; y += 8) pts.push(`${x - r + wr * 7 * k(y) * Math.sin(y / 13)} ${y}`);
-  for (let a = Math.PI; a >= 0; a -= Math.PI / 48) {
-    const rr = r + wr * 6 * Math.sin(a * 16);
-    pts.push(`${x + Math.cos(a) * rr} ${cy + Math.sin(a) * rr}`);
-  }
-  for (let y = cy; y >= top; y -= 8) pts.push(`${x + r - wr * 7 * k(y) * Math.sin(y / 13 + 1)} ${y}`);
-  const d = `M ${pts.join(" L ")} Z`;
-  const grooves = Array.from({ length: 8 }, (_, i) => tip - 34 - i * 40);
-  const nx = x - r * 0.28;
-  return (
-    <g transform={`translate(${x} 0) scale(${sx} 1) translate(${-x} 0)`}>
-      <mask id={`dm${id}`}><rect x={x - r - 30} y={top} width={w + 60} height={len + 40} fill="url(#dFade)" /></mask>
-      <clipPath id={`dc${id}`}><path d={d} /></clipPath>
-      <g mask={`url(#dm${id})`}>
-        <path d={d} fill="url(#dSkin)" stroke={SKIN_LINE} strokeWidth={6} strokeLinejoin="round" />
-        {sponge > 0 && <path d={d} fill="url(#dSponge)" opacity={sponge} />}
-        <g clipPath={`url(#dc${id})`}>
-          {/* huella dactilar sutil */}
-          {[0, 1, 2, 3, 4].map((i) => <ellipse key={i} cx={x} cy={tip - 150} rx={40 + i * 22} ry={60 + i * 26} fill="none" stroke="#a8634a" strokeOpacity={0.14 * (1 - sponge)} strokeWidth={3} />)}
-          {/* poros de esponja */}
-          {sponge > 0 && Array.from({ length: 26 }, (_, i) => (
-            <ellipse key={i} cx={x - r + 20 + ((i * 53) % (w - 40))} cy={tip - 30 - ((i * 97) % (len - 120))} rx={6 + (i % 4) * 3} ry={5 + (i % 3) * 3} fill="#a87a12" opacity={sponge * 0.7} />
-          ))}
-          {/* surcos de la piel arrugada */}
-          {grooves.map((y, i) => {
-            const wob = (xx: number) => y + Math.sin(xx / 22 + i * 1.7) * 9;
-            const path = Array.from({ length: 13 }, (_, j) => { const xx = x - r + (j * w) / 12; return `${j ? "L" : "M"} ${xx} ${wob(xx)}`; }).join(" ");
-            return (
-              <g key={i} opacity={wr * (i < 7 ? 1 : 0.5)}>
-                <path d={path} fill="none" stroke="#9c5539" strokeWidth={7} strokeLinecap="round" />
-                <path d={path} fill="none" stroke="#fff" strokeOpacity={0.35} strokeWidth={3} transform="translate(0 7)" />
-              </g>
-            );
-          })}
-          {/* sombra lateral y brillo */}
-          <rect x={x + r * 0.45} y={top} width={r * 0.6} height={len} fill="#7a3f28" opacity={0.18} />
-          <ellipse cx={x - r * 0.5} cy={tip - len * 0.45} rx={18} ry={len * 0.28} fill="#fff" opacity={0.28} />
-          <ellipse cx={x - r * 0.35} cy={tip - 120} rx={22} ry={12} fill="#fff" opacity={0.55} />
-          {/* nervio */}
-          {nerve > 0 && (
-            <g opacity={nerve}>
-              <path d={`M ${nx} ${top} L ${nx} ${tip - 170} Q ${nx} ${tip - 120} ${x - 10} ${tip - 90}`} fill="none" stroke="#5a4210" strokeWidth={13} strokeLinecap="round" />
-              <path d={`M ${nx} ${top} L ${nx} ${tip - 170} Q ${nx} ${tip - 120} ${x - 10} ${tip - 90}`} fill="none" stroke={GOLD} strokeWidth={7} strokeLinecap="round" />
-              {[0, 1, 2].map((b) => <path key={b} d={`M ${nx} ${tip - 220 - b * 90} q 40 20 70 60`} fill="none" stroke={GOLD} strokeWidth={4} strokeLinecap="round" opacity={0.8} />)}
-              {Array.from({ length: 3 }, (_, i) => {
-                const p = ((g * 9 + i * 160) % 480) / 480;
-                const yy = top + 60 + p * (len - 240);
-                if (cut && yy > tip - 420) return null;
-                return <g key={i}><circle cx={nx} cy={yy} r={26} fill="url(#dGoldGlow)" /><circle cx={nx} cy={yy} r={9} fill={GOLD2} /></g>;
-              })}
-              {cut && (
-                <g>
-                  <rect x={nx - 20} y={tip - 445} width={40} height={50} fill="url(#dSkin)" />
-                  <path d={`M ${nx - 24} ${tip - 450} l 48 40 M ${nx + 24} ${tip - 450} l -48 40`} stroke={RED} strokeWidth={9} strokeLinecap="round" />
-                </g>
-              )}
-            </g>
-          )}
-        </g>
-      </g>
-    </g>
-  );
+/* Ilustraciones realistas pre-renderizadas (public/dedos/, dibujadas en SVG y exportadas a PNG con alfa).
+ * Coordenadas internas de la mano: 600x900, punta del dedo corazón en (268, 775). */
+const IMG = {
+  handDry: staticFile("dedos/mano-seca.png"), handWet: staticFile("dedos/mano-arrugada.png"),
+  padDry: staticFile("dedos/yema-seca.png"), padWet: staticFile("dedos/yema-arrugada.png"),
 };
+const useDedosImages = () => {
+  const [handle] = useState(() => delayRender("Imágenes de dedos"));
+  useEffect(() => {
+    Promise.all(Object.values(IMG).map((u) => new Promise((r) => { const i = new Image(); i.onload = i.onerror = () => r(null); i.src = u; })))
+      .then(() => continueRender(handle));
+  }, [handle]);
+};
+
+/** Mano realista colgando hacia abajo (palma). `wr` 0–1 = se arruga (fundido seca → arrugada). */
+const Hand: React.FC<{ id: string; x: number; tip: number; s: number; wr: number; g: number; nerve?: number; cut?: boolean; sx?: number }> = ({ id, x, tip, s, wr, g, nerve = 0, cut, sx = 1 }) => (
+  <g transform={`translate(${x} ${tip}) scale(${s * sx} ${s}) translate(-268 -775)`}>
+    <mask id={`hm${id}`}><rect x={0} y={0} width={600} height={900} fill="url(#dFade)" /></mask>
+    <g mask={`url(#hm${id})`}>
+      <image href={IMG.handDry} x={0} y={0} width={600} height={900} />
+      {wr > 0.001 && <image href={IMG.handWet} x={0} y={0} width={600} height={900} opacity={wr} />}
+      {nerve > 0 && (
+        <g opacity={nerve}>
+          <path d="M 262 120 C 262 300 266 420 266 560 L 268 735" fill="none" stroke="#5a4210" strokeWidth={10} strokeLinecap="round" opacity={0.8} />
+          <path d="M 262 120 C 262 300 266 420 266 560 L 268 735" fill="none" stroke={GOLD} strokeWidth={5} strokeLinecap="round" />
+          {Array.from({ length: 3 }, (_, i) => {
+            const p = ((g * 7 + i * 120) % 360) / 360;
+            const yy = 140 + p * 590;
+            if (cut && yy > 560) return null;
+            return <g key={i}><circle cx={265} cy={yy} r={22} fill="url(#dGoldGlow)" /><circle cx={265} cy={yy} r={7} fill={GOLD2} /></g>;
+          })}
+          {cut && <path d="M 248 548 l 36 30 M 284 548 l -36 30" stroke={RED} strokeWidth={8} strokeLinecap="round" />}
+        </g>
+      )}
+    </g>
+  </g>
+);
 
 /** Gota de agua con volumen. */
 const Drop: React.FC<{ x: number; y: number; s?: number; rot?: number; o?: number }> = ({ x, y, s = 1, rot = 0, o = 1 }) => (
@@ -176,6 +142,7 @@ const Tank: React.FC<{ x0: number; x1: number; top: number; water: number; botto
 
 export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
   const tr = useT();
+  useDedosImages();
   const sp = (k: number, delay: number, damping = 11) => (shot > k ? 1 : shot < k ? 0 : spring({ frame: t - delay, fps, config: { damping } }));
   const at = (i: number, def: number) => atF(data, i, def);
 
@@ -233,11 +200,11 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
 
       {/* ================= A · GANCHO: dedo en el agua ================= */}
       <g opacity={fA}>
-        <Tank x0={250} x1={830} top={1000} water={1090} bottom={1540} g={g} part="back" />
+        <Tank x0={230} x1={850} top={1190} water={1270} bottom={1560} g={g} part="back" />
         <g transform={`translate(0 ${Math.sin(g / 30) * 6})`}>
-          <Finger id="a" x={540} tip={1400} len={1000} wr={Math.max(wrA, shot >= 6 ? 1 : 0)} g={g} nerve={nerveA * (shot >= 6 ? 0.4 : 1)} />
+          <Hand id="a" x={540} tip={1400} s={1.15} wr={Math.max(wrA, shot >= 6 ? 1 : 0)} g={g} nerve={nerveA * (shot >= 6 ? 0.4 : 1)} />
         </g>
-        <Tank x0={250} x1={830} top={1000} water={1090} bottom={1540} g={g} part="front" />
+        <Tank x0={230} x1={850} top={1190} water={1270} bottom={1560} g={g} part="front" />
         {/* etiqueta "¿absorbe agua?" tachada */}
         <g opacity={shot >= 6 ? 0 : 1}>
           <line x1={330} y1={800} x2={440} y2={880} stroke={MUTED} strokeWidth={3} strokeDasharray="8 8" opacity={absorb} />
@@ -263,7 +230,7 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
       {/* ================= B · MITO: la piel no es una esponja ================= */}
       <g opacity={fB}>
         <text x={540} y={1960} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={38} letterSpacing={4} fill={MUTED} opacity={shot === 0 || shot >= 6 ? 0 : 1}>{tr.dSponge}</text>
-        <Finger id="b" x={540} tip={2860} len={880} wr={0} g={g} sponge={sp(1, 4)} sx={1 + 0.1 * soak} />
+        <Hand id="b" x={540} tip={2860} s={1.05} wr={0} g={g} sx={1 + 0.08 * soak} />
         {Array.from({ length: 10 }, (_, i) => {
           const born = 10 + i * 7;
           const p = shot === 1 ? interpolate(t, [born, born + 22], [0, 1], { ...clamp, easing: Easing.in(Easing.quad) }) : 0;
@@ -288,11 +255,11 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
           <ellipse cx={0} cy={-30} rx={260} ry={110} fill="url(#dGoldGlow)" />
           <text y={20} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={140} fill={GOLD}>1935</text>
         </g>
-        <Tank x0={110} x1={970} top={3950} water={4030} bottom={4400} g={g} part="back" />
-        <Finger id="c1" x={330} tip={4290} len={760} w={210} wr={wrC} g={g} nerve={sp(2, 10)} />
-        <Finger id="c2" x={750} tip={4290} len={760} w={210} wr={0} g={g} nerve={sp(2, 18)} cut />
-        <Tank x0={110} x1={970} top={3950} water={4030} bottom={4400} g={g} part="front" />
-        {[{ x: 330, a: tr.dNerveOk, b: tr.dWrinkled, c: GREEN }, { x: 750, a: tr.dNerveCut, b: tr.dSmooth, c: RED }].map((l, i) => (
+        <Tank x0={90} x1={990} top={4110} water={4190} bottom={4410} g={g} part="back" />
+        <Hand id="c1" x={300} tip={4330} s={0.72} wr={wrC} g={g} nerve={sp(2, 10)} />
+        <Hand id="c2" x={760} tip={4330} s={0.72} wr={0} g={g} nerve={sp(2, 18)} cut />
+        <Tank x0={90} x1={990} top={4110} water={4190} bottom={4410} g={g} part="front" />
+        {[{ x: 300, a: tr.dNerveOk, b: tr.dWrinkled, c: GREEN }, { x: 760, a: tr.dNerveCut, b: tr.dSmooth, c: RED }].map((l, i) => (
           <g key={i} opacity={lblC} transform={`translate(0 ${(1 - lblC) * 20})`}>
             <text x={l.x} y={4470} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={40} fill={l.c}>{l.a}</text>
             <text x={l.x} y={4518} textAnchor="middle" fontFamily={body} fontWeight={700} fontSize={32} fill={INK}>→ {l.b}</text>
@@ -375,15 +342,11 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
         {/* yema arrugada */}
         <g transform={`translate(290 6700) scale(${padIn})`}>
           <ellipse cx={14} cy={238} rx={190} ry={26} fill="#000" opacity={0.45} />
-          <circle r={210} fill="url(#dPad)" stroke={SKIN_LINE} strokeWidth={7} />
-          <clipPath id="dPadClip"><circle r={204} /></clipPath>
+          <clipPath id="dPadClip"><circle r={206} /></clipPath>
           <g clipPath="url(#dPadClip)">
-            {Array.from({ length: 9 }, (_, i) => {
-              const y = -180 + i * 45;
-              const path = Array.from({ length: 15 }, (_, j) => { const x = -220 + j * 31.4; return `${j ? "L" : "M"} ${x} ${y + Math.sin(x / 26 + i * 1.3) * 12}`; }).join(" ");
-              return <g key={i}><path d={path} fill="none" stroke="#9c5539" strokeWidth={9} strokeLinecap="round" /><path d={path} fill="none" stroke="#fff" strokeOpacity={0.35} strokeWidth={3} transform="translate(0 8)" /></g>;
-            })}
+            <image href={IMG.padWet} x={-300 * 1.17} y={-520 * 1.17} width={600 * 1.17} height={900 * 1.17} />
           </g>
+          <circle r={208} fill="none" stroke={SKIN_LINE} strokeWidth={6} />
           <ellipse cx={-80} cy={-110} rx={50} ry={26} fill="#fff" opacity={0.35} transform="rotate(-30 -80 -110)" />
         </g>
         {/* neumático */}
@@ -461,7 +424,7 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
                 );
               })}
               <g opacity={expIn}>
-                <Finger id="f" x={fx} tip={fy} len={300} w={110} wr={1} g={g} />
+                <Hand id="f" x={fx} tip={fy} s={0.32} wr={1} g={g} />
               </g>
               <Chip x={540} y={8560} text={tr.dFaster} color={GREEN} dark s={fasterS} size={32} />
               <Chip x={540} y={8680} text={tr.dUnsure} color={MUTED} dark s={unsureS} size={30} />

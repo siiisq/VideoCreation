@@ -1,0 +1,15 @@
+{
+  "assets/avatar.jpg": "a300f59c31d2ea16195a2ff9a9af50b29c6aecc05d505d69f2a2132a53b99032",
+  "compositions/components/caption-kinetic-slam.html": "86b7a54e045f626d1375636a2f1cde19c2f3cbdad1df1d7d0204fe6b4452044a",
+  "compositions/components/caption-matrix-decode.html": "c8f703cbe6e8dd547107f2e6298f27c287a9d08b133ceab128e874ce88d36e78",
+  "compositions/components/caption-particle-burst.html": "353afa3db4c75245923e6b9df29e4cbaf51e7819c3eb51003691931b4fb25f94",
+  "compositions/components/caption-pill-karaoke.html": "cdbbc72af7fbac440c0bf5750cf9e3d4ded20f26588b00ac79399342ca60b3e3",
+  "compositions/components/conic-progress-ring.html": "a01beeb774006a3317d123983b85586adb3bc81b94e435e3f65116ba9dabb93a",
+  "compositions/components/count-up.html": "6b34b9873a243fedb060d23f4eb5cef1b61a5b169ec1ae064030b70b48beea66",
+  "compositions/components/curtain-reveal.html": "9bfd9ec72d42f7968cf73e45ff9b1d7b70537b09e7d3357808df29001eb5eb6d",
+  "compositions/components/grid-pixelate-wipe.html": "60981a8c4a97c1686014543cefdeac439daa621d3da9074485834f16ed7ac03c",
+  "compositions/components/halftone-dissolve.html": "46e08482e6c2a336ca1c82125f93bbeb09d74942b20cb68d457882e987bf7abd",
+  "compositions/components/line-by-line-slide.html": "4d6ce6381540c89e971dcebff09a48be031177455ceddacac41886113afe3f44",
+  "compositions/instagram-follow.html": "88af01bf9f4d90c956254c7b0373757194c2b508fcabafee8492e71b8ec2f68c",
+  "compositions/starfield.html": "346de90a563405beaa306c401855971b35c99066900db496f2ae5b7c95e803f3"
+}

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="assets/gsap.min.js"></script>
+<style>
+  @font-face { font-family: "Montserrat"; src: url("assets/fonts/montserrat-latin.woff2") format("woff2"); font-weight: 700 900; unicode-range: U+0000-00FF, U+2000-206F; }
+  @font-face { font-family: "Montserrat"; src: url("assets/fonts/montserrat-latin-ext.woff2") format("woff2"); font-weight: 700 900; unicode-range: U+0100-024F; }
+  @font-face { font-family: "Inter"; src: url("assets/fonts/inter-latin.woff2") format("woff2"); font-weight: 500 800; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #16081f; }
+  #root[data-composition-id="main"] { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+    --fg: #fff7ec; --bg: transparent; --accent: #ffc23d; --accent-2: #9be15d; --font-display: "Montserrat", sans-serif;
+    font-family: "Montserrat", sans-serif; color: var(--fg); }
+  #root { --fg: #fff7ec; --bg: transparent; --accent: #ffc23d; --accent-2: #9be15d; --font-display: "Montserrat", sans-serif; }
+  .bg { position: absolute; inset: 0; background: radial-gradient(1200px 900px at 20% 15%, #3d1650 0%, #16081f 60%); }
+  .blob { position: absolute; border-radius: 50%; opacity: .5; }
+  .scene { position: absolute; inset: 0; }
+  .slot { position: absolute; left: 0; width: 1080px; }
+  .center { display: flex; align-items: center; justify-content: center; text-align: center; }
+  /* S2 kinetic slam */
+  .kw { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 300px; letter-spacing: -10px; text-transform: uppercase; }
+  .kw.small { font-size: 158px; letter-spacing: -4px; }
+  .flood { position: absolute; inset: 0; }
+  /* S3 karaoke */
+  .kara { position: absolute; left: 90px; right: 90px; top: 720px; display: flex; flex-wrap: wrap; gap: 18px 22px; justify-content: center; }
+  .kara span { font-weight: 900; font-size: 104px; text-transform: uppercase; padding: 6px 26px; border-radius: 70px; opacity: 0; }
+  .p { position: absolute; width: 22px; height: 22px; border-radius: 50%; left: 540px; top: 1000px; opacity: 0; }
+  /* S4 matrix */
+  .matrix { position: absolute; top: 760px; left: 0; width: 1080px; text-align: center; font-weight: 900; font-size: 112px; letter-spacing: 2px; white-space: nowrap; color: #9be15d; text-shadow: 0 0 40px rgba(155,225,93,.6); }
+  .matrix.sub { top: 920px; font-size: 64px; color: var(--fg); text-shadow: none; letter-spacing: 1px; }
+  .rgb { position: absolute; inset: 0; mix-blend-mode: screen; }
+  .gasp { position: absolute; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #e4ffc4, #9be15d 50%, #4c8f1f); }
+  /* S6 list */
+  .list { position: absolute; top: 560px; left: 110px; right: 110px; }
+  .row { position: relative; display: flex; align-items: center; gap: 36px; height: 200px; overflow: hidden; }
+  .num { flex: 0 0 140px; height: 140px; border-radius: 40px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 84px; color: #16081f; background: linear-gradient(135deg, #ffe08a, #ffc23d 55%, #e0751f); box-shadow: 0 20px 40px rgba(0,0,0,.35); }
+  .txt { font-weight: 900; font-size: 82px; text-transform: uppercase; line-height: 1; }
+  .ul { position: absolute; left: 176px; bottom: 4px; height: 12px; width: 0; border-radius: 6px; background: linear-gradient(90deg, #9be15d, #ffc23d); }
+  .label { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 900; text-transform: uppercase; }
+  /* transitions */
+  .grid { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(16, 1fr); pointer-events: none; }
+  .grid div { background: #ffc23d; transform: scale(0); }
+  .iris { position: absolute; inset: 0; background: #9be15d; clip-path: circle(0% at 50% 50%); }
+  .flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+  .handle { position: absolute; bottom: 300px; width: 1080px; text-align: center; font-family: Inter, sans-serif; font-weight: 700; font-size: 36px; opacity: .55; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="30.5" data-width="1080" data-height="1920" data-fps="60">
+  <audio id="music" class="clip" src="assets/lofi.mp3" data-start="0" data-duration="30.5" data-track-index="20" data-volume="0.35"></audio>
+  <div class="bg"></div>
+  <div class="blob" id="b1" style="width:700px;height:700px;left:-200px;top:200px;background:radial-gradient(circle,#9be15d 0%,transparent 70%)"></div>
+  <div class="blob" id="b2" style="width:800px;height:800px;left:500px;top:1100px;background:radial-gradient(circle,#ffc23d 0%,transparent 70%)"></div>
+
+  <!-- S1 gancho: bloques del catálogo -->
+  <div class="slot" id="s1a" style="top:200px;height:400px" data-composition-id="cse" data-composition-src="compositions/components/char-slam-explode.html" data-start="0" data-duration="4.2" data-track-index="1" data-variable-values='{"text":"¿POR QUÉ","accent":"blue","spread":"wild"}'></div>
+  <div class="slot" id="s1b" style="top:350px;height:380px;--hs-font-size:17cqw" data-composition-id="hs" data-composition-src="compositions/components/headline-slam.html" data-start="0.55" data-duration="3.65" data-track-index="2" data-variable-values='{"text":"LLORAS","accent_word_index":0,"accent":"blue"}'></div>
+  <div class="slot" id="s1c" style="top:450px;height:560px" data-composition-id="mh" data-composition-src="compositions/components/marker-highlight.html" data-start="1.1" data-duration="3.1" data-track-index="3" data-variable-values='{"text":"AL CORTAR CEBOLLA?","emphasis_word":"CEBOLLA","style":"circle","draw_at":0.7,"accent":"violet"}'></div>
+
+  <!-- S2 palabras a pantalla completa -->
+  <div class="scene clip" id="s2" data-start="4.2" data-duration="3.6" data-track-index="4">
+    <div class="flood" id="fl1" style="background:#ffc23d"></div>
+    <div class="flood" id="fl2" style="background:#16081f"></div>
+    <div class="flood" id="fl3" style="background:#9be15d"></div>
+    <div class="kw" id="k1" style="color:#16081f">NO</div>
+    <div class="kw" id="k2" style="color:#ffc23d">ES</div>
+    <div class="kw small" id="k3" style="color:#16081f">TRISTEZA</div>
+  </div>
+
+  <!-- S3 karaoke en píldoras + explosión de partículas -->
+  <div class="scene clip" id="s3" data-start="8" data-duration="4.3" data-track-index="5">
+    <div class="label" style="top:520px;font-size:54px;color:#9be15d">ES UNA…</div>
+    <div class="kara" id="kara"><span>trampa</span><span>química</span><span>de</span><span>defensa</span></div>
+    <div id="parts"></div>
+  </div>
+
+  <!-- S4 decodificación tipo matrix + glitch + gas -->
+  <div class="scene clip" id="s4" data-start="12.3" data-duration="4.4" data-track-index="6">
+    <div id="gas"></div>
+    <div class="matrix" id="mx">GAS IRRITANTE</div>
+    <div class="matrix sub" id="mx2">directo a tus ojos</div>
+    <div class="rgb" id="rgbR" style="opacity:0"><div class="matrix" style="color:#ff2d55;text-shadow:none">GAS IRRITANTE</div></div>
+    <div class="rgb" id="rgbB" style="opacity:0"><div class="matrix" style="color:#2dd4ff;text-shadow:none">GAS IRRITANTE</div></div>
+  </div>
+
+  <!-- S5 contador del catálogo -->
+  <div class="scene clip" id="s5" data-start="16.7" data-duration="4.3" data-track-index="7">
+    <div class="label" style="top:560px;font-size:58px;color:#9be15d">DATO CURIOSO</div>
+    <div class="slot" style="top:560px;height:480px" data-composition-id="cu" data-composition-src="compositions/components/count-up.html" data-start="16.9" data-duration="4.1" data-track-index="8" data-variable-values='{"start":1950,"end":2013,"prefix":"","suffix":"","accent":"blue","glow":true}'></div>
+    <div class="label" id="s5t" style="top:1060px;font-size:56px;line-height:1.2;font-family:Inter;font-weight:800;text-transform:none;padding:0 120px">La enzima culpable ganó un<br><span style="color:#ffc23d">premio Ig Nobel</span></div>
+  </div>
+
+  <!-- S6 lista línea a línea -->
+  <div class="scene clip" id="s6" data-start="21" data-duration="5" data-track-index="9">
+    <div class="label" style="top:400px;font-size:76px">CÓMO LLORAR MENOS</div>
+    <div class="list">
+      <div class="row" id="r1"><div class="num">1</div><div class="txt">Enfríala<br><span style="color:#9be15d;font-size:52px">en la nevera</span></div><div class="ul"></div></div>
+      <div class="row" id="r2"><div class="num">2</div><div class="txt">Cuchillo<br><span style="color:#9be15d;font-size:52px">bien afilado</span></div><div class="ul"></div></div>
+      <div class="row" id="r3"><div class="num">3</div><div class="txt">Corta<br><span style="color:#9be15d;font-size:52px">con aire</span></div><div class="ul"></div></div>
+    </div>
+  </div>
+
+  <!-- S7 cierre con tarjeta de seguir -->
+  <div class="scene clip" id="s7" data-start="26" data-duration="4.5" data-track-index="10">
+    <div class="label" id="q" style="top:640px;font-size:110px;line-height:1.05">¿CUÁL ES<br><span style="color:#ffc23d">TU TRUCO?</span></div>
+  </div>
+  <div id="follow" data-composition-id="instagram-follow" data-composition-src="compositions/instagram-follow.html" data-start="26" data-duration="4.5" data-track-index="11" data-width="1080" data-height="1920" style="position:absolute;inset:0"></div>
+
+  <!-- transiciones -->
+  <div class="grid clip" id="grid" data-start="7.5" data-duration="0.9" data-track-index="12"></div>
+  <div class="iris clip" id="iris" data-start="16.3" data-duration="0.9" data-track-index="13"></div>
+  <div class="flash" id="flash"></div>
+  <div class="handle">@less_thanaminute</div>
+</div>
+<script>
+  const tl = gsap.timeline({ paused: true });
+  const R = (a, b) => a + (b - a) * ((Math.sin(a * 999 + b * 7) + 1) / 2);
+  // fondo vivo
+  tl.to("#b1", { x: 260, y: 180, duration: 15, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+  tl.to("#b2", { x: -300, y: -260, duration: 15, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+  // S1: destello + sacudida al caer LLORAS
+  tl.fromTo("#flash", { opacity: 0.0 }, { opacity: 0.85, duration: 0.05 }, 0.62).to("#flash", { opacity: 0, duration: 0.35 }, 0.67);
+  // S2: palabras con fondo que inunda desde direcciones alternas
+  const k = [["#fl1", "#k1", "-100%", "x"], ["#fl2", "#k2", "100%", "y"], ["#fl3", "#k3", "100%", "x"]];
+  k.forEach(([fl, kw, from, axis], i) => {
+    const t0 = 4.2 + i * 1.15;
+    tl.fromTo(fl, { [axis === "x" ? "xPercent" : "yPercent"]: parseFloat(from) }, { [axis === "x" ? "xPercent" : "yPercent"]: 0, duration: 0.28, ease: "expo.out" }, t0);
+    tl.fromTo(kw, { scale: 2.6, opacity: 0, rotation: i % 2 ? 8 : -8 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.42, ease: "back.out(2.2)" }, t0 + 0.06);
+    tl.to(kw, { scale: 1.06, duration: 0.5, ease: "sine.inOut" }, t0 + 0.5);
+    if (i < 2) tl.to(kw, { opacity: 0, scale: 0.6, duration: 0.18 }, t0 + 1.05);
+  });
+  // transición rejilla de píxeles
+  const grid = document.getElementById("grid");
+  for (let i = 0; i < 144; i++) grid.appendChild(document.createElement("div"));
+  tl.to("#grid div", { scale: 1.02, duration: 0.3, ease: "power2.in", stagger: { each: 0.0025, from: "center", grid: [16, 9] } }, 7.5);
+  tl.to("#grid div", { scale: 0, duration: 0.3, ease: "power2.out", stagger: { each: 0.0025, from: "edges", grid: [16, 9] } }, 7.95);
+  // S3: karaoke
+  const words = document.querySelectorAll("#kara span");
+  words.forEach((w, i) => {
+    const t0 = 8.25 + i * 0.55;
+    tl.fromTo(w, { opacity: 0, y: 60, scale: 0.7 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "back.out(2)" }, t0);
+    tl.fromTo(w, { backgroundColor: "rgba(255,194,61,0)", color: "#fff7ec" }, { backgroundColor: "rgba(255,194,61,1)", color: "#16081f", duration: 0.12 }, t0 + 0.05);
+    if (i < words.length - 1) tl.to(w, { backgroundColor: "rgba(255,255,255,0.12)", color: "#fff7ec", duration: 0.15 }, t0 + 0.55);
+  });
+  // explosión de partículas en "química"
+  const parts = document.getElementById("parts");
+  const cols = ["#ffc23d", "#9be15d", "#c06bff", "#fff7ec"];
+  for (let i = 0; i < 46; i++) {
+    const p = document.createElement("div"); p.className = "p"; p.style.background = cols[i % 4];
+    const s = 10 + (i * 7) % 26; p.style.width = p.style.height = s + "px"; parts.appendChild(p);
+    const a = (i / 46) * Math.PI * 2, d = 260 + (i * 53) % 340;
+    tl.fromTo(p, { x: 0, y: 0, opacity: 1, scale: 1 }, { x: Math.cos(a) * d, y: Math.sin(a) * d - 120, opacity: 0, scale: 0.3, duration: 1.1, ease: "power3.out" }, 8.85);
+  }
+  tl.fromTo("#kara", { scale: 1 }, { scale: 1.08, duration: 0.12, yoyo: true, repeat: 1 }, 8.85);
+  // S4: decodificación
+  const mx = document.getElementById("mx"), target = "GAS IRRITANTE", glyphs = "#%&@$*+=?<>/\\ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const dec = { p: 0 };
+  tl.fromTo(dec, { p: 0 }, { p: 1, duration: 1.4, ease: "none", onUpdate: () => {
+    const n = Math.floor(dec.p * target.length);
+    mx.textContent = target.split("").map((c, i) => i < n || c === " " ? c : glyphs[Math.floor((i * 31 + dec.p * 997) % glyphs.length)]).join("");
+  } }, 12.4);
+  tl.fromTo("#mx2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 13.9);
+  // glitch RGB
+  [14.3, 15.2].forEach((t0) => {
+    tl.fromTo("#rgbR", { opacity: 0.8, x: -18 }, { opacity: 0, x: 0, duration: 0.25, ease: "steps(4)" }, t0);
+    tl.fromTo("#rgbB", { opacity: 0.8, x: 18 }, { opacity: 0, x: 0, duration: 0.25, ease: "steps(4)" }, t0);
+    tl.fromTo("#mx", { x: -10, skewX: 12 }, { x: 0, skewX: 0, duration: 0.25, ease: "steps(5)" }, t0);
+  });
+  // gas que sube
+  const gas = document.getElementById("gas");
+  for (let i = 0; i < 26; i++) {
+    const g = document.createElement("div"); g.className = "gasp"; const s = 18 + (i * 11) % 40;
+    g.style.width = g.style.height = s + "px"; g.style.left = (60 + (i * 97) % 960) + "px"; g.style.top = "1800px";
+    gas.appendChild(g);
+    tl.fromTo(g, { y: 0, opacity: 0 }, { y: -1500 - (i % 5) * 80, opacity: 0.9, duration: 3.2, ease: "sine.in" }, 12.3 + (i % 9) * 0.12);
+    tl.to(g, { opacity: 0, duration: 0.6 }, 15.6 + (i % 9) * 0.05);
+  }
+  // transición iris
+  tl.fromTo("#iris", { clipPath: "circle(0% at 50% 55%)" }, { clipPath: "circle(75% at 50% 55%)", duration: 0.4, ease: "power3.in" }, 16.3);
+  tl.to("#iris", { clipPath: "circle(0% at 50% 45%)", duration: 0.4, ease: "power3.out" }, 16.75);
+  // S5 texto
+  tl.fromTo("#s5t", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 18.6);
+  // S6 lista
+  ["#r1", "#r2", "#r3"].forEach((r, i) => {
+    const t0 = 21.4 + i * 1.1;
+    tl.fromTo(r + " .num", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.4)" }, t0);
+    tl.fromTo(r + " .txt", { xPercent: -110, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, t0 + 0.1);
+    tl.to(r + " .ul", { width: 520, duration: 0.5, ease: "power2.out" }, t0 + 0.45);
+  });
+  // S7
+  tl.fromTo("#q", { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(2)" }, 26.1);
+  tl.to("#q", { y: -20, duration: 2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 26.7);
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+</script>
+</body>
+</html>

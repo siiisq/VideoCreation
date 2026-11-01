@@ -14,6 +14,6 @@ videos/*.slides.json
 videos/sms-2026-wrapup.json
 __pycache__/
 references/
-experiments/**/node_modules/
+experiments/**/node_modules
 experiments/**/.hyperframes/
 experiments/**/*.webm

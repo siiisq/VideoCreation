@@ -72,6 +72,11 @@ todo el reel, sincronizada con la voz. `npm run reel` lo hace todo; detalle de l
    duplicar), `"hideHandleAtEnd": true`, `"hideCtaAtEnd": true`. Render normal con `npm run render`.
 Si cambias el guion o la voz, regenera la capa (va sincronizada a las duraciones).
 
+## Biblioteca de estilos de referencia
+`docs/estilos-referencia.md` guarda patrones de animación analizados de reels de referencia (estructura, tiempos,
+plantillas por escena, cómo implementarlos aquí). Consúltala al planificar un reel nuevo (sobre todo listas "top N")
+y añade ahí cada referencia nueva que analices con `scripts/reference.sh` (solo el formato, nunca el contenido).
+
 ## Calidad de los dibujos (PLANTILLA OBLIGATORIA para todos los vídeos)
 El usuario pide **más calidad en todos los dibujitos**. Nada de formas planas de un color. Todo dibujo nuevo debe cumplir:
 1. **Volumen**: degradados (radial/lineal) en cada forma importante, luz arriba-izquierda, sombra abajo-derecha,

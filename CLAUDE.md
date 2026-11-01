@@ -7,11 +7,17 @@ El usuario pide un tema y Claude produce el vídeo.
 
 ## Flujo cuando el usuario pide "hazme un vídeo/reel sobre X"
 
+**ESTILO POR DEFECTO: "mundo continuo"** (ver su sección más abajo): un escenario nuevo en `src/worlds/`, escenas
+`world` con cámara continua, `"transitionStyle": "fade"`, `"captionStyle": "select"`, `"lightLeaks": false`.
+Las reglas de `hook`/`drawing`/título de HyperFrames de este flujo son del **estilo combinado (clásico)**: úsalo solo
+si el usuario lo pide expresamente.
+
 1. **Guion**: crea `videos/<slug>.json` siguiendo `src/schema.ts`. Por defecto **español de España** (`"lang": "es"`,
    vocabulario y expresiones de España). Si el usuario pide inglés, crea `videos/<slug>.en.json` con `"lang": "en"`
    (traducción natural y adaptada, no literal; cifras escritas con letras en `voice`).
    - Duración total ≈ 55–60 s: suma de `duration` de las escenas, menos 0,4 s por transición.
-   - Estructura de reel que retiene: `hook` (3–4 s, frase impactante) → 5–7 escenas de contenido variadas → `outro` con CTA.
+   - Estructura de reel que retiene: gancho (3–6 s, frase impactante) → 5–7 planos/escenas de contenido → cierre con CTA.
+     En el estilo por defecto todo son escenas `world` (una por plano); el gancho y el cierre son planos del mundo.
    - Textos CORTOS: máx. ~25 palabras por escena `text`, ~8 palabras por item de `list`/`steps`. Calcula ~3 palabras/segundo de lectura.
    - Varía los tipos de escena (no repitas el mismo tipo seguido). Usa `highlight` para 1–3 palabras clave.
    - Elige un `theme` acorde al tema (bg1/bg2 oscuros, accent/accent2 vivos y contrastados).
@@ -20,7 +26,7 @@ El usuario pide un tema y Claude produce el vídeo.
      pantalla, tono cercano, frases cortas). Escribe los números y símbolos con letras ("sesenta y tres miligramos",
      no "63 mg") para que la voz los lea bien. Ritmo ≈ 2,8 palabras/s; el total no debe pasar de 60 s
      (`scripts/tts.py` alarga las escenas para que quepa la voz y avisa si te pasas).
-   - La escena 0 debe ser un `drawing` con `bigTitle: true` y `title` con 1–2 palabras en `highlight`: la capa de
+   - (Solo estilo clásico) La escena 0 debe ser un `drawing` con `bigTitle: true` y `title` con 1–2 palabras en `highlight`: la capa de
      HyperFrames convierte ese título en el gancho animado (antes del destacado → letras que explotan; destacado →
      cae de golpe; después → rotulador con círculo en la última palabra). Para controlarlo: `"hookTitle":
      {"top": "...", "main": "...", "bottom": "...", "emphasis": "..."}` en la escena 0.
@@ -64,7 +70,7 @@ Solo si el usuario pide expresamente ver las diapositivas, usa la composición `
    `npx remotion still src/index.ts Presentation ... --props=out/<slug>.props.json` antes del render final.
 Composición en `src/presentation/` (schema.ts + Presentation.tsx). Demo: `videos/ejemplo-presentacion.slides.json`.
 
-## Estilo combinado: ilustraciones + capa de HyperFrames (preferencia del usuario)
+## Estilo combinado (CLÁSICO, ya no es el de por defecto): ilustraciones + capa de HyperFrames
 El usuario veía sus reels "mucho menos animados que el resto". La fórmula aprobada es **combinar**:
 ilustraciones de calidad (Remotion, escenas `drawing`) + una **capa de motion graphics de HyperFrames** encima de
 todo el reel, sincronizada con la voz. `npm run reel` lo hace todo; detalle de lo que ocurre por dentro:
@@ -79,8 +85,8 @@ Si cambias el guion o la voz, regenera la capa (va sincronizada a las duraciones
 aprobó el usuario: `iris` (círculo que se abre), `whip` (barrido lateral), `flip` (giro de tarjeta) y `clock` (reloj).
 NO uses `grid` (cuadrados de colores, no le gusta) ni `push` (empuje + destello, descartada).
 
-## Estilo "mundo continuo" (APROBADO por el usuario, nov. 2026)
-Alternativa al estilo combinado, inspirada en reels técnicos muy fluidos (ver `docs/estilos-referencia.md`, ref. 2 y 3).
+## Estilo "mundo continuo" (POR DEFECTO, aprobado por el usuario en nov. 2026)
+Sustituye al estilo combinado como opción por defecto; inspirada en reels técnicos muy fluidos (ver `docs/estilos-referencia.md`, ref. 2 y 3).
 Ejemplos: `videos/hipoteca-intereses.json` (referencia principal) y `videos/subida-sueldo-irpf-v2.json`.
 - **Un solo escenario grande** (`src/worlds/<Nombre>World.tsx`, registrado en `src/worlds/World.tsx`) y una **cámara**
   que viaja entre planos: cada escena es `{"type": "world", "world": "<nombre>", "shot": N}`. Sin cortes:

@@ -149,7 +149,7 @@ export const HipotecaWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
           {pOwe > 0.02 && <ellipse cx={0} cy={10} rx={420} ry={190} fill="url(#hRedGlow)" opacity={0.6 + 0.3 * Math.sin(g / 6)} />}
           <rect x={-316} y={-108} width={632} height={40} rx={16} fill="#fff" opacity={0.05} />
           <text y={-50} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={34} letterSpacing={4} fill={pOwe > 0.02 ? RED : GOLD2}>{pOwe > 0.02 ? tr.hRepay : tr.hBorrow}</text>
-          <text y={70} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={118} fill={pOwe > 0.02 ? RED : INK}>{eur(200000 + (P + TOTAL_INT - 200000) * pOwe, L)}</text>
+          <text y={70} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={100} fill={pOwe > 0.02 ? RED : INK}>{eur(200000 + (P + TOTAL_INT - 200000) * pOwe, L)}</text>
         </g>
         {/* casa con volumen */}
         <g transform={`translate(0 ${Math.sin(g / 70) * 3})`}>
@@ -163,7 +163,7 @@ export const HipotecaWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
           <path d="M 400 900 L 470 860" stroke="#fff" strokeOpacity={0.25} strokeWidth={10} strokeLinecap="round" />
           {/* chimenea y humo */}
           <rect x={660} y={860} width={56} height={120} fill="#6e2a1f" stroke="#3a140e" strokeWidth={4} />
-          {[0, 1, 2, 3].map((i) => { const p = ((g + i * 22) % 88) / 88; return <circle key={i} cx={688 + Math.sin(p * 5 + i) * 18 + p * 40} cy={840 - p * 230} r={18 + p * 40} fill="#cfd5dd" opacity={(1 - p) * 0.22} />; })}
+          {[0, 1, 2, 3].map((i) => { const p = ((g + i * 22) % 88) / 88; return <circle key={i} cx={688 + Math.sin(p * 5 + i) * 18 + p * 40} cy={840 - p * 110} r={18 + p * 40} fill="#cfd5dd" opacity={(1 - p) * 0.22} />; })}
           {/* ventanas con luz cálida */}
           {[[350, 1180], [610, 1180]].map(([x, y], i) => (
             <g key={i}>
@@ -200,12 +200,12 @@ export const HipotecaWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
         <g transform={`translate(0 ${(1 - sp(1, 10)) * 60})`} opacity={Math.max(0.15, sp(1, 10))}>
           <Panel x={170} y={1780} w={740} h={460} stroke={GOLD}>
             <text x={540} y={1880} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={36} letterSpacing={4} fill={MUTED}>{tr.hMonthly}</text>
-            <text x={540} y={2030} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={130} fill={INK}>{eur(CUOTA * pCuota, L, 2)}</text>
+            <text x={540} y={2030} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={130} fill={INK} opacity={Math.min(1, pCuota * 2)} transform={`translate(540 1990) scale(${0.85 + 0.15 * pCuota}) translate(-540 -1990)`}>{eur(CUOTA, L, 2)}</text>
             <text x={540} y={2130} textAnchor="middle" fontFamily={body} fontWeight={700} fontSize={34} fill={GOLD2}>{tr.hTerms}</text>
             <text x={540} y={2190} textAnchor="middle" fontFamily={body} fontWeight={600} fontSize={28} fill={MUTED}>{tr.hSame}</text>
           </Panel>
-          <g transform={`translate(860 1780) scale(${sp(1, at(0, 3.5) + 25, 8)})`}>
-            <rect x={-110} y={-36} width={220} height={72} rx={36} fill={GOLD} />
+          <g transform={`translate(790 1780) scale(${sp(1, at(0, 3.5) + 25, 8)})`}>
+            <rect x={-140} y={-36} width={280} height={72} rx={36} fill={GOLD} />
             <text y={13} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={34} fill="#1a1406">{tr.hTimes360}</text>
           </g>
         </g>
@@ -253,7 +253,7 @@ export const HipotecaWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
           </g>); })()}
         <rect x={170} y={3230} width={300} height={740} rx={40} fill="url(#hGlass)" />
         <rect x={192} y={3260} width={22} height={680} rx={11} fill="#fff" opacity={0.25} />
-        <text x={320} y={3640} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={60} fill="#151a21">{eur(200000, L)}</text>
+        <text x={320} y={3640} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={46} fill="#151a21">{eur(200000, L)}</text>
         {/* fórmula */}
         <Panel x={530} y={3260} w={400} h={680} stroke="#ffffff30">
           {[eur(200000, L), tr.hTimesRate, tr.hPerMonth].map((s, i) => (
@@ -302,12 +302,12 @@ export const HipotecaWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
               ))}
               {/* año 7: el capital pasa a ser mayor que los intereses */}
               <g opacity={y7}>
-                <line x1={yr7x + bw / 2} y1={4660} x2={yr7x + bw / 2} y2={base} stroke={GOLD} strokeWidth={4} strokeDasharray="12 10" strokeDashoffset={-g % 22} />
+                <line x1={yr7x + bw / 2} y1={4716} x2={yr7x + bw / 2} y2={base} stroke={GOLD} strokeWidth={4} strokeDasharray="12 10" strokeDashoffset={-g % 22} />
                 <circle cx={yr7x + bw / 2} cy={base - H / 2} r={16 + 4 * Math.sin(g / 6)} fill={GOLD} />
                 <circle cx={yr7x + bw / 2} cy={base - H / 2} r={60} fill="url(#hGoldGlow)" />
-                <rect x={yr7x + bw / 2 + 24} y={4640} width={520} height={110} rx={22} fill={PANEL} stroke={GOLD} strokeWidth={3} />
-                <text x={yr7x + bw / 2 + 50} y={4688} fontFamily={display} fontWeight={900} fontSize={38} fill={GOLD2}>{tr.hYear7}</text>
-                <text x={yr7x + bw / 2 + 50} y={4730} fontFamily={body} fontWeight={700} fontSize={28} fill={INK}>{tr.hYear7b}</text>
+                <rect x={yr7x + bw / 2 + 24} y={4612} width={520} height={104} rx={22} fill={PANEL} stroke={GOLD} strokeWidth={3} />
+                <text x={yr7x + bw / 2 + 50} y={4656} fontFamily={display} fontWeight={900} fontSize={38} fill={GOLD2}>{tr.hYear7}</text>
+                <text x={yr7x + bw / 2 + 50} y={4698} fontFamily={body} fontWeight={700} fontSize={28} fill={INK}>{tr.hYear7b}</text>
               </g>
               {/* amortizar pronto (plano 6): moneda que cae al principio y los intereses siguientes encogen */}
               {shot >= 6 && (
@@ -315,9 +315,9 @@ export const HipotecaWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
                   <Coin x={x0 + bw * 1.5} y={interpolate(coinP, [0, 1], [4420, base - H - 30])} r={34} rot={coinP * 360} />
                   <ellipse cx={x0 + bw * 1.5} cy={base - H - 10} rx={90} ry={40} fill="url(#hGoldGlow)" opacity={coinP} />
                   <g opacity={interpolate(shrink, [0.3, 0.8], [0, 1], clamp)}>
-                    <rect x={x0 + 200} y={4640} width={600} height={110} rx={22} fill={PANEL} stroke={GREEN} strokeWidth={3} />
-                    <text x={x0 + 230} y={4688} fontFamily={display} fontWeight={900} fontSize={36} fill={GREEN}>{tr.hEarly}</text>
-                    <text x={x0 + 230} y={4730} fontFamily={body} fontWeight={700} fontSize={26} fill={MUTED}>{tr.hEarlyB}</text>
+                    <rect x={x0 + 200} y={4612} width={600} height={104} rx={22} fill={PANEL} stroke={GREEN} strokeWidth={3} />
+                    <text x={x0 + 230} y={4656} fontFamily={display} fontWeight={900} fontSize={36} fill={GREEN}>{tr.hEarly}</text>
+                    <text x={x0 + 230} y={4698} fontFamily={body} fontWeight={700} fontSize={26} fill={MUTED}>{tr.hEarlyB}</text>
                   </g>
                 </g>
               )}

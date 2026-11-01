@@ -17,6 +17,8 @@ export type WorldProps = { shot: number; t: number; g: number; data: Record<stri
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 export const MOVE = 54; // fotogramas (30 fps) que tarda la cámara en llegar al plano nuevo
+// La cámara espera a que acabe el fundido entre escenas (0,4 s): si se moviera durante el fundido, se verían dos encuadres.
+export const HOLD = 13;
 const CAM_EASE = Easing.bezier(0.45, 0, 0.2, 1); // arranque y frenada suaves, sin tirones
 
 /** Momento (en fotogramas de 30 fps) de la palabra `i` de data.atWords (tts.py lo convierte en data.at, en segundos). */
@@ -33,7 +35,7 @@ export const prog = (shot: number, k: number, t: number, delay = 0, dur = 30, ea
 export const focus = (shot: number, t: number, shots: number[]) => {
   const was = shots.includes(shot - 1), is = shots.includes(shot);
   if (was === is) return is ? 1 : 0;
-  const p = interpolate(t, [0, MOVE], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const p = interpolate(t, [HOLD, HOLD + MOVE], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
   return is ? p : 1 - p;
 };
 
@@ -49,7 +51,7 @@ export const World: React.FC<{ name: string; shot: number; data: Record<string, 
   if (!w) return <AbsoluteFill style={{ color: "red", fontSize: 50 }}>Mundo desconocido: {name}</AbsoluteFill>;
   const to = w.cams[Math.min(shot, w.cams.length - 1)];
   const from = shot === 0 ? { ...to, w: to.w * 1.3, rx: (to.rx ?? 0) + 8 } : w.cams[shot - 1];
-  const p = interpolate(t, [0, MOVE], [0, 1], { ...clamp, easing: CAM_EASE });
+  const p = interpolate(t, [HOLD, HOLD + MOVE], [0, 1], { ...clamp, easing: CAM_EASE });
   const L = (a: number, b: number) => a + (b - a) * p;
   // deriva lenta continua (tiempo global → sin saltos entre escenas): la cámara nunca está quieta
   const drift = 1 + Math.sin(g / 95) * 0.012;

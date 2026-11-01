@@ -33,7 +33,7 @@
     },
     {
       "type": "world", "world": "hipoteca", "shot": 3, "duration": 7,
-      "data": { "atWords": ["muchísimo"] },
+      "data": { "atWords": ["aún debes"] },
       "highlight": ["debes."],
       "voice": "¿Por qué? Porque cada mes pagas intereses sobre todo lo que aún debes. Y al principio, debes muchísimo."
     },
@@ -45,7 +45,7 @@
     },
     {
       "type": "world", "world": "hipoteca", "shot": 5, "duration": 7,
-      "data": { "atWords": ["doscientos", "cien"] },
+      "data": { "atWords": ["doscientos", "más de cien"] },
       "highlight": ["cien"],
       "voice": "En total: doscientos mil de la casa, y más de cien mil en intereses."
     },

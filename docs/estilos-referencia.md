@@ -41,3 +41,23 @@ Ref.: reel de Instagram de @heysansser (nov. 2026), 53,6 s, 9 elementos, 1080x19
 - La "prueba" inferior puede ser una tarjeta o mini gráfico propio (no capturas de terceros).
 - Cierre: cuadrícula resumen con todos los elementos + CTA "comenta PALABRA" (la capa de HyperFrames puede animar la palabra).
 - Encaja con temas de listas: herramientas, hábitos, errores, trucos, comparativas "antes → después".
+
+---
+
+## 2. "Explicador ilustrado" (escenas por plano con fondos pictóricos)
+Ref.: reel de Instagram de @menteshipoteticas, "¿Qué pasaría si no pones el modo avión…?" (nov. 2026), 1:42, 60 fps.
+- Un plano por idea, cortes al ritmo de la voz; ilustración vectorial semiplana (avión, altavoz, móvil, antenas)
+  sobre fondos pictóricos (nubes y cielos de mapa de bits) con paralaje; globo 3D casi fotográfico con arcos.
+- Movimiento: zooms y paneos de cámara suaves, anillos de pulso, ondas en zigzag, haces de luz, contador grande.
+- Subtítulos arriba: palabras ya dichas en gris, palabra clave con recuadro de selección y tiradores (→ `captionStyle: "select"`).
+
+## 3. "Mundo técnico continuo" (el que adoptamos: estilo "mundo continuo")
+Ref.: reel de Instagram de @speedy_devv, "How does the touchscreen really work?" (nov. 2026), 1:25, 60 fps.
+Hecho con su herramienta propia (getkeyframes.com, según la descripción del post).
+- Casi sin cortes: un único escenario y la cámara viaja de la sección del cristal a la rejilla de cables, a la rejilla
+  en perspectiva y al móvil inclinado. Eso es lo que da la sensación de fluidez (no los fps).
+- Realismo: materiales con textura (piel con huella, guante de punto, metal, cristal), paleta casi negra con un solo
+  color de luz (dorado), brillos que se derraman, perspectiva 3D y viñeteado.
+- Datos dentro de la escena (valores que cambian donde toca el dedo, "120 scans a second" con fuente), etiquetas con
+  líneas guía, aviso "Magnified illustration".
+- Implementación aquí: `src/worlds/` (escena `world`), `transitionStyle: "fade"`, `captionStyle: "select"`.

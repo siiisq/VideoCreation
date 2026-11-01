@@ -79,6 +79,28 @@ Si cambias el guion o la voz, regenera la capa (va sincronizada a las duraciones
 aprobó el usuario: `iris` (círculo que se abre), `whip` (barrido lateral), `flip` (giro de tarjeta) y `clock` (reloj).
 NO uses `grid` (cuadrados de colores, no le gusta) ni `push` (empuje + destello, descartada).
 
+## Estilo "mundo continuo" (APROBADO por el usuario, nov. 2026)
+Alternativa al estilo combinado, inspirada en reels técnicos muy fluidos (ver `docs/estilos-referencia.md`, ref. 2 y 3).
+Ejemplos: `videos/hipoteca-intereses.json` (referencia principal) y `videos/subida-sueldo-irpf-v2.json`.
+- **Un solo escenario grande** (`src/worlds/<Nombre>World.tsx`, registrado en `src/worlds/World.tsx`) y una **cámara**
+  que viaja entre planos: cada escena es `{"type": "world", "world": "<nombre>", "shot": N}`. Sin cortes:
+  `"transitionStyle": "fade"` (los dos fotogramas del fundido son idénticos porque la cámara espera a que acabe, `HOLD`).
+- **Estética técnica oscura**: fondo casi negro con rejilla, polvo flotando, viñeteado, materiales con textura
+  (papel con `fx/grain.png`, metal, cristal), un acento dorado. **Rojo solo para lo que pierdes/pagas de más**,
+  verde para lo que está bien/igual. Cifras grandes dentro de la escena; etiquetas con líneas guía.
+- **Subtítulos** `"captionStyle": "select"`: arriba, palabras dichas en gris, palabra clave (de `highlight`) con
+  recuadro de selección y tiradores. `"lightLeaks": false`. Sin título animado de HyperFrames (el gancho es la escena).
+- **Cámara**: `Cam {x, y, w, rx}` por plano (ancho visible en unidades del mundo; `rx` = inclinación 3D suave, 4–8°).
+  Deriva lenta continua con el tiempo global (`useGlobalFrame`), nunca quieta.
+- **Composición (errores que el usuario ya marcó)**: en cada plano deja libre la franja superior de pantalla
+  (y < 430 px) para los subtítulos y pon el contenido entre 450 y 1600 px; nada de textos que se pisen ni que se
+  salgan de su recuadro; retira (opacidad) los recuadros del plano anterior antes de mostrar los nuevos en el mismo sitio.
+- **Que se entienda**: UNA idea por plano, un solo ejemplo de principio a fin con cifras reales calculadas
+  (no inventadas), fórmulas sencillas en pantalla cuando ayuden.
+- **Ritmo**: apariciones sincronizadas con la voz con `data.atWords` (→ `data.at`; usa `atF(data, i, def)`).
+  Ojo: la búsqueda es por subcadena ("cien" está dentro de "doscientos"): elige palabras inequívocas.
+- **Revisión**: capturas de cada plano y de los fundidos (cada 0,1 s alrededor de cada corte) antes del render final.
+
 ## Biblioteca de estilos de referencia
 `docs/estilos-referencia.md` guarda patrones de animación analizados de reels de referencia (estructura, tiempos,
 plantillas por escena, cómo implementarlos aquí). Consúltala al planificar un reel nuevo (sobre todo listas "top N")
@@ -117,7 +139,7 @@ animaciones visuales de datos. Usa los gráficos animados de `src/scenes/Charts.
 `outro` admite `confetti`. Extrae datos reales de los gráficos nativos del PPTX con python-pptx (`chart.plots[].series`).
 
 ## Tipos de escena (ver `src/schema.ts`)
-`hook`, `text`, `list`, `stat` (cifra que cuenta), `compare` (A vs B), `steps`, `quote`, `bars` (gráfico), `outro`,
+`hook`, `text`, `list`, `stat` (cifra que cuenta), `compare` (A vs B), `steps`, `quote`, `bars` (gráfico), `outro`, `world` (mundo continuo, ver arriba),
 y `drawing`: ilustración SVG animada (`src/drawings/`), con `title`, `text`, `data` y una `mascot` opcional
 (grano de café con cara, `mood`: happy/surprised/wink/thinking, `say`: bocadillo). En escenas `drawing`,
 `data.atWords: ["palabra", ...]` sincroniza apariciones con la voz (se convierte en `data.at` en segundos).

@@ -301,7 +301,7 @@ export const HipotecaWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
                 <text key={n as number} x={x0 + bw * ((n as number) - 0.5)} y={base + 50} textAnchor="middle" fontFamily={body} fontWeight={700} fontSize={28} fill={MUTED}>{s as string}</text>
               ))}
               {/* año 7: el capital pasa a ser mayor que los intereses */}
-              <g opacity={y7}>
+              <g opacity={y7 * (shot >= 6 ? 1 - interpolate(t, [15, 35], [0, 1], clamp) : 1)}>
                 <line x1={yr7x + bw / 2} y1={4716} x2={yr7x + bw / 2} y2={base} stroke={GOLD} strokeWidth={4} strokeDasharray="12 10" strokeDashoffset={-g % 22} />
                 <circle cx={yr7x + bw / 2} cy={base - H / 2} r={16 + 4 * Math.sin(g / 6)} fill={GOLD} />
                 <circle cx={yr7x + bw / 2} cy={base - H / 2} r={60} fill="url(#hGoldGlow)" />
@@ -315,9 +315,9 @@ export const HipotecaWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
                   <Coin x={x0 + bw * 1.5} y={interpolate(coinP, [0, 1], [4420, base - H - 30])} r={34} rot={coinP * 360} />
                   <ellipse cx={x0 + bw * 1.5} cy={base - H - 10} rx={90} ry={40} fill="url(#hGoldGlow)" opacity={coinP} />
                   <g opacity={interpolate(shrink, [0.3, 0.8], [0, 1], clamp)}>
-                    <rect x={x0 + 200} y={4612} width={600} height={104} rx={22} fill={PANEL} stroke={GREEN} strokeWidth={3} />
-                    <text x={x0 + 230} y={4656} fontFamily={display} fontWeight={900} fontSize={36} fill={GREEN}>{tr.hEarly}</text>
-                    <text x={x0 + 230} y={4698} fontFamily={body} fontWeight={700} fontSize={26} fill={MUTED}>{tr.hEarlyB}</text>
+                    <rect x={x0 + 80} y={4612} width={720} height={104} rx={22} fill={PANEL} stroke={GREEN} strokeWidth={3} />
+                    <text x={x0 + 110} y={4656} fontFamily={display} fontWeight={900} fontSize={36} fill={GREEN}>{tr.hEarly}</text>
+                    <text x={x0 + 110} y={4698} fontFamily={body} fontWeight={700} fontSize={26} fill={MUTED}>{tr.hEarlyB}</text>
                   </g>
                 </g>
               )}

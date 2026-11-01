@@ -1,0 +1,64 @@
+import React from "react";
+import { AbsoluteFill, Easing, interpolate } from "remotion";
+import { Theme } from "../schema";
+import { useGlobalFrame } from "../sceneTime";
+import { useFrame } from "../time";
+import { IrpfWorld, IRPF_CAMS } from "./IrpfWorld";
+
+/**
+ * "Mundos" a pantalla completa: un único escenario grande y una cámara que viaja entre planos (shots).
+ * Cada escena del guion es un plano: la cámara va del plano anterior al actual al empezar la escena, así que
+ * con transitionStyle "fade" el cambio de escena es invisible (los dos fotogramas son idénticos).
+ * Las animaciones de cada plano usan `prog(...)`: valen 0 antes de su plano, 1 después, y se animan durante él.
+ */
+export type Cam = { x: number; y: number; w: number; rx?: number; rz?: number };
+export type WorldProps = { shot: number; t: number; g: number; data: Record<string, unknown>; theme: Theme };
+
+const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
+export const MOVE = 42; // fotogramas (30 fps) que tarda la cámara en llegar al plano nuevo
+
+/** Progreso 0–1 de una animación que pertenece al plano `k`. */
+export const prog = (shot: number, k: number, t: number, delay = 0, dur = 30, ease = Easing.inOut(Easing.cubic)) =>
+  shot > k ? 1 : shot < k ? 0 : interpolate(t, [delay, delay + dur], [0, 1], { ...clamp, easing: ease });
+
+/** Cuánto está "en foco" un elemento visible en los planos `shots` (para atenuar lo que no importa ahora). */
+export const focus = (shot: number, t: number, shots: number[]) => {
+  const was = shots.includes(shot - 1), is = shots.includes(shot);
+  if (was === is) return is ? 1 : 0;
+  const p = interpolate(t, [0, MOVE], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  return is ? p : 1 - p;
+};
+
+const worlds: Record<string, { C: React.FC<WorldProps>; cams: Cam[]; bg: string }> = {
+  irpf: { C: IrpfWorld, cams: IRPF_CAMS, bg: "#0b0c0f" },
+};
+
+export const World: React.FC<{ name: string; shot: number; data: Record<string, unknown>; theme: Theme }> = ({ name, shot, data, theme }) => {
+  const t = useFrame();
+  const g = useGlobalFrame();
+  const w = worlds[name];
+  if (!w) return <AbsoluteFill style={{ color: "red", fontSize: 50 }}>Mundo desconocido: {name}</AbsoluteFill>;
+  const to = w.cams[Math.min(shot, w.cams.length - 1)];
+  const from = shot === 0 ? { ...to, w: to.w * 1.3, rx: (to.rx ?? 0) + 8 } : w.cams[shot - 1];
+  const p = interpolate(t, [0, MOVE], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const L = (a: number, b: number) => a + (b - a) * p;
+  // deriva lenta continua (tiempo global → sin saltos entre escenas): la cámara nunca está quieta
+  const drift = 1 + Math.sin(g / 95) * 0.012;
+  const cw = L(from.w, to.w) * drift;
+  const ch = (cw * 16) / 9;
+  const cx = L(from.x, to.x) + Math.sin(g / 140) * 8;
+  const cy = L(from.y, to.y) + Math.cos(g / 120) * 10;
+  const rx = L(from.rx ?? 0, to.rx ?? 0);
+  const rz = L(from.rz ?? 0, to.rz ?? 0) + Math.sin(g / 160) * 0.4;
+  return (
+    <AbsoluteFill style={{ background: w.bg, overflow: "hidden" }}>
+      <div style={{ position: "absolute", inset: 0, transform: `perspective(1700px) rotateX(${rx}deg) rotateZ(${rz}deg) scale(${1 + rx / 160})`, transformOrigin: "50% 55%" }}>
+        <svg width={1080} height={1920} viewBox={`${cx - cw / 2} ${cy - ch / 2} ${cw} ${ch}`} style={{ position: "absolute", inset: 0 }}>
+          <w.C shot={shot} t={t} g={g} data={data} theme={theme} />
+        </svg>
+      </div>
+      {/* viñeteado: centra la mirada y da profundidad */}
+      <AbsoluteFill style={{ background: "radial-gradient(ellipse 75% 60% at 50% 50%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.72) 100%)", pointerEvents: "none" }} />
+    </AbsoluteFill>
+  );
+};

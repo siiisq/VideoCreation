@@ -1,0 +1,73 @@
+{
+  "title": "Te suben el sueldo y no lo notas (v2: mundo continuo, estilo técnico)",
+  "lang": "es",
+  "handle": "@less_thanaminute",
+  "theme": {
+    "bg1": "#0b0c0f",
+    "bg2": "#16181d",
+    "accent": "#f2b84b",
+    "accent2": "#ff4d4f",
+    "text": "#e9ecf1"
+  },
+  "transitionStyle": "fade",
+  "captionStyle": "select",
+  "lightLeaks": false,
+  "scenes": [
+    {
+      "type": "world",
+      "world": "irpf",
+      "shot": 0,
+      "duration": 6,
+      "highlight": ["notas."],
+      "voice": "Te suben el sueldo un dieciséis por ciento… y a final de año no lo notas. Te explico por qué."
+    },
+    {
+      "type": "world",
+      "world": "irpf",
+      "shot": 1,
+      "duration": 7,
+      "highlight": ["igual."],
+      "voice": "Primero, los precios: si la cesta también sube un dieciséis por ciento, hasta aquí te quedas igual."
+    },
+    {
+      "type": "world",
+      "world": "irpf",
+      "shot": 2,
+      "duration": 9,
+      "highlight": ["tramos,"],
+      "voice": "Pero Hacienda cobra por tramos, y los tramos no suben con los precios. Así que más euros de tu sueldo caen en el tramo del treinta por ciento."
+    },
+    {
+      "type": "world",
+      "world": "irpf",
+      "shot": 3,
+      "duration": 6,
+      "highlight": ["veinticuatro."],
+      "voice": "Resultado: tu sueldo sube un dieciséis por ciento, pero tu IRPF sube un veinticuatro."
+    },
+    {
+      "type": "world",
+      "world": "irpf",
+      "shot": 4,
+      "duration": 8,
+      "highlight": ["faltan"],
+      "voice": "Para comprar lo mismo que antes necesitarías unos veintisiete mil setecientos euros. Tienes veintisiete mil doscientos: te faltan unos cuatrocientos sesenta al año."
+    },
+    {
+      "type": "world",
+      "world": "irpf",
+      "shot": 5,
+      "duration": 9,
+      "highlight": ["deflactar:"],
+      "voice": "La solución se llama deflactar: subir los tramos lo mismo que los precios. Así sigues en el mismo tramo. Algunas comunidades lo han hecho; el Estado, no."
+    },
+    {
+      "type": "world",
+      "world": "irpf",
+      "shot": 6,
+      "duration": 6,
+      "highlight": ["engañen:"],
+      "voice": "Que no te engañen: mira lo que puedes comprar, no tu sueldo bruto. Sígueme para más."
+    }
+  ]
+}

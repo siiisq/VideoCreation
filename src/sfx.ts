@@ -21,6 +21,7 @@ export const autoCues = (scene: Scene): Cue[] => {
     case "bars": return [{ sound: "rise", at: 0.3, volume: 0.6 }];
     case "outro": return scene.confetti ? [{ sound: "pop", at: 0.05 }, { sound: "sparkle", at: 0.3 }, { sound: "sparkle", at: 1.0 }] : [{ sound: "sparkle", at: 1.0 }];
     case "quote": return [];
+    case "world": return [];
     case "kpis": return scene.tiles.flatMap((_, i) => [{ sound: "pop" as const, at: f(8 + i * 10), volume: 0.5 }, ...(scene.tiles[i].delta ? [{ sound: "click" as const, at: f(53 + i * 10), volume: 0.5 }] : [])]);
     case "waffle": return [{ sound: "rise", at: f(20), volume: 0.5 }, { sound: "ding", at: f(80) }];
     case "dumbbell": return scene.rows.map((_, i): Cue => ({ sound: "click", at: f(22 + i * 7), volume: 0.5 })).concat([{ sound: "ding", at: f(52 + (scene.rows.length - 1) * 7), volume: 0.6 }]);

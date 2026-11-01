@@ -8,6 +8,7 @@ import { body, display } from "../fonts";
 import { Scene, Theme } from "../schema";
 import { Card, Stage, Title } from "./common";
 import { Drawing as DrawingSvg } from "../drawings/Drawings";
+import { World } from "../worlds/World";
 import { Columns, Donut, Dumbbell, Kpis, LineChart, MultiBars, Waffle } from "./Charts";
 
 type P<T extends Scene["type"]> = { scene: Extract<Scene, { type: T }>; theme: Theme };
@@ -265,5 +266,6 @@ const SceneBody: React.FC<{ scene: Scene; theme: Theme }> = ({ scene, theme }) =
     case "donut": return <Donut scene={scene} theme={theme} />;
     case "multibars": return <MultiBars scene={scene} theme={theme} />;
     case "outro": return <Outro scene={scene} theme={theme} />;
+    case "world": return <World name={scene.world} shot={scene.shot} data={scene.data} theme={theme} />;
   }
 };

@@ -6,6 +6,8 @@ import { pushCut } from "@remotion/transitions/push-cut";
 import { iris } from "@remotion/transitions/iris";
 import { flip } from "@remotion/transitions/flip";
 import { clockWipe } from "@remotion/transitions/clock-wipe";
+import { fade } from "@remotion/transitions/fade";
+import { SceneStart } from "./sceneTime";
 import { Background } from "./components/Background";
 import { body } from "./fonts";
 import { Reel as ReelT, reelSchema } from "./schema";
@@ -36,6 +38,7 @@ const pickTransition = (style: string, i: number, w: number, h: number): Transit
     case "whip": return slide({ direction: i % 2 ? "from-left" : "from-right" });
     case "flip": return flip({ direction: i % 2 ? "from-left" : "from-right" });
     case "clock": return clockWipe({ width: w, height: h });
+    case "fade": return fade();
     default: return pickTransition(["iris", "whip", "flip", "clock"][i % 4], i, w, h); // mix: rota las aprobadas
   }
 };
@@ -90,7 +93,7 @@ export const Reel: React.FC<ReelT> = (props) => {
         {reel.scenes.flatMap((scene, i) => {
           const items = [
             <TransitionSeries.Sequence key={`s${i}`} durationInFrames={Math.round(scene.duration * fps)}>
-              <SceneView scene={reel.captions && scene.type === "drawing" ? { ...scene, text: undefined } : reel.hideCtaAtEnd && scene.type === "outro" ? { ...scene, cta: undefined } : scene} theme={theme} />
+              <SceneStart.Provider value={starts[i] / fps}><SceneView scene={reel.captions && scene.type === "drawing" ? { ...scene, text: undefined } : reel.hideCtaAtEnd && scene.type === "outro" ? { ...scene, cta: undefined } : scene} theme={theme} /></SceneStart.Provider>
             </TransitionSeries.Sequence>,
           ];
           if (i < reel.scenes.length - 1) {

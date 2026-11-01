@@ -9,7 +9,7 @@ const base = {
   voiceFile: z.string().optional().describe("rellenado por scripts/tts.py"),
   voiceDuration: z.number().optional().describe("rellenado por scripts/tts.py"),
   overlay: z.string().optional().describe("vídeo con transparencia en public/ (p. ej. motion graphics de HyperFrames) encima de la escena"),
-  transition: z.enum(["mix", "push", "iris", "whip", "flip", "clock"]).optional().describe("transición de entrada a esta escena (sobrescribe transitionStyle)"),
+  transition: z.enum(["mix", "push", "iris", "whip", "flip", "clock", "fade"]).optional().describe("transición de entrada a esta escena (sobrescribe transitionStyle)"),
 };
 
 export const sceneSchema = z.discriminatedUnion("type", [
@@ -61,6 +61,9 @@ export const sceneSchema = z.discriminatedUnion("type", [
     segments: z.array(z.object({ label: z.string(), value: z.number() })).min(1).max(6), center: z.object({ value: z.string(), label: z.string() }).optional() }),
   z.object({ type: z.literal("multibars"), ...base, title: z.string().optional(), text: z.string().optional(), metrics: z.array(z.string()).min(1).max(3),
     rows: z.array(z.object({ label: z.string(), values: z.array(z.number()) })).min(1).max(5) }),
+  // Mundo continuo a pantalla completa: la cámara se mueve entre planos (src/worlds/). Usa transitionStyle "fade".
+  z.object({ type: z.literal("world"), ...base, world: z.string(), shot: z.number().int().min(0).describe("plano de cámara del mundo"),
+    data: z.record(z.unknown()).default({}), highlight: z.array(z.string()).default([]) }),
   // Cierre / llamada a la acción
   z.object({ type: z.literal("outro"), ...base, emoji: z.string().optional(), text: z.string(), cta: z.string().optional(), confetti: z.boolean().default(false) }),
 ]);
@@ -94,8 +97,9 @@ export const reelSchema = z.object({
     volume: z.number().default(1),
   }).default({}),
   sfxVolume: z.number().default(0.55),
-  transitionStyle: z.enum(["grid", "mix", "push", "iris", "whip", "flip", "clock"]).default("mix")
+  transitionStyle: z.enum(["grid", "mix", "push", "iris", "whip", "flip", "clock", "fade"]).default("mix")
     .describe("mix (por defecto) = rota círculo/barrido/giro/reloj; grid = rejilla de colores (el usuario NO la quiere); push descartada por el usuario"),
+  captionStyle: z.enum(["pill", "select"]).default("pill").describe("pill = karaoke en mayúsculas abajo; select = arriba, palabras dichas en gris y recuadro con tiradores en las clave"),
   lightLeaks: z.boolean().default(true),
   grain: z.boolean().default(true).describe("grano de película sutil (evita bandas en degradados)"),
   scenes: z.array(sceneSchema).min(1),

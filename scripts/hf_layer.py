@@ -42,11 +42,13 @@ def main(props_path):
             times.append(round(t0 + dur * c / total_chars, 3)); c += len(w) + 1
         ends = times[1:] + [round(t0 + dur, 3)]
         # trozos de hasta 4 palabras, cortando en puntuación
+        hkeys = {norm(h) for h in s.get("highlight", []) if len(norm(h)) > 2}
         cur = []
         for k, w in enumerate(words):
             cur.append(k)
             if len(cur) >= 4 or re.search(r"[.,:;!?]$", w) or k == len(words) - 1:
                 chunks.append({"words": [words[j] for j in cur], "t": [times[j] for j in cur], "end": ends[cur[-1]],
+                               "keys": [n for n, j in enumerate(cur) if norm(words[j]) in hkeys],
                                "high": i == len(scenes) - 1})  # en el cierre, por encima de la tarjeta de seguir
                 cur = []
         # partículas en las palabras destacadas de la escena
@@ -77,7 +79,10 @@ def main(props_path):
                 "size": round(min(17.0, 130.0 / max(1, len(main))), 2), "accentIndex": max(0, len(main.split()) - 1),
                 "dur": round(starts[1] + 0.15 if len(starts) > 1 else s0["duration"], 2)}  # acaba bajo la rejilla del primer corte
 
-    data = {"total": total, "cuts": starts[1:], "gridCuts": starts[1:] if reel.get("transitionStyle", "mix") == "grid" else [], "chunks": chunks, "bursts": bursts,
+    cap_style = reel.get("captionStyle", "pill")
+    if cap_style == "select":
+        bursts = []  # estilo limpio: sin partículas, la palabra clave lleva recuadro
+    data = {"capStyle": cap_style, "total": total, "cuts": starts[1:], "gridCuts": starts[1:] if reel.get("transitionStyle", "mix") == "grid" else [], "chunks": chunks, "bursts": bursts,
             "outro": starts[-1], "theme": theme, "flash": 0.62, "hook": hook, "trans": TRANS}
 
     out = os.path.join(ROOT, "experiments", "hyperframes", "layers", slug)
@@ -129,6 +134,14 @@ def main(props_path):
   .cap span {{ font-weight: 900; font-size: 62px; line-height: 1.15; text-transform: uppercase; padding: 4px 20px; border-radius: 40px; color: {T['text']};
               text-shadow: 0 4px 18px rgba(0,0,0,.55); background: rgba(0,0,0,0); opacity: 0; }}
   .cap.high {{ top: 1230px; }}
+  /* estilo "select": arriba, palabras dichas en gris, palabra clave con recuadro de selección y tiradores */
+  .cap.sel {{ top: 236px; left: 80px; right: 80px; gap: 4px 16px; }}
+  .cap.sel span {{ position: relative; font-weight: 800; font-size: 58px; text-transform: none; padding: 2px 8px; border-radius: 6px;
+                  text-shadow: 0 3px 16px rgba(0,0,0,.75); }}
+  .cap.sel .box {{ position: absolute; inset: -2px -4px; border: 3px solid {T['accent']}; border-radius: 4px; opacity: 0; }}
+  .cap.sel .box b {{ position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 3px solid {T['accent']}; }}
+  .cap.sel .box b.a {{ left: -9px; top: -9px; }}
+  .cap.sel .box b.z {{ right: -9px; bottom: -9px; }}
   .p {{ position: absolute; left: 540px; top: 1420px; border-radius: 50%; opacity: 0; }}
   .grid {{ position: absolute; inset: 0; display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(16, 1fr); }}
   .grid div {{ transform: scale(0); }}
@@ -152,7 +165,24 @@ def main(props_path):
   tl.fromTo("#flash", {{ opacity: 0 }}, {{ opacity: 0.8, duration: 0.05 }}, D.flash).to("#flash", {{ opacity: 0, duration: 0.35 }}, D.flash + 0.05);
   // subtítulos karaoke
   const caps = document.getElementById("caps");
-  D.chunks.forEach((c, ci) => {{
+  if (D.capStyle === "select") D.chunks.forEach((c) => {{
+    const box = document.createElement("div"); box.className = "cap sel";
+    c.words.forEach((w, k) => {{
+      const s = document.createElement("span"); s.textContent = w;
+      if (c.keys.includes(k)) {{ const b = document.createElement("i"); b.className = "box"; b.innerHTML = '<b class="a"></b><b class="z"></b>'; s.appendChild(b); }}
+      box.appendChild(s);
+    }});
+    caps.appendChild(box);
+    tl.set(box, {{ opacity: 1 }}, c.t[0] - 0.02);
+    box.querySelectorAll("span").forEach((s, k) => {{
+      const key = c.keys.includes(k);
+      tl.fromTo(s, {{ opacity: 0, y: 14 }}, {{ opacity: 1, y: 0, duration: 0.18, ease: "power2.out", immediateRender: false }}, c.t[k] - 0.03);
+      if (key) tl.fromTo(s.querySelector(".box"), {{ opacity: 0, scale: 0.7 }}, {{ opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2.2)", immediateRender: false }}, c.t[k]);
+      else if (k < c.t.length - 1) tl.to(s, {{ color: "rgba(233,236,241,0.42)", duration: 0.15 }}, c.t[k + 1]);
+    }});
+    tl.to(box, {{ opacity: 0, duration: 0.12 }}, c.end - 0.05);
+  }});
+  else D.chunks.forEach((c, ci) => {{
     const box = document.createElement("div"); box.className = c.high ? "cap high" : "cap";
     c.words.forEach((w) => {{ const s = document.createElement("span"); s.textContent = w; box.appendChild(s); }});
     caps.appendChild(box);

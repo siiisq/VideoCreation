@@ -1,0 +1,59 @@
+{
+  "title": "Cómo te cobra el banco una hipoteca",
+  "lang": "es",
+  "handle": "@less_thanaminute",
+  "theme": {
+    "bg1": "#0b0c0f",
+    "bg2": "#16181d",
+    "accent": "#f2b84b",
+    "accent2": "#ff4d4f",
+    "text": "#e9ecf1"
+  },
+  "transitionStyle": "fade",
+  "captionStyle": "select",
+  "lightLeaks": false,
+  "scenes": [
+    {
+      "type": "world", "world": "hipoteca", "shot": 0, "duration": 6,
+      "data": { "atWords": ["trescientos"] },
+      "highlight": ["trescientos"],
+      "voice": "Pides doscientos mil euros para tu casa… y acabas devolviendo más de trescientos mil. ¿Dónde va ese dinero?"
+    },
+    {
+      "type": "world", "world": "hipoteca", "shot": 1, "duration": 8,
+      "data": { "atWords": ["ochocientos"] },
+      "highlight": ["ochocientos"],
+      "voice": "Ejemplo: hipoteca de doscientos mil euros, a treinta años, al tres por ciento fijo. Pagas ochocientos cuarenta y tres euros al mes, siempre lo mismo."
+    },
+    {
+      "type": "world", "world": "hipoteca", "shot": 2, "duration": 8,
+      "data": { "atWords": ["quinientos", "trescientos"] },
+      "highlight": ["intereses"],
+      "voice": "Pero mira por dentro la primera cuota: quinientos euros son intereses para el banco. Solo trescientos cuarenta y tres bajan tu deuda."
+    },
+    {
+      "type": "world", "world": "hipoteca", "shot": 3, "duration": 7,
+      "data": { "atWords": ["muchísimo"] },
+      "highlight": ["debes."],
+      "voice": "¿Por qué? Porque cada mes pagas intereses sobre todo lo que aún debes. Y al principio, debes muchísimo."
+    },
+    {
+      "type": "world", "world": "hipoteca", "shot": 4, "duration": 8,
+      "data": { "atWords": ["siete"] },
+      "highlight": ["siete"],
+      "voice": "Con los años la deuda baja, y los intereses también. Pero durante los primeros siete años pagas más intereses que deuda."
+    },
+    {
+      "type": "world", "world": "hipoteca", "shot": 5, "duration": 7,
+      "data": { "atWords": ["doscientos", "cien"] },
+      "highlight": ["cien"],
+      "voice": "En total: doscientos mil de la casa, y más de cien mil en intereses."
+    },
+    {
+      "type": "world", "world": "hipoteca", "shot": 6, "duration": 8,
+      "data": { "atWords": ["adelantas"] },
+      "highlight": ["antes:"],
+      "voice": "Por eso, si amortizas, mejor cuanto antes: cada euro que adelantas deja de generar intereses todos los años que quedan. Sígueme para más."
+    }
+  ]
+}

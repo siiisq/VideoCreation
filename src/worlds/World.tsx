@@ -4,6 +4,7 @@ import { Theme } from "../schema";
 import { useGlobalFrame } from "../sceneTime";
 import { useFrame } from "../time";
 import { IrpfWorld, IRPF_CAMS } from "./IrpfWorld";
+import { HipotecaWorld, HIPOTECA_CAMS } from "./HipotecaWorld";
 
 /**
  * "Mundos" a pantalla completa: un único escenario grande y una cámara que viaja entre planos (shots).
@@ -15,7 +16,14 @@ export type Cam = { x: number; y: number; w: number; rx?: number; rz?: number };
 export type WorldProps = { shot: number; t: number; g: number; data: Record<string, unknown>; theme: Theme };
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
-export const MOVE = 42; // fotogramas (30 fps) que tarda la cámara en llegar al plano nuevo
+export const MOVE = 54; // fotogramas (30 fps) que tarda la cámara en llegar al plano nuevo
+const CAM_EASE = Easing.bezier(0.45, 0, 0.2, 1); // arranque y frenada suaves, sin tirones
+
+/** Momento (en fotogramas de 30 fps) de la palabra `i` de data.atWords (tts.py lo convierte en data.at, en segundos). */
+export const atF = (data: Record<string, unknown>, i: number, fallbackSec: number) => {
+  const a = Array.isArray(data.at) ? (data.at as number[]) : [];
+  return (typeof a[i] === "number" ? a[i] : fallbackSec) * 30;
+};
 
 /** Progreso 0–1 de una animación que pertenece al plano `k`. */
 export const prog = (shot: number, k: number, t: number, delay = 0, dur = 30, ease = Easing.inOut(Easing.cubic)) =>
@@ -31,6 +39,7 @@ export const focus = (shot: number, t: number, shots: number[]) => {
 
 const worlds: Record<string, { C: React.FC<WorldProps>; cams: Cam[]; bg: string }> = {
   irpf: { C: IrpfWorld, cams: IRPF_CAMS, bg: "#0b0c0f" },
+  hipoteca: { C: HipotecaWorld, cams: HIPOTECA_CAMS, bg: "#0b0c0f" },
 };
 
 export const World: React.FC<{ name: string; shot: number; data: Record<string, unknown>; theme: Theme }> = ({ name, shot, data, theme }) => {
@@ -40,7 +49,7 @@ export const World: React.FC<{ name: string; shot: number; data: Record<string, 
   if (!w) return <AbsoluteFill style={{ color: "red", fontSize: 50 }}>Mundo desconocido: {name}</AbsoluteFill>;
   const to = w.cams[Math.min(shot, w.cams.length - 1)];
   const from = shot === 0 ? { ...to, w: to.w * 1.3, rx: (to.rx ?? 0) + 8 } : w.cams[shot - 1];
-  const p = interpolate(t, [0, MOVE], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
+  const p = interpolate(t, [0, MOVE], [0, 1], { ...clamp, easing: CAM_EASE });
   const L = (a: number, b: number) => a + (b - a) * p;
   // deriva lenta continua (tiempo global → sin saltos entre escenas): la cámara nunca está quieta
   const drift = 1 + Math.sin(g / 95) * 0.012;

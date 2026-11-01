@@ -75,10 +75,10 @@ def main(props_path):
         emph = ht.get("emphasis") or (re.sub(r"[^\wÁÉÍÓÚÜÑáéíóúüñ]", "", bottom.split()[-1]) if bottom else "")
         hook = {"top": top.upper(), "main": main.upper(), "bottom": bottom.upper(), "emphasis": emph.upper(),
                 "size": round(min(17.0, 130.0 / max(1, len(main))), 2), "accentIndex": max(0, len(main.split()) - 1),
-                "dur": round(s0["duration"] + 0.6, 2)}
+                "dur": round(starts[1] + 0.15 if len(starts) > 1 else s0["duration"], 2)}  # acaba bajo la rejilla del primer corte
 
     data = {"total": total, "cuts": starts[1:], "chunks": chunks, "bursts": bursts,
-            "outro": starts[-1], "theme": theme, "flash": 0.62, "hook": hook}
+            "outro": starts[-1], "theme": theme, "flash": 0.62, "hook": hook, "trans": TRANS}
 
     out = os.path.join(ROOT, "experiments", "hyperframes", "layers", slug)
     shutil.rmtree(out, ignore_errors=True)
@@ -181,9 +181,11 @@ def main(props_path):
   const grid = document.getElementById("grid");
   for (let i = 0; i < 144; i++) {{ const d = document.createElement("div"); d.style.background = i % 2 ? A : A2; grid.appendChild(d); }}
   const froms = ["center", "edges", "start", "end", "random"];
+  // La rejilla debe tapar TODO el fundido de Remotion (de t0 a t0 + TRANS): si se retira antes, se ven
+  // superpuestos el título/dibujo de la escena anterior y los de la nueva. Entrada: 0,22 s + 0,26 s de escalonado.
   D.cuts.forEach((t0, i) => {{
-    tl.to("#grid div", {{ scale: 1.03, duration: 0.22, ease: "power2.in", stagger: {{ each: 0.0018, from: froms[i % 5], grid: [16, 9] }} }}, t0 - 0.3);
-    tl.to("#grid div", {{ scale: 0, duration: 0.25, ease: "power2.out", stagger: {{ each: 0.0018, from: froms[(i + 1) % 5], grid: [16, 9] }} }}, t0 + 0.12);
+    tl.to("#grid div", {{ scale: 1.03, duration: 0.22, ease: "power2.in", stagger: {{ each: 0.0018, from: froms[i % 5], grid: [16, 9] }} }}, t0 - 0.52);
+    tl.to("#grid div", {{ scale: 0, duration: 0.25, ease: "power2.out", stagger: {{ each: 0.0018, from: froms[(i + 1) % 5], grid: [16, 9] }} }}, t0 + D.trans + 0.03);
   }});
   window.__timelines["layer"] = tl;
   tl.seek(0);

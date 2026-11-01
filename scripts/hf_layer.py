@@ -80,7 +80,7 @@ def main(props_path):
   * {{ margin: 0; padding: 0; box-sizing: border-box; }}
   html, body {{ width: 1080px; height: 1920px; overflow: hidden; background: transparent; }}
   #root[data-composition-id="layer"] {{ position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Montserrat", sans-serif; }}
-  .cap {{ position: absolute; left: 70px; right: 70px; top: 1360px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 14px; opacity: 0; }}
+  .cap {{ position: absolute; left: 70px; right: 70px; top: 1450px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 14px; opacity: 0; }}
   .cap span {{ font-weight: 900; font-size: 62px; line-height: 1.15; text-transform: uppercase; padding: 4px 20px; border-radius: 40px; color: {T['text']};
               text-shadow: 0 4px 18px rgba(0,0,0,.55); background: rgba(0,0,0,0); opacity: 0; }}
   .p {{ position: absolute; left: 540px; top: 1420px; border-radius: 50%; opacity: 0; }}
@@ -124,7 +124,7 @@ def main(props_path):
   const parts = document.getElementById("parts"), cols = [A, A2, "#c06bff", "#ffffff"];
   D.bursts.forEach((t0, b) => {{
     for (let i = 0; i < 30; i++) {{
-      const p = document.createElement("div"); p.className = "p"; const s = 9 + ((i * 7 + b * 3) % 20);
+      const p = document.createElement("div"); p.className = "p"; p.style.top = "1500px"; const s = 9 + ((i * 7 + b * 3) % 20);
       p.style.width = p.style.height = s + "px"; p.style.background = cols[i % 4]; parts.appendChild(p);
       const a = (i / 30) * Math.PI * 2, d = 180 + ((i * 53 + b * 31) % 260);
       tl.fromTo(p, {{ x: 0, y: 0, opacity: 1, scale: 1 }}, {{ x: Math.cos(a) * d, y: Math.sin(a) * d * 0.8 - 60, opacity: 0, scale: 0.3, duration: 0.9, ease: "power3.out", immediateRender: false }}, t0);

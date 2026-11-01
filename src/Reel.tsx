@@ -107,7 +107,7 @@ export const Reel: React.FC<ReelT> = (props) => {
       )}
       {reel.grain && <Grain />}
       <ProgressBar color={theme.accent} />
-      {reel.handle && !(reel.hideHandleAtEnd && frameNow >= starts[starts.length - 1]) && (
+      {reel.handle && !reel.captions && !(reel.hideHandleAtEnd && frameNow >= starts[starts.length - 1]) && (
         <div style={{ position: "absolute", bottom: 300, width: "100%", textAlign: "center", fontFamily: body, fontWeight: 700, fontSize: 36, color: theme.text, opacity: 0.6 }}>{reel.handle}</div>
       )}
 

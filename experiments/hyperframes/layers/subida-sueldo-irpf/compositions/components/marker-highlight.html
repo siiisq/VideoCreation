@@ -37,7 +37,7 @@
 <html
   lang="en"
   data-composition-id="marker-highlight"
-  data-composition-duration="5.7"
+  data-composition-duration="4.85"
   data-composition-variables='[
     { "id": "text", "type": "string", "role": "content", "label": "Text", "description": "Full line of display text.", "default": "Ship it with confidence" },
     { "id": "emphasis_word", "type": "string", "role": "content", "label": "Emphasis word", "description": "First case-insensitive substring match in text receives the marker. Empty or unmatched draws no marker.", "default": "confidence" },
@@ -53,7 +53,7 @@
   </head>
   <body>
     <template>
-      <div id="root" data-composition-id="marker-highlight" data-duration="5.7" data-fps="30">
+      <div id="root" data-composition-id="marker-highlight" data-duration="4.85" data-fps="30">
         <style>
           *,
           *::before,
@@ -155,7 +155,7 @@
           id="marker-highlight-clip"
           class="mh-clip clip"
           data-start="0"
-          data-duration="5.7"
+          data-duration="4.85"
           data-track-index="0"
         >
           <div class="mh-stage">
@@ -288,7 +288,7 @@
             var DRAW_BASE = 0.6;
             var POP_BASE = 0.32;
             var OUT_BASE = exit === "none" ? 0 : 0.45;
-            var duration = Math.max(0.001, parseFloat(root.dataset.duration || "5.7"));
+            var duration = Math.max(0.001, parseFloat(root.dataset.duration || "4.85"));
             var totalBase = IN_BASE + DRAW_BASE + OUT_BASE;
             var scale = duration < totalBase ? duration / totalBase : 1;
             var IN = IN_BASE * scale;

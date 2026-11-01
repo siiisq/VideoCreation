@@ -1,0 +1,106 @@
+{
+  "title": "¿Por qué lloras al cortar cebolla?",
+  "lang": "es",
+  "handle": "@less_thanaminute",
+  "narrator": {
+    "provider": "gemini",
+    "name": "Charon",
+    "speed": 1.05
+  },
+  "theme": {
+    "bg1": "#16081f",
+    "bg2": "#3d1650",
+    "accent": "#ffc23d",
+    "accent2": "#9be15d",
+    "text": "#fff7ec"
+  },
+  "scenes": [
+    {
+      "type": "drawing",
+      "duration": 4.5,
+      "drawing": "onion-cry",
+      "bigTitle": true,
+      "title": "¿Por qué LLORAS al cortar cebolla?",
+      "highlight": [
+        "LLORAS"
+      ],
+      "voice": "¿Por qué lloras cuando cortas cebolla? Spoiler: no es tristeza. Es una trampa química.",
+      "overlay": "overlays/cebolla-hook.webm",
+      "hideTitle": true
+    },
+    {
+      "type": "drawing",
+      "duration": 7,
+      "drawing": "onion-cells",
+      "title": "Una trampa química",
+      "text": "Cada célula guarda dos ingredientes... por separado.",
+      "highlight": [
+        "separado."
+      ],
+      "voice": "Cada célula de la cebolla guarda dos cosas por separado: compuestos de azufre y una enzima. Mientras está entera, nunca se tocan."
+    },
+    {
+      "type": "drawing",
+      "duration": 6,
+      "drawing": "onion-cells",
+      "data": {
+        "cut": true
+      },
+      "title": "Al cortarla...",
+      "text": "Las células se rompen, se mezclan y liberan un gas.",
+      "highlight": [
+        "gas."
+      ],
+      "voice": "Pero cuando la cortas, rompes las células. Se mezclan, reaccionan, y en segundos fabrican un gas irritante."
+    },
+    {
+      "type": "drawing",
+      "duration": 8,
+      "drawing": "gas-eye",
+      "title": "Directo a tus ojos",
+      "text": "Tus nervios lo detectan y el ojo se defiende con lágrimas.",
+      "highlight": [
+        "lágrimas."
+      ],
+      "voice": "Ese gas flota hasta tus ojos, activa los nervios que los protegen, y tu cuerpo responde como mejor sabe: con lágrimas, para limpiarlos."
+    },
+    {
+      "type": "text",
+      "duration": 6,
+      "emoji": "🏆",
+      "title": "Dato curioso",
+      "text": "Descubrir la enzima culpable ganó un premio Ig Nobel en 2013",
+      "highlight": [
+        "Ig",
+        "Nobel"
+      ],
+      "voice": "Dato curioso: el equipo japonés que descubrió la enzima culpable ganó un premio Ig Nobel de química en dos mil trece."
+    },
+    {
+      "type": "drawing",
+      "duration": 9,
+      "drawing": "onion-tips",
+      "title": "Cómo llorar menos",
+      "data": {
+        "atWords": [
+          "nevera",
+          "cuchillo",
+          "aire"
+        ]
+      },
+      "voice": "¿El truco? Mete la cebolla un rato en la nevera antes de cortarla. Usa un cuchillo bien afilado, que rompe menos células. Y corta con aire: extractor o ventana abierta."
+    },
+    {
+      "type": "outro",
+      "duration": 5,
+      "emoji": "🧅",
+      "text": "¿Cuál es tu truco?",
+      "cta": "Sígueme para más",
+      "voice": "¿Y tú, qué truco usas? Cuéntamelo en comentarios, y sígueme para más ciencia en menos de un minuto."
+    }
+  ],
+  "overlay": "overlays/cebolla-lagrimas-layer.webm",
+  "captions": true,
+  "hideHandleAtEnd": true,
+  "hideCtaAtEnd": true
+}

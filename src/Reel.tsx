@@ -84,7 +84,7 @@ export const Reel: React.FC<ReelT> = (props) => {
         {reel.scenes.flatMap((scene, i) => {
           const items = [
             <TransitionSeries.Sequence key={`s${i}`} durationInFrames={Math.round(scene.duration * fps)}>
-              <SceneView scene={reel.captions && "text" in scene ? ({ ...scene, text: undefined } as typeof scene) : reel.hideCtaAtEnd && scene.type === "outro" ? { ...scene, cta: undefined } : scene} theme={theme} />
+              <SceneView scene={reel.captions && scene.type === "drawing" ? { ...scene, text: undefined } : reel.hideCtaAtEnd && scene.type === "outro" ? { ...scene, cta: undefined } : scene} theme={theme} />
             </TransitionSeries.Sequence>,
           ];
           if (i < reel.scenes.length - 1) {

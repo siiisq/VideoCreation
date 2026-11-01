@@ -5,6 +5,7 @@ import { useGlobalFrame } from "../sceneTime";
 import { useFrame } from "../time";
 import { IrpfWorld, IRPF_CAMS } from "./IrpfWorld";
 import { HipotecaWorld, HIPOTECA_CAMS } from "./HipotecaWorld";
+import { DedosWorld, DEDOS_CAMS } from "./DedosWorld";
 
 /**
  * "Mundos" a pantalla completa: un único escenario grande y una cámara que viaja entre planos (shots).
@@ -42,6 +43,7 @@ export const focus = (shot: number, t: number, shots: number[]) => {
 const worlds: Record<string, { C: React.FC<WorldProps>; cams: Cam[]; bg: string }> = {
   irpf: { C: IrpfWorld, cams: IRPF_CAMS, bg: "#0b0c0f" },
   hipoteca: { C: HipotecaWorld, cams: HIPOTECA_CAMS, bg: "#0b0c0f" },
+  dedos: { C: DedosWorld, cams: DEDOS_CAMS, bg: "#0b0c0f" },
 };
 
 export const World: React.FC<{ name: string; shot: number; data: Record<string, unknown>; theme: Theme }> = ({ name, shot, data, theme }) => {

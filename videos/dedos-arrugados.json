@@ -1,0 +1,126 @@
+{
+  "title": "Tus dedos no se arrugan por el agua",
+  "lang": "es",
+  "handle": "@less_thanaminute",
+  "theme": {
+    "bg1": "#0b0c0f",
+    "bg2": "#16181d",
+    "accent": "#f2b84b",
+    "accent2": "#4fc3ff",
+    "text": "#e9ecf1"
+  },
+  "transitionStyle": "fade",
+  "captionStyle": "select",
+  "lightLeaks": false,
+  "scenes": [
+    {
+      "type": "world",
+      "world": "dedos",
+      "shot": 0,
+      "duration": 6,
+      "data": {
+        "atWords": [
+          "no.",
+          "nervioso"
+        ]
+      },
+      "highlight": [
+        "nervioso,"
+      ],
+      "voice": "¿Tus dedos se arrugan porque absorben agua? Pues no. Lo hace tu sistema nervioso, a propósito."
+    },
+    {
+      "type": "world",
+      "world": "dedos",
+      "shot": 1,
+      "duration": 7,
+      "data": {
+        "atWords": [
+          "pero no"
+        ]
+      },
+      "highlight": [
+        "esponja"
+      ],
+      "voice": "Casi todos pensamos que la piel se empapa como una esponja y se arruga. Suena lógico, pero no es así."
+    },
+    {
+      "type": "world",
+      "world": "dedos",
+      "shot": 2,
+      "duration": 8,
+      "data": {
+        "atWords": [
+          "dañado",
+          "prueba"
+        ]
+      },
+      "highlight": [
+        "dañado,"
+      ],
+      "voice": "La pista llegó en mil novecientos treinta y cinco: si un dedo tenía un nervio dañado, no se arrugaba. Hoy se usa como prueba médica."
+    },
+    {
+      "type": "world",
+      "world": "dedos",
+      "shot": 3,
+      "duration": 9,
+      "data": {
+        "atWords": [
+          "nervios",
+          "estrechar",
+          "volumen"
+        ]
+      },
+      "highlight": [
+        "estrechar"
+      ],
+      "voice": "Por dentro, tus nervios dan una orden: estrechar los vasos sanguíneos de la yema. Hay menos volumen debajo, y la piel se pliega."
+    },
+    {
+      "type": "world",
+      "world": "dedos",
+      "shot": 4,
+      "duration": 8,
+      "data": {
+        "atWords": [
+          "neumático",
+          "agarras"
+        ]
+      },
+      "highlight": [
+        "neumático."
+      ],
+      "voice": "¿Para qué? La teoría más famosa: los surcos son como el dibujo de un neumático. Sacan el agua y agarras mejor en mojado."
+    },
+    {
+      "type": "world",
+      "world": "dedos",
+      "shot": 5,
+      "duration": 9,
+      "data": {
+        "atWords": [
+          "rápido",
+          "confirmado"
+        ]
+      },
+      "highlight": [
+        "canicas"
+      ],
+      "voice": "En un experimento de dos mil trece, con los dedos arrugados la gente movía canicas mojadas más rápido. Aunque otros estudios no lo han confirmado."
+    },
+    {
+      "type": "world",
+      "world": "dedos",
+      "shot": 6,
+      "duration": 6,
+      "data": {
+        "atWords": []
+      },
+      "highlight": [
+        "neumáticos"
+      ],
+      "voice": "Vamos, que son tus neumáticos de serie. ¿Tú lo sabías? Sígueme para más ciencia en menos de un minuto."
+    }
+  ]
+}

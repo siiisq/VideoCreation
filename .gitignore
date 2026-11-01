@@ -17,3 +17,6 @@ references/
 experiments/**/node_modules
 experiments/**/.hyperframes/
 experiments/**/*.webm
+experiments/hyperframes/layers/*/assets/
+public/overlays/work-*/
+public/overlays/.*hf-transaction*/

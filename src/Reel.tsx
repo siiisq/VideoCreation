@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Audio, interpolate, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Audio, interpolate, OffthreadVideo, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { linearTiming, TransitionPresentation, TransitionSeries } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
 import { slide } from "@remotion/transitions/slide";
@@ -71,6 +71,7 @@ const Grain: React.FC = () => {
 export const Reel: React.FC<ReelT> = (props) => {
   const reel = reelSchema.parse(props);
   const { fps, durationInFrames } = useVideoConfig();
+  const frameNow = useCurrentFrame();
   const { theme } = reel;
   const T = transitionFrames(fps);
   const starts = sceneStarts(reel, fps);
@@ -83,7 +84,7 @@ export const Reel: React.FC<ReelT> = (props) => {
         {reel.scenes.flatMap((scene, i) => {
           const items = [
             <TransitionSeries.Sequence key={`s${i}`} durationInFrames={Math.round(scene.duration * fps)}>
-              <SceneView scene={scene} theme={theme} />
+              <SceneView scene={reel.captions && "text" in scene ? ({ ...scene, text: undefined } as typeof scene) : reel.hideCtaAtEnd && scene.type === "outro" ? { ...scene, cta: undefined } : scene} theme={theme} />
             </TransitionSeries.Sequence>,
           ];
           if (i < reel.scenes.length - 1) {
@@ -99,9 +100,14 @@ export const Reel: React.FC<ReelT> = (props) => {
         </Sequence>
       ))}
 
+      {reel.overlay && (
+        <AbsoluteFill style={{ pointerEvents: "none" }}>
+          <OffthreadVideo src={staticFile(reel.overlay)} transparent muted style={{ width: "100%", height: "100%" }} />
+        </AbsoluteFill>
+      )}
       {reel.grain && <Grain />}
       <ProgressBar color={theme.accent} />
-      {reel.handle && (
+      {reel.handle && !(reel.hideHandleAtEnd && frameNow >= starts[starts.length - 1]) && (
         <div style={{ position: "absolute", bottom: 300, width: "100%", textAlign: "center", fontFamily: body, fontWeight: 700, fontSize: 36, color: theme.text, opacity: 0.6 }}>{reel.handle}</div>
       )}
 

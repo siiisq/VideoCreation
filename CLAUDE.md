@@ -53,6 +53,18 @@ Solo si el usuario pide expresamente ver las diapositivas, usa la composición `
    `npx remotion still src/index.ts Presentation ... --props=out/<slug>.props.json` antes del render final.
 Composición en `src/presentation/` (schema.ts + Presentation.tsx). Demo: `videos/ejemplo-presentacion.slides.json`.
 
+## Estilo combinado: ilustraciones + capa de HyperFrames (preferencia del usuario)
+El usuario veía sus reels "mucho menos animados que el resto". La fórmula aprobada es **combinar**:
+ilustraciones de calidad (Remotion, escenas `drawing`) + una **capa de motion graphics de HyperFrames** encima de
+todo el reel, sincronizada con la voz. Flujo tras generar la voz (`scripts/tts.py`):
+1. `python3 scripts/hf_layer.py out/<slug>.props.json` → genera `experiments/hyperframes/layers/<slug>/` con
+   subtítulos karaoke de la narración, explosiones de partículas en las palabras de `highlight`, transición de
+   rejilla en cada corte, destello en el gancho y tarjeta de "Seguir" al final.
+2. Revisar con `npx hyperframes snapshot` y renderizar a `public/overlays/<slug>-layer.webm` (WebM con alfa).
+3. En el guion: `"overlay": "overlays/<slug>-layer.webm"`, `"captions": true` (oculta los textos de apoyo para no
+   duplicar), `"hideHandleAtEnd": true`, `"hideCtaAtEnd": true`. Render normal con `npm run render`.
+Si cambias el guion o la voz, regenera la capa (va sincronizada a las duraciones).
+
 ## Calidad de los dibujos (PLANTILLA OBLIGATORIA para todos los vídeos)
 El usuario pide **más calidad en todos los dibujitos**. Nada de formas planas de un color. Todo dibujo nuevo debe cumplir:
 1. **Volumen**: degradados (radial/lineal) en cada forma importante, luz arriba-izquierda, sombra abajo-derecha,

@@ -30,6 +30,11 @@ El usuario pide un tema y Claude produce el vídeo.
    `--classic` = sin capa. `npm run render` sigue existiendo para renders sueltos.
 3. **Revisión**: mira `out/<slug>.contact.png` (y capturas sueltas si algo es dudoso) antes de entregar.
 4. **Entrega**: envía el MP4 al usuario (SendUserFile) y haz commit del JSON (los MP4 en `out/` no se versionan).
+5. **Texto para publicar (OBLIGATORIO en cada entrega)**: junto al MP4 da siempre al usuario, listo para copiar:
+   - la **descripción** del post (gancho + 2–4 líneas + pregunta para comentar + "Sígueme para más ideas en menos de un minuto ⏱️");
+   - los **5 hashtags más importantes**, en una línea y ordenados de más a menos relevante: 1–2 del tema concreto,
+     1–2 del nicho amplio y 1 de alcance general (en el idioma del vídeo; sin hashtags prohibidos ni inventados).
+   - Opcional: una lista ampliada de ~10–15 hashtags debajo, si el usuario la quiere.
 
 ## Vídeos a partir de presentaciones (sin límite de duración)
 **Por defecto el usuario NO quiere ver las diapositivas**: quiere un vídeo animado al estilo de los reels (composición

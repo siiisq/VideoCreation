@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="assets/gsap.min.js"></script>
+<style>
+  @font-face { font-family: "Montserrat"; src: url("assets/fonts/montserrat-latin.woff2") format("woff2"); font-weight: 700 900; unicode-range: U+0000-00FF, U+2000-206F; }
+  @font-face { font-family: "Montserrat"; src: url("assets/fonts/montserrat-latin-ext.woff2") format("woff2"); font-weight: 700 900; unicode-range: U+0100-024F; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+  #root { --fg: #e9ecf1; --bg: transparent; --accent: #f2b84b; --accent-2: #ff4d4f; --font-display: "Montserrat", sans-serif; }
+  .slot { position: absolute; left: 0; width: 1080px; }
+  #root[data-composition-id="layer"] { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Montserrat", sans-serif; }
+  .cap { position: absolute; left: 70px; right: 70px; top: 1450px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 14px; opacity: 0; }
+  .cap span { font-weight: 900; font-size: 62px; line-height: 1.15; text-transform: uppercase; padding: 4px 20px; border-radius: 40px; color: #e9ecf1;
+              text-shadow: 0 4px 18px rgba(0,0,0,.55); background: rgba(0,0,0,0); opacity: 0; }
+  .cap.high { top: 1230px; }
+  /* estilo "select": arriba, palabras dichas en gris, palabra clave con recuadro de selección y tiradores */
+  .cap.sel { top: 236px; left: 80px; right: 80px; gap: 4px 16px; }
+  .cap.sel span { position: relative; font-weight: 800; font-size: 58px; text-transform: none; padding: 2px 8px; border-radius: 6px;
+                  text-shadow: 0 3px 16px rgba(0,0,0,.75); }
+  .cap.sel .box { position: absolute; inset: -2px -4px; border: 3px solid #f2b84b; border-radius: 4px; opacity: 0; }
+  .cap.sel .box b { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 3px solid #f2b84b; }
+  .cap.sel .box b.a { left: -9px; top: -9px; }
+  .cap.sel .box b.z { right: -9px; bottom: -9px; }
+  .p { position: absolute; left: 540px; top: 1420px; border-radius: 50%; opacity: 0; }
+  .grid { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(16, 1fr); }
+  .grid div { transform: scale(0); }
+  .flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="layer" data-start="0" data-duration="52.9" data-width="1080" data-height="1920" data-fps="60">
+
+  <div id="caps"></div>
+  <div id="parts"></div>
+  <div class="grid" id="grid"></div>
+  <div class="flash" id="flash"></div>
+  <div id="follow" data-composition-id="instagram-follow" data-composition-src="compositions/instagram-follow.html" data-start="47.5" data-duration="5.4" data-track-index="5" data-width="1080" data-height="1920" style="position:absolute;inset:0"></div>
+</div>
+<script>
+  const D = {"capStyle": "select", "total": 52.9, "cuts": [6.3, 12.9, 21.5, 27.5, 37.2, 46.9], "gridCuts": [], "chunks": [{"words": ["Te", "suben", "el", "sueldo"], "t": [0.3, 0.488, 0.863, 1.05], "end": 1.488, "keys": [], "high": false}, {"words": ["un", "dieciséis", "por", "ciento…"], "t": [1.488, 1.675, 2.3, 2.55], "end": 3.05, "keys": [], "high": false}, {"words": ["y", "a", "final", "de"], "t": [3.05, 3.175, 3.301, 3.676], "end": 3.863, "keys": [], "high": false}, {"words": ["año", "no", "lo", "notas."], "t": [3.863, 4.113, 4.301, 4.488], "end": 4.926, "keys": [3], "high": false}, {"words": ["Te", "explico", "por", "qué."], "t": [4.926, 5.113, 5.613, 5.863], "end": 6.176, "keys": [], "high": false}, {"words": ["Primero,"], "t": [6.6], "end": 7.106, "keys": [], "high": false}, {"words": ["los", "precios:"], "t": [7.106, 7.331], "end": 7.837, "keys": [], "high": false}, {"words": ["si", "la", "cesta", "también"], "t": [7.837, 8.005, 8.174, 8.511], "end": 8.961, "keys": [], "high": false}, {"words": ["sube", "un", "dieciséis", "por"], "t": [8.961, 9.242, 9.41, 9.973], "end": 10.197, "keys": [], "high": false}, {"words": ["ciento,"], "t": [10.197], "end": 10.647, "keys": [], "high": false}, {"words": ["hasta", "aquí", "te", "quedas"], "t": [10.647, 10.984, 11.265, 11.434], "end": 11.828, "keys": [], "high": false}, {"words": ["igual."], "t": [11.828], "end": 12.221, "keys": [0], "high": false}, {"words": ["Pero", "Hacienda", "cobra", "por"], "t": [13.2, 13.474, 13.966, 14.294], "end": 14.513, "keys": [], "high": false}, {"words": ["tramos,"], "t": [14.513], "end": 14.951, "keys": [0], "high": false}, {"words": ["y", "los", "tramos", "no"], "t": [14.951, 15.06, 15.279, 15.662], "end": 15.826, "keys": [2], "high": false}, {"words": ["suben", "con", "los", "precios."], "t": [15.826, 16.155, 16.373, 16.592], "end": 17.085, "keys": [], "high": false}, {"words": ["Así", "que", "más", "euros"], "t": [17.085, 17.303, 17.522, 17.741], "end": 18.069, "keys": [], "high": false}, {"words": ["de", "tu", "sueldo", "caen"], "t": [18.069, 18.234, 18.398, 18.781], "end": 19.054, "keys": [], "high": false}, {"words": ["en", "el", "tramo", "del"], "t": [19.054, 19.218, 19.383, 19.711], "end": 19.93, "keys": [], "high": false}, {"words": ["treinta", "por", "ciento."], "t": [19.93, 20.367, 20.586], "end": 21.024, "keys": [], "high": false}, {"words": ["Resultado:"], "t": [21.8], "end": 22.511, "keys": [], "high": false}, {"words": ["tu", "sueldo", "sube", "un"], "t": [22.511, 22.705, 23.157, 23.48], "end": 23.674, "keys": [], "high": false}, {"words": ["dieciséis", "por", "ciento,"], "t": [23.674, 24.32, 24.579], "end": 25.096, "keys": [], "high": false}, {"words": ["pero", "tu", "IRPF", "sube"], "t": [25.096, 25.419, 25.613, 25.936], "end": 26.259, "keys": [], "high": false}, {"words": ["un", "veinticuatro."], "t": [26.259, 26.453], "end": 27.358, "keys": [1], "high": false}, {"words": ["Para", "comprar", "lo", "mismo"], "t": [27.8, 28.08, 28.529, 28.698], "end": 29.034, "keys": [], "high": false}, {"words": ["que", "antes", "necesitarías", "unos"], "t": [29.034, 29.259, 29.595, 30.324], "end": 30.605, "keys": [], "high": false}, {"words": ["veintisiete", "mil", "setecientos", "euros."], "t": [30.605, 31.278, 31.502, 32.176], "end": 32.568, "keys": [], "high": false}, {"words": ["Tienes", "veintisiete", "mil", "doscientos:"], "t": [32.568, 32.961, 33.634, 33.858], "end": 34.532, "keys": [], "high": false}, {"words": ["te", "faltan", "unos", "cuatrocientos"], "t": [34.532, 34.7, 35.093, 35.373], "end": 36.158, "keys": [1], "high": false}, {"words": ["sesenta", "al", "año."], "t": [36.158, 36.607, 36.776], "end": 37.056, "keys": [], "high": false}, {"words": ["La", "solución", "se", "llama"], "t": [37.5, 37.681, 38.224, 38.405], "end": 38.767, "keys": [], "high": false}, {"words": ["deflactar:"], "t": [38.767], "end": 39.431, "keys": [0], "high": false}, {"words": ["subir", "los", "tramos", "lo"], "t": [39.431, 39.793, 40.034, 40.456], "end": 40.637, "keys": [], "high": false}, {"words": ["mismo", "que", "los", "precios."], "t": [40.637, 40.999, 41.241, 41.482], "end": 42.025, "keys": [], "high": false}, {"words": ["Así", "sigues", "en", "el"], "t": [42.025, 42.266, 42.688, 42.869], "end": 43.05, "keys": [], "high": false}, {"words": ["mismo", "tramo."], "t": [43.05, 43.412], "end": 43.835, "keys": [], "high": false}, {"words": ["Algunas", "comunidades", "lo", "han"], "t": [43.835, 44.317, 45.041, 45.222], "end": 45.464, "keys": [], "high": false}, {"words": ["hecho;"], "t": [45.464], "end": 45.886, "keys": [], "high": false}, {"words": ["el", "Estado,"], "t": [45.886, 46.067], "end": 46.55, "keys": [], "high": false}, {"words": ["no."], "t": [46.55], "end": 46.791, "keys": [], "high": false}, {"words": ["Que", "no", "te", "engañen:"], "t": [47.2, 47.433, 47.608, 47.782], "end": 48.306, "keys": [3], "high": true}, {"words": ["mira", "lo", "que", "puedes"], "t": [48.306, 48.598, 48.772, 49.005], "end": 49.413, "keys": [], "high": true}, {"words": ["comprar,"], "t": [49.413], "end": 49.937, "keys": [], "high": true}, {"words": ["no", "tu", "sueldo", "bruto."], "t": [49.937, 50.112, 50.286, 50.694], "end": 51.102, "keys": [], "high": true}, {"words": ["Sígueme", "para", "más."], "t": [51.102, 51.568, 51.859], "end": 52.15, "keys": [], "high": true}], "bursts": [], "outro": 46.9, "theme": {"bg1": "#0b0c0f", "accent": "#f2b84b", "accent2": "#ff4d4f", "text": "#e9ecf1", "bg2": "#16181d"}, "flash": 0.62, "hook": null, "trans": 0.4};
+  const tl = gsap.timeline({ paused: true });
+  const A = D.theme.accent, A2 = D.theme.accent2, BG = D.theme.bg1;
+  // destello del gancho
+  tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.8, duration: 0.05 }, D.flash).to("#flash", { opacity: 0, duration: 0.35 }, D.flash + 0.05);
+  // subtítulos karaoke
+  const caps = document.getElementById("caps");
+  if (D.capStyle === "select") D.chunks.forEach((c) => {
+    const box = document.createElement("div"); box.className = "cap sel";
+    c.words.forEach((w, k) => {
+      const s = document.createElement("span"); s.textContent = w;
+      if (c.keys.includes(k)) { const b = document.createElement("i"); b.className = "box"; b.innerHTML = '<b class="a"></b><b class="z"></b>'; s.appendChild(b); }
+      box.appendChild(s);
+    });
+    caps.appendChild(box);
+    tl.set(box, { opacity: 1 }, c.t[0] - 0.02);
+    box.querySelectorAll("span").forEach((s, k) => {
+      const key = c.keys.includes(k);
+      tl.fromTo(s, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.18, ease: "power2.out", immediateRender: false }, c.t[k] - 0.03);
+      if (key) tl.fromTo(s.querySelector(".box"), { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2.2)", immediateRender: false }, c.t[k]);
+      else if (k < c.t.length - 1) tl.to(s, { color: "rgba(233,236,241,0.42)", duration: 0.15 }, c.t[k + 1]);
+    });
+    tl.to(box, { opacity: 0, duration: 0.12 }, c.end - 0.05);
+  });
+  else D.chunks.forEach((c, ci) => {
+    const box = document.createElement("div"); box.className = c.high ? "cap high" : "cap";
+    c.words.forEach((w) => { const s = document.createElement("span"); s.textContent = w; box.appendChild(s); });
+    caps.appendChild(box);
+    const spans = box.querySelectorAll("span");
+    tl.set(box, { opacity: 1 }, c.t[0] - 0.02);
+    spans.forEach((s, k) => {
+      tl.fromTo(s, { opacity: 0, y: 30, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.22, ease: "back.out(2.4)", immediateRender: false }, c.t[k] - 0.02);
+      tl.to(s, { backgroundColor: A, color: BG, textShadow: "none", duration: 0.08 }, c.t[k]);
+      const off = k < c.t.length - 1 ? c.t[k + 1] : c.end;
+      tl.to(s, { backgroundColor: "rgba(0,0,0,0.35)", color: D.theme.text, duration: 0.1 }, off);
+    });
+    tl.to(box, { opacity: 0, y: -16, duration: 0.07 }, c.end - 0.09);
+    tl.set(box, { y: 0 }, c.end + 0.2);
+  });
+  // explosiones de partículas en palabras clave
+  const parts = document.getElementById("parts"), cols = [A, A2, "#c06bff", "#ffffff"];
+  D.bursts.forEach((t0, b) => {
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement("div"); p.className = "p"; p.style.top = "1500px"; const s = 9 + ((i * 7 + b * 3) % 20);
+      p.style.width = p.style.height = s + "px"; p.style.background = cols[i % 4]; parts.appendChild(p);
+      const a = (i / 30) * Math.PI * 2, d = 180 + ((i * 53 + b * 31) % 260);
+      tl.fromTo(p, { x: 0, y: 0, opacity: 1, scale: 1 }, { x: Math.cos(a) * d, y: Math.sin(a) * d * 0.8 - 60, opacity: 0, scale: 0.3, duration: 0.9, ease: "power3.out", immediateRender: false }, t0);
+    }
+  });
+  // transición de rejilla en cada corte (tapa el cambio de escena)
+  const grid = document.getElementById("grid");
+  for (let i = 0; i < 144; i++) { const d = document.createElement("div"); d.style.background = i % 2 ? A : A2; grid.appendChild(d); }
+  const froms = ["center", "edges", "start", "end", "random"];
+  // La rejilla debe tapar TODO el fundido de Remotion (de t0 a t0 + TRANS): si se retira antes, se ven
+  // superpuestos el título/dibujo de la escena anterior y los de la nueva. Entrada: 0,22 s + 0,26 s de escalonado.
+  D.gridCuts.forEach((t0, i) => {
+    tl.to("#grid div", { scale: 1.03, duration: 0.22, ease: "power2.in", stagger: { each: 0.0018, from: froms[i % 5], grid: [16, 9] } }, t0 - 0.52);
+    tl.to("#grid div", { scale: 0, duration: 0.25, ease: "power2.out", stagger: { each: 0.0018, from: froms[(i + 1) % 5], grid: [16, 9] } }, t0 + D.trans + 0.03);
+  });
+  window.__timelines["layer"] = tl;
+  tl.seek(0);
+</script>
+</body>
+</html>

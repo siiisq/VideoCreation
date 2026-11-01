@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="assets/gsap.min.js"></script>
+<style>
+  @font-face { font-family: "Montserrat"; src: url("assets/fonts/montserrat-latin.woff2") format("woff2"); font-weight: 700 900; unicode-range: U+0000-00FF, U+2000-206F; }
+  @font-face { font-family: "Montserrat"; src: url("assets/fonts/montserrat-latin-ext.woff2") format("woff2"); font-weight: 700 900; unicode-range: U+0100-024F; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+  #root { --fg: #e9ecf1; --bg: transparent; --accent: #f2b84b; --accent-2: #ff4d4f; --font-display: "Montserrat", sans-serif; }
+  .slot { position: absolute; left: 0; width: 1080px; }
+  #root[data-composition-id="layer"] { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Montserrat", sans-serif; }
+  .cap { position: absolute; left: 70px; right: 70px; top: 1450px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 14px; opacity: 0; }
+  .cap span { font-weight: 900; font-size: 62px; line-height: 1.15; text-transform: uppercase; padding: 4px 20px; border-radius: 40px; color: #e9ecf1;
+              text-shadow: 0 4px 18px rgba(0,0,0,.55); background: rgba(0,0,0,0); opacity: 0; }
+  .cap.high { top: 1230px; }
+  /* estilo "select": arriba, palabras dichas en gris, palabra clave con recuadro de selección y tiradores */
+  .cap.sel { top: 236px; left: 80px; right: 80px; gap: 4px 16px; }
+  .cap.sel span { position: relative; font-weight: 800; font-size: 58px; text-transform: none; padding: 2px 8px; border-radius: 6px;
+                  text-shadow: 0 3px 16px rgba(0,0,0,.75); }
+  .cap.sel .box { position: absolute; inset: -2px -4px; border: 3px solid #f2b84b; border-radius: 4px; opacity: 0; }
+  .cap.sel .box b { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 3px solid #f2b84b; }
+  .cap.sel .box b.a { left: -9px; top: -9px; }
+  .cap.sel .box b.z { right: -9px; bottom: -9px; }
+  .p { position: absolute; left: 540px; top: 1420px; border-radius: 50%; opacity: 0; }
+  .grid { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(16, 1fr); }
+  .grid div { transform: scale(0); }
+  .flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="layer" data-start="0" data-duration="53.4" data-width="1080" data-height="1920" data-fps="60">
+
+  <div id="caps"></div>
+  <div id="parts"></div>
+  <div class="grid" id="grid"></div>
+  <div class="flash" id="flash"></div>
+  <div id="follow" data-composition-id="instagram-follow" data-composition-src="compositions/instagram-follow.html" data-start="45.3" data-duration="8.1" data-track-index="5" data-width="1080" data-height="1920" style="position:absolute;inset:0"></div>
+</div>
+<script>
+  const D = {"capStyle": "select", "total": 53.4, "cuts": [7.0, 16.2, 23.8, 30.5, 38.1, 44.7], "gridCuts": [], "chunks": [{"words": ["Pides", "doscientos", "mil", "euros"], "t": [0.3, 0.669, 1.346, 1.592], "end": 1.961, "keys": [], "high": false}, {"words": ["para", "tu", "casa…", "y"], "t": [1.961, 2.268, 2.453, 2.822], "end": 2.945, "keys": [], "high": false}, {"words": ["acabas", "devolviendo", "más", "de"], "t": [2.945, 3.375, 4.114, 4.36], "end": 4.544, "keys": [], "high": false}, {"words": ["trescientos", "mil."], "t": [4.544, 5.282], "end": 5.59, "keys": [0], "high": false}, {"words": ["¿Dónde", "va", "ese", "dinero?"], "t": [5.59, 6.02, 6.205, 6.451], "end": 6.943, "keys": [], "high": false}, {"words": ["Ejemplo:"], "t": [7.3], "end": 7.83, "keys": [], "high": false}, {"words": ["hipoteca", "de", "doscientos", "mil"], "t": [7.83, 8.361, 8.537, 9.186], "end": 9.421, "keys": [], "high": false}, {"words": ["euros,"], "t": [9.421], "end": 9.834, "keys": [], "high": false}, {"words": ["a", "treinta", "años,"], "t": [9.834, 9.952, 10.423], "end": 10.777, "keys": [], "high": false}, {"words": ["al", "tres", "por", "ciento"], "t": [10.777, 10.953, 11.248, 11.484], "end": 11.896, "keys": [], "high": false}, {"words": ["fijo."], "t": [11.896], "end": 12.25, "keys": [], "high": false}, {"words": ["Pagas", "ochocientos", "cuarenta", "y"], "t": [12.25, 12.603, 13.311, 13.841], "end": 13.959, "keys": [1], "high": false}, {"words": ["tres", "euros", "al", "mes,"], "t": [13.959, 14.253, 14.607, 14.784], "end": 15.078, "keys": [], "high": false}, {"words": ["siempre", "lo", "mismo."], "t": [15.078, 15.55, 15.727], "end": 16.139, "keys": [], "high": false}, {"words": ["Pero", "mira", "por", "dentro"], "t": [16.5, 16.765, 17.031, 17.243], "end": 17.614, "keys": [], "high": false}, {"words": ["la", "primera", "cuota:"], "t": [17.614, 17.773, 18.198], "end": 18.569, "keys": [], "high": false}, {"words": ["quinientos", "euros", "son", "intereses"], "t": [18.569, 19.153, 19.471, 19.683], "end": 20.214, "keys": [3], "high": false}, {"words": ["para", "el", "banco."], "t": [20.214, 20.479, 20.638], "end": 21.009, "keys": [], "high": false}, {"words": ["Solo", "trescientos", "cuarenta", "y"], "t": [21.009, 21.275, 21.911, 22.389], "end": 22.495, "keys": [], "high": false}, {"words": ["tres", "bajan", "tu", "deuda."], "t": [22.495, 22.76, 23.078, 23.238], "end": 23.609, "keys": [], "high": false}, {"words": ["¿Por", "qué?"], "t": [24.1, 24.403], "end": 24.707, "keys": [], "high": false}, {"words": ["Porque", "cada", "mes", "pagas"], "t": [24.707, 25.132, 25.435, 25.678], "end": 26.042, "keys": [], "high": false}, {"words": ["intereses", "sobre", "todo", "lo"], "t": [26.042, 26.649, 27.013, 27.317], "end": 27.499, "keys": [], "high": false}, {"words": ["que", "aún", "debes."], "t": [27.499, 27.742, 27.984], "end": 28.409, "keys": [2], "high": false}, {"words": ["Y", "al", "principio,"], "t": [28.409, 28.531, 28.713], "end": 29.38, "keys": [], "high": false}, {"words": ["debes", "muchísimo."], "t": [29.38, 29.744], "end": 30.412, "keys": [0], "high": false}, {"words": ["Con", "los", "años", "la"], "t": [30.8, 31.026, 31.253, 31.536], "end": 31.706, "keys": [], "high": false}, {"words": ["deuda", "baja,"], "t": [31.706, 32.046], "end": 32.385, "keys": [], "high": false}, {"words": ["y", "los", "intereses", "también."], "t": [32.385, 32.499, 32.725, 33.291], "end": 33.801, "keys": [], "high": false}, {"words": ["Pero", "durante", "los", "primeros"], "t": [33.801, 34.084, 34.537, 34.763], "end": 35.273, "keys": [], "high": false}, {"words": ["siete", "años", "pagas", "más"], "t": [35.273, 35.613, 35.896, 36.236], "end": 36.462, "keys": [0], "high": false}, {"words": ["intereses", "que", "deuda."], "t": [36.462, 37.028, 37.255], "end": 37.651, "keys": [], "high": false}, {"words": ["En", "total:"], "t": [38.4, 38.58], "end": 39.001, "keys": [], "high": false}, {"words": ["doscientos", "mil", "de", "la"], "t": [39.001, 39.662, 39.902, 40.082], "end": 40.263, "keys": [], "high": false}, {"words": ["casa,"], "t": [40.263], "end": 40.623, "keys": [], "high": false}, {"words": ["y", "más", "de", "cien"], "t": [40.623, 40.743, 40.984, 41.164], "end": 41.464, "keys": [3], "high": false}, {"words": ["mil", "en", "intereses."], "t": [41.464, 41.705, 41.885], "end": 42.546, "keys": [], "high": false}, {"words": ["Por", "eso,"], "t": [45.0, 45.228], "end": 45.513, "keys": [], "high": true}, {"words": ["si", "amortizas,"], "t": [45.513, 45.684], "end": 46.311, "keys": [], "high": true}, {"words": ["mejor", "cuanto", "antes:"], "t": [46.311, 46.653, 47.052], "end": 47.451, "keys": [2], "high": true}, {"words": ["cada", "euro", "que", "adelantas"], "t": [47.451, 47.736, 48.021, 48.249], "end": 48.819, "keys": [], "high": true}, {"words": ["deja", "de", "generar", "intereses"], "t": [48.819, 49.105, 49.276, 49.732], "end": 50.302, "keys": [], "high": true}, {"words": ["todos", "los", "años", "que"], "t": [50.302, 50.644, 50.872, 51.157], "end": 51.385, "keys": [], "high": true}, {"words": ["quedan."], "t": [51.385], "end": 51.841, "keys": [], "high": true}, {"words": ["Sígueme", "para", "más."], "t": [51.841, 52.297, 52.582], "end": 52.867, "keys": [], "high": true}], "bursts": [], "outro": 44.7, "theme": {"bg1": "#0b0c0f", "accent": "#f2b84b", "accent2": "#ff4d4f", "text": "#e9ecf1", "bg2": "#16181d"}, "flash": 0.62, "hook": null, "trans": 0.4};
+  const tl = gsap.timeline({ paused: true });
+  const A = D.theme.accent, A2 = D.theme.accent2, BG = D.theme.bg1;
+  // destello del gancho
+  tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.8, duration: 0.05 }, D.flash).to("#flash", { opacity: 0, duration: 0.35 }, D.flash + 0.05);
+  // subtítulos karaoke
+  const caps = document.getElementById("caps");
+  if (D.capStyle === "select") D.chunks.forEach((c) => {
+    const box = document.createElement("div"); box.className = "cap sel";
+    c.words.forEach((w, k) => {
+      const s = document.createElement("span"); s.textContent = w;
+      if (c.keys.includes(k)) { const b = document.createElement("i"); b.className = "box"; b.innerHTML = '<b class="a"></b><b class="z"></b>'; s.appendChild(b); }
+      box.appendChild(s);
+    });
+    caps.appendChild(box);
+    tl.set(box, { opacity: 1 }, c.t[0] - 0.02);
+    box.querySelectorAll("span").forEach((s, k) => {
+      const key = c.keys.includes(k);
+      tl.fromTo(s, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.18, ease: "power2.out", immediateRender: false }, c.t[k] - 0.03);
+      if (key) tl.fromTo(s.querySelector(".box"), { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2.2)", immediateRender: false }, c.t[k]);
+      else if (k < c.t.length - 1) tl.to(s, { color: "rgba(233,236,241,0.42)", duration: 0.15 }, c.t[k + 1]);
+    });
+    tl.to(box, { opacity: 0, duration: 0.12 }, c.end - 0.05);
+  });
+  else D.chunks.forEach((c, ci) => {
+    const box = document.createElement("div"); box.className = c.high ? "cap high" : "cap";
+    c.words.forEach((w) => { const s = document.createElement("span"); s.textContent = w; box.appendChild(s); });
+    caps.appendChild(box);
+    const spans = box.querySelectorAll("span");
+    tl.set(box, { opacity: 1 }, c.t[0] - 0.02);
+    spans.forEach((s, k) => {
+      tl.fromTo(s, { opacity: 0, y: 30, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.22, ease: "back.out(2.4)", immediateRender: false }, c.t[k] - 0.02);
+      tl.to(s, { backgroundColor: A, color: BG, textShadow: "none", duration: 0.08 }, c.t[k]);
+      const off = k < c.t.length - 1 ? c.t[k + 1] : c.end;
+      tl.to(s, { backgroundColor: "rgba(0,0,0,0.35)", color: D.theme.text, duration: 0.1 }, off);
+    });
+    tl.to(box, { opacity: 0, y: -16, duration: 0.07 }, c.end - 0.09);
+    tl.set(box, { y: 0 }, c.end + 0.2);
+  });
+  // explosiones de partículas en palabras clave
+  const parts = document.getElementById("parts"), cols = [A, A2, "#c06bff", "#ffffff"];
+  D.bursts.forEach((t0, b) => {
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement("div"); p.className = "p"; p.style.top = "1500px"; const s = 9 + ((i * 7 + b * 3) % 20);
+      p.style.width = p.style.height = s + "px"; p.style.background = cols[i % 4]; parts.appendChild(p);
+      const a = (i / 30) * Math.PI * 2, d = 180 + ((i * 53 + b * 31) % 260);
+      tl.fromTo(p, { x: 0, y: 0, opacity: 1, scale: 1 }, { x: Math.cos(a) * d, y: Math.sin(a) * d * 0.8 - 60, opacity: 0, scale: 0.3, duration: 0.9, ease: "power3.out", immediateRender: false }, t0);
+    }
+  });
+  // transición de rejilla en cada corte (tapa el cambio de escena)
+  const grid = document.getElementById("grid");
+  for (let i = 0; i < 144; i++) { const d = document.createElement("div"); d.style.background = i % 2 ? A : A2; grid.appendChild(d); }
+  const froms = ["center", "edges", "start", "end", "random"];
+  // La rejilla debe tapar TODO el fundido de Remotion (de t0 a t0 + TRANS): si se retira antes, se ven
+  // superpuestos el título/dibujo de la escena anterior y los de la nueva. Entrada: 0,22 s + 0,26 s de escalonado.
+  D.gridCuts.forEach((t0, i) => {
+    tl.to("#grid div", { scale: 1.03, duration: 0.22, ease: "power2.in", stagger: { each: 0.0018, from: froms[i % 5], grid: [16, 9] } }, t0 - 0.52);
+    tl.to("#grid div", { scale: 0, duration: 0.25, ease: "power2.out", stagger: { each: 0.0018, from: froms[(i + 1) % 5], grid: [16, 9] } }, t0 + D.trans + 0.03);
+  });
+  window.__timelines["layer"] = tl;
+  tl.seek(0);
+</script>
+</body>
+</html>

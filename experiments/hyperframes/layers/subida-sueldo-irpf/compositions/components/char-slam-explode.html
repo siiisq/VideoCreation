@@ -29,7 +29,7 @@
 <html
   lang="en"
   data-composition-id="char-slam-explode"
-  data-composition-duration="4.85"
+  data-composition-duration="5.35"
   data-composition-variables='[
     { "id": "text", "type": "string", "role": "content", "label": "Headline", "description": "Text split into glyphs for the scatter and slam.", "default": "Impact" },
     { "id": "accent", "type": "enum", "role": "style", "label": "Accent", "description": "Headline and glow color.", "default": "green", "options": [{ "value": "green", "label": "Green" }, { "value": "blue", "label": "Blue" }, { "value": "violet", "label": "Violet" }] },
@@ -42,7 +42,7 @@
   </head>
   <body>
     <template>
-      <div id="root" data-composition-id="char-slam-explode" data-duration="4.85" data-fps="30">
+      <div id="root" data-composition-id="char-slam-explode" data-duration="5.35" data-fps="30">
         <style>
           *,
           *::before,
@@ -112,7 +112,7 @@
           id="char-slam-explode-clip"
           class="cse-clip clip"
           data-start="0"
-          data-duration="4.85"
+          data-duration="5.35"
           data-track-index="0"
         >
           <div class="cse-stage">
@@ -261,7 +261,7 @@
             var LAND_AT_BASE = RETURN_AT_BASE + RETURN_DURATION_BASE + STAGGER_BASE;
             var SHAKE_FRAME_BASE = 1 / 30;
             var STILL_HOLD_BASE = 0.3;
-            var duration = Math.max(0.001, parseFloat(root.dataset.duration || "4.85"));
+            var duration = Math.max(0.001, parseFloat(root.dataset.duration || "5.35"));
             var baseTotal = IN_BASE + OUT_BASE;
             var envelopeScale = duration < baseTotal ? duration / baseTotal : 1;
             var IN = IN_BASE * envelopeScale;

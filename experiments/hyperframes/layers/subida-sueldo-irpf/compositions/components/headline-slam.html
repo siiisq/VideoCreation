@@ -27,7 +27,7 @@
 <html
   lang="en"
   data-composition-id="headline-slam"
-  data-composition-duration="4.85"
+  data-composition-duration="5.35"
   data-composition-variables='[
     { "id": "text", "type": "string", "role": "content", "label": "Headline", "description": "Text displayed as the headline.", "default": "Ship it today" },
     { "id": "accent_word_index", "type": "number", "role": "content", "label": "Accent word index", "description": "Zero-based word index to color. Out of range leaves the headline unaccented.", "default": 1, "step": 1 },
@@ -41,7 +41,7 @@
   </head>
   <body>
     <template>
-      <div id="root" data-composition-id="headline-slam" data-duration="4.85" data-fps="30">
+      <div id="root" data-composition-id="headline-slam" data-duration="5.35" data-fps="30">
         <style>
           *,
           *::before,
@@ -114,7 +114,7 @@
           id="headline-slam-clip"
           class="hs-clip clip"
           data-start="0"
-          data-duration="4.85"
+          data-duration="5.35"
           data-track-index="0"
         >
           <div class="hs-stage">
@@ -175,7 +175,7 @@
             var OUT_BASE = 0.46;
             var LAND_AT_BASE = 0.58;
             var SHAKE_FRAME_BASE = 1 / 30;
-            var duration = Math.max(0.001, parseFloat(root.dataset.duration || "4.85"));
+            var duration = Math.max(0.001, parseFloat(root.dataset.duration || "5.35"));
             var baseTotal = IN_BASE + OUT_BASE;
             var envelopeScale = duration < baseTotal ? duration / baseTotal : 1;
             var IN = IN_BASE * envelopeScale;

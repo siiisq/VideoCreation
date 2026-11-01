@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "historyId": "34d503f0-1c74-49ec-be60-e1653c5a01c0",
+  "currentRevision": null,
+  "pendingChanges": false,
+  "files": {
+    "assets/avatar.svg": {
+      "hash": "1842592c74716a3fca0d4e2349669b2ba3242a3c402a28163b5d02a5b36e225f",
+      "content": "/root/.cache/hyperframes/history/34d503f0-1c74-49ec-be60-e1653c5a01c0/blobs/18/1842592c74716a3fca0d4e2349669b2ba3242a3c402a28163b5d02a5b36e225f"
+    },
+    "assets/fonts/inter-latin-ext.woff2": {
+      "hash": "34b9c504cab7a73e37b746343a449132e56cf7b5481af2cb81dc74dcff25c956",
+      "content": "/root/.cache/hyperframes/history/34d503f0-1c74-49ec-be60-e1653c5a01c0/blobs/34/34b9c504cab7a73e37b746343a449132e56cf7b5481af2cb81dc74dcff25c956"
+    },
+    "assets/fonts/inter-latin.woff2": {
+      "hash": "3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62",
+      "content": "/root/.cache/hyperframes/history/34d503f0-1c74-49ec-be60-e1653c5a01c0/blobs/31/3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62"
+    },
+    "assets/fonts/montserrat-latin-ext.woff2": {
+      "hash": "54d9a78b7ff60b689ad9f3017ffac8547b5d871afec733f6c1c3ae36577ee504",
+      "content": "/root/.cache/hyperframes/history/34d503f0-1c74-49ec-be60-e1653c5a01c0/blobs/54/54d9a78b7ff60b689ad9f3017ffac8547b5d871afec733f6c1c3ae36577ee504"
+    },
+    "assets/fonts/montserrat-latin.woff2": {
+      "hash": "06b16db7a969135d48d38c49183be7fb88d4452e2a3011957c7851941f4e4879",
+      "content": "/root/.cache/hyperframes/history/34d503f0-1c74-49ec-be60-e1653c5a01c0/blobs/06/06b16db7a969135d48d38c49183be7fb88d4452e2a3011957c7851941f4e4879"
+    },
+    "assets/gsap.min.js": {
+      "hash": "c174bfce53a729418d57a8ad8625e7247c793a22fef8e2851e3cfa3de9cd8280",
+      "content": "/root/.cache/hyperframes/history/34d503f0-1c74-49ec-be60-e1653c5a01c0/blobs/c1/c174bfce53a729418d57a8ad8625e7247c793a22fef8e2851e3cfa3de9cd8280"
+    },
+    "compositions/components/char-slam-explode.html": {
+      "hash": "8588e7a78ad5f77af894966b56ee1deac50811ac00a9095871ab0be8852c0df9",
+      "content": "/root/.cache/hyperframes/history/34d503f0-1c74-49ec-be60-e1653c5a01c0/blobs/85/8588e7a78ad5f77af894966b56ee1deac50811ac00a9095871ab0be8852c0df9"
+    },
+    "compositions/components/headline-slam.html": {
+      "hash": "5cf5836f647077a6122aad43ae4a09b84fa0956595b24622a09a1634dff7b64d",
+      "content": "/root/.cache/hyperframes/history/34d503f0-1c74-49ec-be60-e1653c5a01c0/blobs/5c/5cf5836f647077a6122aad43ae4a09b84fa0956595b24622a09a1634dff7b64d"
+    },
+    "compositions/components/marker-highlight.html": {
+      "hash": "4fbdb644d898939df3285c79719b0cb787fd643789777577aa31519efc3eecb2",
+      "content": "/root/.cache/hyperframes/history/34d503f0-1c74-49ec-be60-e1653c5a01c0/blobs/4f/4fbdb644d898939df3285c79719b0cb787fd643789777577aa31519efc3eecb2"
+    },
+    "compositions/instagram-follow.html": {
+      "hash": "fed7939dd5d9812aea66a8e768e15d16cb83d230e3d6f775b5d875755a69b3f5",
+      "content": "/root/.cache/hyperframes/history/34d503f0-1c74-49ec-be60-e1653c5a01c0/blobs/fe/fed7939dd5d9812aea66a8e768e15d16cb83d230e3d6f775b5d875755a69b3f5"
+    },
+    "hyperframes.json": {
+      "hash": "f867a6f4b1363e279f0489ebe25b9ecdfa1affb379faee2a6976735fa86c2f70",
+      "content": "/root/.cache/hyperframes/history/34d503f0-1c74-49ec-be60-e1653c5a01c0/blobs/f8/f867a6f4b1363e279f0489ebe25b9ecdfa1affb379faee2a6976735fa86c2f70"
+    },
+    "index.html": {
+      "hash": "a36913b5d8a66a25bc757c6b36484333200ba93722bc5227da5309429cd24bfe",
+      "content": "/root/.cache/hyperframes/history/34d503f0-1c74-49ec-be60-e1653c5a01c0/blobs/a3/a36913b5d8a66a25bc757c6b36484333200ba93722bc5227da5309429cd24bfe"
+    },
+    "meta.json": {
+      "hash": "526ee8b5261918daa90bb69d97c5cbf7ad6667d9be418a53df7185f0e6f9089e",
+      "content": "/root/.cache/hyperframes/history/34d503f0-1c74-49ec-be60-e1653c5a01c0/blobs/52/526ee8b5261918daa90bb69d97c5cbf7ad6667d9be418a53df7185f0e6f9089e"
+    },
+    "package.json": {
+      "hash": "80a3c827e74a4ac8b7d16910070545329ea9cd559ec129716ebcb42e3f62fa37",
+      "content": "/root/.cache/hyperframes/history/34d503f0-1c74-49ec-be60-e1653c5a01c0/blobs/80/80a3c827e74a4ac8b7d16910070545329ea9cd559ec129716ebcb42e3f62fa37"
+    }
+  },
+  "revisions": {},
+  "checks": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "1303ff31-c0be-43a4-aa3b-cf9011a40585",
+      "completedAt": 1793544480221,
+      "output": "/home/user/VideoCreation/public/overlays/subida-sueldo-irpf-layer.webm",
+      "status": "completed",
+      "revision": null
+    },
+    "retainedRevisions": []
+  },
+  "pendingArtifactCleanup": []
+}

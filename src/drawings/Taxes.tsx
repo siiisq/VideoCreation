@@ -377,6 +377,7 @@ export const BracketBar: React.FC<DP> = ({ data }) => {
   const sx = px(salary);
   const crossed = !deflate && salary > 35200;
   const crossPop = spring({ frame: t - 104, fps, config: { damping: 8 } });
+  const hop = crossed ? Math.max(0, Math.sin(Math.min(1, (t - 100) / 14) * Math.PI)) * 50 : 0;
   const ipcPop = spring({ frame: t - 30, fps, config: { damping: 10 } });
   const result = spring({ frame: t - 140, fps, config: { damping: 9 } });
   let lo = 0;
@@ -438,17 +439,25 @@ export const BracketBar: React.FC<DP> = ({ data }) => {
         {deflate && grow > 0 && grow < 1 && [0, 1, 2].map((i) => <path key={i} d={`M ${px(bounds[i]) + 14} ${y - 40} l 30 0 m -12 -12 l 12 12 l -12 12`} stroke={GREEN} strokeWidth={6} fill="none" strokeLinecap="round" strokeLinejoin="round" />)}
       </g>
       {/* marcador del sueldo */}
-      <g transform={`translate(${sx} ${y - 30})`}>
+      <g transform={`translate(${sx} ${y - 30 - hop})`}>
         <path d="M 0 0 C -40 -40 -46 -70 -46 -96 A 46 46 0 0 1 46 -96 C 46 -70 40 -40 0 0 Z" fill={crossed ? RED : "#ffffff"} stroke={crossed ? "#b8292e" : "#9aa6b8"} strokeWidth={5} />
         <Coin x={0} y={-96} r={28} rot={Math.sin(t / 8) * 10} />
-        <rect x={-92} y={-206} width={184} height={56} rx={28} fill="#0b1a14" stroke={crossed ? RED : "#ffffff60"} strokeWidth={3} />
-        <text y={-167} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={32} fill="#fff">{fmtEur(salary, tr.locale)} €</text>
+        <rect x={-110} y={-206} width={220} height={56} rx={28} fill="#0b1a14" stroke={crossed ? RED : "#ffffff60"} strokeWidth={3} />
+        <text y={-167} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={32} fill={crossed ? RED : "#fff"}>{tr.yourSalary}</text>
       </g>
+      {/* chispas al saltar de tramo */}
+      {crossed && crossPop < 1.2 && Array.from({ length: 10 }, (_, i) => {
+        const p = interpolate(t, [104, 130], [0, 1], clamp);
+        const ang = (i / 10) * Math.PI * 2;
+        return p < 1 ? <circle key={i} cx={px(35200) + Math.cos(ang) * p * 120} cy={y + h / 2 + Math.sin(ang) * p * 90} r={9 * (1 - p)} fill={i % 2 ? RED : "#ffd23f"} /> : null;
+      })}
       {/* resultado */}
       {crossed && (
-        <g transform={`translate(${px(35200)} ${y + h + 120}) scale(${crossPop})`}>
-          <rect x={-170} y={-36} width={340} height={72} rx={36} fill={RED} />
-          <text y={13} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={34} fill="#fff">{tr.jumpsBracket}</text>
+        <g transform={`translate(500 ${y + h + 150}) scale(${crossPop}) rotate(${Math.sin(t / 4) * 1.5})`}>
+          <rect x={-250} y={-62} width={500} height={124} rx={36} fill={RED} stroke="#b8292e" strokeWidth={5} />
+          <rect x={-232} y={-52} width={464} height={18} rx={9} fill="#fff" opacity={0.3} />
+          <text y={-8} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={38} fill="#fff">{tr.richer1}</text>
+          <text y={40} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={38} fill="#fff">{tr.richer2}</text>
         </g>
       )}
       {deflate && (
@@ -462,47 +471,142 @@ export const BracketBar: React.FC<DP> = ({ data }) => {
   );
 };
 
-/** Ejemplo: sueldo +16 % frente a IRPF +24 % (columnas indexadas a la misma altura inicial). */
+/** Ejemplo: sueldo +16 % frente a IRPF +24 % (columnas indexadas a la misma altura inicial). El IRPF siempre en rojo. */
 export const TaxRace: React.FC<DP> = () => {
   const t = useFrame();
   const tr = useT();
   const g = interpolate(t, [40, 130], [0, 1], { ...clamp, easing: ease });
-  const base = 330, bottom = 680, w = 200;
+  const base = 300, bottom = 660, w = 200;
   const cols = [
-    { x: 300, label: tr.grossSalary, from: 30000, to: 34800, pct: 16, fill: "url(#txGreenCol)", color: GREEN, dark: "#1f8f52" },
-    { x: 700, label: tr.irpf, from: 6111, to: 7551, pct: 24, fill: "url(#txRedCol)", color: RED, dark: "#b8292e" },
+    { x: 290, label: tr.grossSalary, from: 30000, to: 34800, pct: 16, fill: "url(#txGreenCol)", color: GREEN, dark: "#1f8f52", num: "#ffffff" },
+    { x: 710, label: tr.irpf, from: 6111, to: 7551, pct: 24, fill: "url(#txRedCol)", color: RED, dark: "#b8292e", num: RED },
   ];
   const ref = bottom - base * 1.16;
+  const over = spring({ frame: t - 150, fps, config: { damping: 8 } });
+  const shake = t > 130 && t < 170 ? Math.sin(t * 2.2) * 4 * (1 - (t - 130) / 40) : 0;
   return (
     <>
       <TaxDefs />
       <rect x={60} y={bottom} width={880} height={10} rx={5} fill="#ffffff30" />
+      {/* monedas que pasan del sueldo a Hacienda mientras crece */}
+      {Array.from({ length: 7 }, (_, k) => {
+        const born = 44 + k * 13;
+        const p = interpolate(t, [born, born + 24], [0, 1], { ...clamp, easing: Easing.inOut(Easing.quad) });
+        if (t < born || p >= 1) return null;
+        const yTop = bottom - base * (1 + 0.16 * g) - 40;
+        return <Coin key={k} x={lerp(330, 680, p)} y={yTop - 60 - Math.sin(p * Math.PI) * 140} r={22} rot={p * 540} opacity={p > 0.88 ? (1 - p) * 8 : 1} />;
+      })}
       {cols.map((c, i) => {
         const enter = spring({ frame: t - 6 - i * 8, fps, config: { damping: 13 } });
         const hgt = base * enter * (1 + (c.pct / 100) * g);
         const top = bottom - hgt;
-        const chip = spring({ frame: t - 130 - i * 10, fps, config: { damping: 7 } });
+        const chip = spring({ frame: t - 120 - i * 12, fps, config: { damping: 7 } });
+        const red = i === 1;
+        const glow = red ? 0.35 + 0.25 * Math.sin(t / 4) : 0;
         return (
-          <g key={i}>
+          <g key={i} transform={`translate(${red ? shake : 0} 0)`}>
+            {red && <ellipse cx={c.x} cy={top + hgt / 2} rx={190} ry={hgt / 2 + 90} fill="url(#txRedGlow)" opacity={glow * enter} />}
             <ellipse cx={c.x + 20} cy={bottom + 8} rx={w * 0.62} ry={14} fill="#000" opacity={0.3} />
-            {/* cara lateral y superior (3D) */}
             <path d={`M ${c.x + w / 2} ${top} l 30 -20 L ${c.x + w / 2 + 30} ${bottom - 20} L ${c.x + w / 2} ${bottom} Z`} fill={c.dark} />
             <path d={`M ${c.x - w / 2} ${top} l 30 -20 h ${w} l -30 20 Z`} fill={c.color} stroke={c.dark} strokeWidth={3} />
             <rect x={c.x - w / 2} y={top} width={w} height={hgt} fill={c.fill} stroke={c.dark} strokeWidth={4} />
             <rect x={c.x - w / 2 + 16} y={top + 12} width={18} height={Math.max(0, hgt - 24)} rx={9} fill="#fff" opacity={0.35} />
-            {/* euros */}
-            <text x={c.x + 10} y={top - 46} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={50} fill="#fff" opacity={enter}>{fmtEur(lerp(c.from, c.to, g), tr.locale)} €</text>
+            {/* euros: el IRPF va en rojo */}
+            <g transform={`translate(${c.x + 10} ${top - 46}) scale(${1 + (red ? 0.08 * Math.max(0, Math.sin(t / 5)) * g : 0)})`}>
+              {red && <rect x={-150} y={-52} width={300} height={70} rx={20} fill="#2a0c0e" stroke={RED} strokeWidth={4} opacity={enter} />}
+              <text y={0} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={red ? 52 : 50} fill={c.num} opacity={enter}>{fmtEur(lerp(c.from, c.to, g), tr.locale)} €</text>
+            </g>
             <text x={c.x} y={bottom + 60} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={40} fill={c.color}>{c.label}</text>
-            <g transform={`translate(${c.x} ${top + 70}) scale(${chip})`}>
-              <rect x={-80} y={-34} width={160} height={68} rx={34} fill="#0b1a14" stroke="#fff" strokeWidth={4} />
-              <text y={14} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={42} fill="#fff">+{c.pct}%</text>
+            <g transform={`translate(${c.x} ${top + 80}) scale(${chip})`}>
+              <rect x={-86} y={-36} width={172} height={72} rx={36} fill={red ? RED : "#0b1a14"} stroke="#fff" strokeWidth={4} />
+              <path d={`M ${-58} 10 L -46 -10 L -34 10`} stroke="#fff" strokeWidth={6} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+              <text x={14} y={15} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={42} fill="#fff">+{c.pct}%</text>
             </g>
           </g>
         );
       })}
-      {/* referencia: lo que sube el sueldo */}
+      {/* referencia: lo que sube el sueldo; lo que el IRPF sube de más, en rojo */}
       <g opacity={interpolate(t, [135, 150], [0, 1], clamp)}>
         <line x1={160} y1={ref} x2={860} y2={ref} stroke="#fff" strokeWidth={4} strokeDasharray="14 12" opacity={0.7} />
+        <rect x={710 - w / 2} y={bottom - base * 1.24} width={w} height={base * 0.08} fill={RED} stroke="#fff" strokeWidth={3} opacity={0.6 + 0.4 * Math.sin(t / 3)} />
+      </g>
+      <g transform={`translate(500 ${ref - 205}) scale(${over})`}>
+        <rect x={-210} y={-34} width={420} height={68} rx={34} fill={RED} stroke="#b8292e" strokeWidth={4} />
+        <text y={13} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={32} fill="#fff">{tr.moreThanSalary}</text>
+      </g>
+      <text x={500} y={790} textAnchor="middle" fontFamily={body} fontWeight={600} fontSize={24} fill="#cfe3d8" opacity={0.7}>{tr.simplified}</text>
+    </>
+  );
+};
+
+/** Neto: lo que necesitas para comprar lo mismo vs lo que te queda → hueco rojo de −462 € (eje cortado). */
+export const NetGap: React.FC<DP> = () => {
+  const t = useFrame();
+  const tr = useT();
+  const bottom = 640, MIN = 25000, SC = 440 / 3000;
+  const hOf = (v: number) => (v - MIN) * SC;
+  const need = 27711, keep = 27249;
+  const e1 = spring({ frame: t - 6, fps, config: { damping: 12 } });
+  const e2 = spring({ frame: t - 30, fps, config: { damping: 14 } });
+  const gap = spring({ frame: t - 70, fps, config: { damping: 8 } });
+  const big = spring({ frame: t - 84, fps, config: { damping: 7 } });
+  const count = interpolate(t, [84, 120], [0, 462], { ...clamp, easing: Easing.out(Easing.cubic) });
+  const cx1 = 230, cx2 = 470, w = 170;
+  const topNeed = bottom - hOf(need), topKeep = bottom - hOf(keep) * e2;
+  const dash = interpolate(t, [6, 40], [1400, 0], clamp);
+  const lost = spring({ frame: t - 110, fps, config: { damping: 9 } });
+  const drop = interpolate(t, [118, 150], [0, 1], { ...clamp, easing: Easing.in(Easing.quad) });
+  return (
+    <>
+      <TaxDefs />
+      <rect x={70} y={bottom} width={540} height={10} rx={5} fill="#ffffff30" />
+      {/* corte de eje */}
+      <path d={`M 90 ${bottom + 30} l 16 -14 l 16 14 l 16 -14 l 16 14`} stroke="#ffffff70" strokeWidth={4} fill="none" />
+      {/* columna "necesitas" (contorno) */}
+      <ellipse cx={cx1 + 10} cy={bottom + 8} rx={110} ry={12} fill="#000" opacity={0.25} />
+      <rect x={cx1 - w / 2} y={topNeed} width={w} height={hOf(need)} rx={14} fill="#ffffff10" stroke="#ffffff" strokeWidth={5} strokeDasharray="18 12" strokeDashoffset={dash} opacity={e1} />
+      <text x={cx1} y={topNeed - 26} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={42} fill="#fff" opacity={e1}>{fmtEur(need, tr.locale)} €</text>
+      <text x={cx1} y={bottom + 64} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={36} fill="#fff" opacity={e1}>{tr.needed}</text>
+      {/* columna "te queda" */}
+      <ellipse cx={cx2 + 10} cy={bottom + 8} rx={110} ry={12} fill="#000" opacity={0.3} />
+      <rect x={cx2 - w / 2} y={topKeep} width={w} height={bottom - topKeep} rx={14} fill="url(#txGreenCol)" stroke="#1f8f52" strokeWidth={5} />
+      <rect x={cx2 - w / 2 + 14} y={topKeep + 12} width={16} height={Math.max(0, bottom - topKeep - 24)} rx={8} fill="#fff" opacity={0.35} />
+      <text x={cx2} y={topKeep + 110} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={38} fill="#0b1a14" opacity={e2}>{fmtEur(keep, tr.locale)} €</text>
+      <text x={cx2} y={bottom + 64} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={36} fill={GREEN} opacity={e2}>{tr.youKeep}</text>
+      {/* hueco que falta */}
+      <g opacity={gap}>
+        <line x1={cx1 + w / 2} y1={topNeed} x2={cx2 + w / 2} y2={topNeed} stroke={RED} strokeWidth={4} strokeDasharray="10 8" />
+        <rect x={cx2 - w / 2} y={topNeed} width={w} height={hOf(need) - hOf(keep)} rx={8} fill={RED} opacity={0.45 + 0.35 * Math.sin(t / 3)} stroke={RED} strokeWidth={4} />
+      </g>
+      {/* monedas que se escapan del hueco */}
+      {Array.from({ length: 6 }, (_, k) => {
+        const born = 80 + k * 14;
+        const p = interpolate(t, [born, born + 30], [0, 1], { ...clamp, easing: Easing.in(Easing.quad) });
+        if (t < born || p >= 1) return null;
+        return <Coin key={k} x={cx2 + w / 2 + 30 + k * 6 + p * 60} y={topNeed + 30 + p * 480} r={20} rot={p * 400} opacity={1 - p} />;
+      })}
+      {/* cifra grande en rojo */}
+      <g transform={`translate(790 250) scale(${big})`}>
+        <circle r={190} fill="url(#txRedGlow)" opacity={0.6 + 0.2 * Math.sin(t / 5)} />
+        <text y={20} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={110} fill={RED} stroke="#2a0c0e" strokeWidth={4} paintOrder="stroke">−{Math.round(count)} €</text>
+        <text y={80} textAnchor="middle" fontFamily={display} fontWeight={800} fontSize={36} fill="#fff">{tr.perYear}</text>
+      </g>
+      {/* cesta: un producto se cae */}
+      <g transform={`translate(790 560) scale(${lost})`}>
+        <ellipse cx={0} cy={92} rx={120} ry={14} fill="#000" opacity={0.28} />
+        <circle cx={-30} cy={-10} r={30} fill="url(#sph-green)" stroke="#4c8f1f" strokeWidth={4} />
+        <rect x={10} y={-50} width={44} height={66} rx={10} fill="#f4f7ff" stroke="#9aa6b8" strokeWidth={4} />
+        <rect x={10} y={-30} width={44} height={20} fill="#5ec8ff" />
+        <g transform={`translate(${-70 - drop * 90} ${-30 + drop * 200}) rotate(${-drop * 160})`} opacity={1 - drop * 0.6}>
+          <circle r={26} fill="url(#sph-yellow)" stroke="#c98f00" strokeWidth={4} />
+          <ellipse cx={-8} cy={-10} rx={7} ry={4} fill="#fff" opacity={0.8} />
+        </g>
+        <path d="M -100 10 L 100 10 L 82 86 L -82 86 Z" fill="url(#txBasket)" stroke="#7a4a1e" strokeWidth={5} strokeLinejoin="round" />
+        {[0, 1, 2, 3, 4].map((i) => <line key={i} x1={-70 + i * 35} y1={16} x2={-60 + i * 30} y2={82} stroke="#7a4a1e" strokeWidth={3} opacity={0.6} />)}
+        <g transform={`translate(0 140) scale(${spring({ frame: t - 140, fps, config: { damping: 8 } })})`}>
+          <rect x={-100} y={-26} width={200} height={52} rx={26} fill={RED} />
+          <text y={11} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={30} fill="#fff">{tr.lessToBuy}</text>
+        </g>
       </g>
     </>
   );

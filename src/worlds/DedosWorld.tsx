@@ -109,6 +109,27 @@ const Hand: React.FC<{ id: string; x: number; tip: number; s: number; wr: number
   </g>
 );
 
+/** Lupa que amplía la yema (foto macro pre-renderizada); `wr` 0–1 = arrugada. Apunta a (px, py). */
+const Lens: React.FC<{ id: string; cx: number; cy: number; r: number; wr: number; s: number; px: number; py: number; color: string; g: number }> = ({ id, cx, cy, r, wr, s, px, py, color, g }) => (
+  <g opacity={Math.min(1, s * 1.5)}>
+    <line x1={cx} y1={cy + r} x2={px} y2={py} stroke={color} strokeWidth={4} strokeDasharray="12 10" strokeDashoffset={-g % 22} opacity={0.9} />
+    <circle cx={px} cy={py} r={14} fill="none" stroke={color} strokeWidth={4} />
+    <g transform={`translate(${cx} ${cy}) scale(${s})`}>
+      <circle r={r + 30} fill="#000" opacity={0.45} transform="translate(10 16)" />
+      <clipPath id={`lc${id}`}><circle r={r} /></clipPath>
+      <g clipPath={`url(#lc${id})`}>
+        <rect x={-r} y={-r} width={2 * r} height={2 * r} fill="#c98a6c" />
+        <image href={IMG.padDry} x={-300 * (r / 160)} y={-560 * (r / 160)} width={600 * (r / 160)} height={900 * (r / 160)} />
+        {wr > 0.001 && <image href={IMG.padWet} x={-300 * (r / 160)} y={-560 * (r / 160)} width={600 * (r / 160)} height={900 * (r / 160)} opacity={wr} />}
+        <ellipse cx={-r * 0.35} cy={-r * 0.45} rx={r * 0.45} ry={r * 0.2} fill="#fff" opacity={0.18} transform={`rotate(-30 ${-r * 0.35} ${-r * 0.45})`} />
+      </g>
+      <circle r={r + 8} fill="none" stroke="#5d6672" strokeWidth={22} />
+      <circle r={r + 8} fill="none" stroke="#dfe6ee" strokeWidth={12} />
+      <circle r={r + 8} fill="none" stroke={color} strokeWidth={4} opacity={0.9} />
+    </g>
+  </g>
+);
+
 /** Gota de agua con volumen. */
 const Drop: React.FC<{ x: number; y: number; s?: number; rot?: number; o?: number }> = ({ x, y, s = 1, rot = 0, o = 1 }) => (
   <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${s})`} opacity={o}>
@@ -163,6 +184,7 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
   const year = sp(2, 4);
   const wrC = prog(shot, 2, t, at(0, 3.0), 60, Easing.out(Easing.cubic));
   const lblC = sp(2, at(0, 3.0) + 20);
+  const lensC = sp(2, at(0, 3.0) - 10, 12);
   const testC = sp(2, at(1, 6.0), 10);
   const fC = 0.3 + 0.7 * focus(shot, t, [2]);
 
@@ -259,6 +281,9 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
         <Hand id="c1" x={300} tip={4330} s={0.72} wr={wrC} g={g} nerve={sp(2, 10)} />
         <Hand id="c2" x={760} tip={4330} s={0.72} wr={0} g={g} nerve={sp(2, 18)} cut />
         <Tank x0={90} x1={990} top={4110} water={4190} bottom={4410} g={g} part="front" />
+        {/* lupas: se ve claro cuál se arruga */}
+        <Lens id="l1" cx={300} cy={3930} r={150} wr={wrC} s={lensC} px={300} py={4318} color={GREEN} g={g} />
+        <Lens id="l2" cx={760} cy={3930} r={150} wr={0} s={lensC} px={760} py={4318} color={RED} g={g} />
         {[{ x: 300, a: tr.dNerveOk, b: tr.dWrinkled, c: GREEN }, { x: 760, a: tr.dNerveCut, b: tr.dSmooth, c: RED }].map((l, i) => (
           <g key={i} opacity={lblC} transform={`translate(0 ${(1 - lblC) * 20})`}>
             <text x={l.x} y={4470} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={40} fill={l.c}>{l.a}</text>

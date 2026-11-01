@@ -69,13 +69,15 @@ El usuario veía sus reels "mucho menos animados que el resto". La fórmula apro
 ilustraciones de calidad (Remotion, escenas `drawing`) + una **capa de motion graphics de HyperFrames** encima de
 todo el reel, sincronizada con la voz. `npm run reel` lo hace todo; detalle de lo que ocurre por dentro:
 1. `python3 scripts/hf_layer.py out/<slug>.props.json` → genera `experiments/hyperframes/layers/<slug>/` con
-   subtítulos karaoke de la narración, explosiones de partículas en las palabras de `highlight`, transición de
-   rejilla en cada corte, título animado del gancho, destello y tarjeta de "Seguir" al final (los subtítulos del
+   subtítulos karaoke de la narración, explosiones de partículas en las palabras de `highlight`, título animado del gancho, destello y tarjeta de "Seguir" al final (los subtítulos del
    cierre van más arriba para no pisar la tarjeta).
 2. Revisar con `npx hyperframes snapshot` y renderizar a `public/overlays/<slug>-layer.webm` (WebM con alfa).
 3. En el guion: `"overlay": "overlays/<slug>-layer.webm"`, `"captions": true` (oculta los textos de apoyo para no
    duplicar), `"hideHandleAtEnd": true`, `"hideCtaAtEnd": true`. Render normal con `npm run render`.
 Si cambias el guion o la voz, regenera la capa (va sincronizada a las duraciones).
+**Transiciones** (`transitionStyle` del guion, o `transition` por escena): por defecto `mix`, que rota las cuatro que
+aprobó el usuario: `iris` (círculo que se abre), `whip` (barrido lateral), `flip` (giro de tarjeta) y `clock` (reloj).
+NO uses `grid` (cuadrados de colores, no le gusta) ni `push` (empuje + destello, descartada).
 
 ## Biblioteca de estilos de referencia
 `docs/estilos-referencia.md` guarda patrones de animación analizados de reels de referencia (estructura, tiempos,

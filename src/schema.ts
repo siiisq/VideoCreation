@@ -94,8 +94,8 @@ export const reelSchema = z.object({
     volume: z.number().default(1),
   }).default({}),
   sfxVolume: z.number().default(0.55),
-  transitionStyle: z.enum(["grid", "mix", "push", "iris", "whip", "flip", "clock"]).default("grid")
-    .describe("grid = rejilla de colores de la capa HyperFrames; el resto son transiciones de Remotion sin rejilla"),
+  transitionStyle: z.enum(["grid", "mix", "push", "iris", "whip", "flip", "clock"]).default("mix")
+    .describe("mix (por defecto) = rota círculo/barrido/giro/reloj; grid = rejilla de colores (el usuario NO la quiere); push descartada por el usuario"),
   lightLeaks: z.boolean().default(true),
   grain: z.boolean().default(true).describe("grano de película sutil (evita bandas en degradados)"),
   scenes: z.array(sceneSchema).min(1),

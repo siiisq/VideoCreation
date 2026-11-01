@@ -77,7 +77,7 @@ def main(props_path):
                 "size": round(min(17.0, 130.0 / max(1, len(main))), 2), "accentIndex": max(0, len(main.split()) - 1),
                 "dur": round(starts[1] + 0.15 if len(starts) > 1 else s0["duration"], 2)}  # acaba bajo la rejilla del primer corte
 
-    data = {"total": total, "cuts": starts[1:], "gridCuts": starts[1:] if reel.get("transitionStyle", "grid") == "grid" else [], "chunks": chunks, "bursts": bursts,
+    data = {"total": total, "cuts": starts[1:], "gridCuts": starts[1:] if reel.get("transitionStyle", "mix") == "grid" else [], "chunks": chunks, "bursts": bursts,
             "outro": starts[-1], "theme": theme, "flash": 0.62, "hook": hook, "trans": TRANS}
 
     out = os.path.join(ROOT, "experiments", "hyperframes", "layers", slug)

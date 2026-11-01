@@ -1,9 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Audio, interpolate, OffthreadVideo, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { linearTiming, TransitionPresentation, TransitionSeries } from "@remotion/transitions";
-import { fade } from "@remotion/transitions/fade";
 import { slide } from "@remotion/transitions/slide";
-import { wipe } from "@remotion/transitions/wipe";
 import { pushCut } from "@remotion/transitions/push-cut";
 import { iris } from "@remotion/transitions/iris";
 import { flip } from "@remotion/transitions/flip";
@@ -31,13 +29,6 @@ export const sceneStarts = (reel: ReelT, fps: number) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const transitions: Array<() => TransitionPresentation<any>> = [
-  () => slide({ direction: "from-bottom" }),
-  () => fade(),
-  () => wipe({ direction: "from-left" }),
-  () => slide({ direction: "from-right" }),
-];
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const pickTransition = (style: string, i: number, w: number, h: number): TransitionPresentation<any> => {
   switch (style) {
     case "push": return pushCut();
@@ -45,7 +36,7 @@ const pickTransition = (style: string, i: number, w: number, h: number): Transit
     case "whip": return slide({ direction: i % 2 ? "from-left" : "from-right" });
     case "flip": return flip({ direction: i % 2 ? "from-left" : "from-right" });
     case "clock": return clockWipe({ width: w, height: h });
-    default: return transitions[i % transitions.length]();
+    default: return pickTransition(["iris", "whip", "flip", "clock"][i % 4], i, w, h); // mix: rota las aprobadas
   }
 };
 

@@ -52,7 +52,9 @@ export const World: React.FC<{ name: string; shot: number; data: Record<string, 
   const w = worlds[name];
   if (!w) return <AbsoluteFill style={{ color: "red", fontSize: 50 }}>Mundo desconocido: {name}</AbsoluteFill>;
   const to = w.cams[Math.min(shot, w.cams.length - 1)];
-  const from = shot === 0 ? { ...to, w: to.w * 1.3, rx: (to.rx ?? 0) + 8 } : w.cams[shot - 1];
+  // data.fromShot: plano del que viene la cámara (versiones cortas que se saltan planos)
+  const prev = typeof data.fromShot === "number" ? (data.fromShot as number) : shot - 1;
+  const from = shot === 0 ? { ...to, w: to.w * 1.3, rx: (to.rx ?? 0) + 8 } : w.cams[Math.max(0, prev)];
   const p = interpolate(t, [HOLD, HOLD + MOVE], [0, 1], { ...clamp, easing: CAM_EASE });
   const L = (a: number, b: number) => a + (b - a) * p;
   // deriva lenta continua (tiempo global → sin saltos entre escenas): la cámara nunca está quieta

@@ -20,14 +20,14 @@
       "duration": 6,
       "data": {
         "atWords": [
-          "no.",
+          "No es",
           "nervioso"
         ]
       },
       "highlight": [
         "nervioso,"
       ],
-      "voice": "¿Tus dedos se arrugan porque absorben agua? Pues no. Lo hace tu sistema nervioso, a propósito."
+      "voice": "¿Por qué se arrugan los dedos en el agua? No es porque absorban agua. Lo hace tu sistema nervioso, a propósito."
     },
     {
       "type": "world",
@@ -120,7 +120,7 @@
       "highlight": [
         "neumáticos"
       ],
-      "voice": "Vamos, que son tus neumáticos de serie. ¿Tú lo sabías? Sígueme para más ciencia en menos de un minuto."
+      "voice": "Vamos, que son tus neumáticos de serie. ¿Lo sabías o te acabo de romper la infancia? Mándaselo a quien se mira los dedos en la bañera."
     }
   ]
 }

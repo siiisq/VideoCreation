@@ -240,11 +240,16 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
         <Tank x0={250} x1={830} top={1000} water={1090} bottom={1540} g={g} part="front" />
         {/* etiqueta "¿absorbe agua?" tachada */}
         <g opacity={shot >= 6 ? 0 : 1}>
-          <line x1={330} y1={700} x2={440} y2={820} stroke={MUTED} strokeWidth={3} strokeDasharray="8 8" opacity={absorb} />
-          <Chip x={250} y={660} text={tr.dAbsorb} color={BLUE} dark s={absorb} size={32} />
-          <line x1={110} y1={660} x2={110 + 280 * strike} y2={660} stroke={RED} strokeWidth={9} strokeLinecap="round" />
-          <line x1={640} y1={760} x2={760} y2={640} stroke={GOLD} strokeWidth={3} strokeDasharray="8 8" opacity={nerveA} />
-          <Chip x={800} y={600} text={tr.dNerves} color={GOLD} s={sp(0, at(1, 3.2) + 8, 9)} size={30} />
+          <line x1={330} y1={800} x2={440} y2={880} stroke={MUTED} strokeWidth={3} strokeDasharray="8 8" opacity={absorb} />
+          <Chip x={250} y={760} text={tr.dAbsorb} color={BLUE} dark s={absorb} size={32} />
+          <line x1={110} y1={760} x2={110 + 280 * strike} y2={760} stroke={RED} strokeWidth={9} strokeLinecap="round" />
+          <line x1={640} y1={900} x2={760} y2={800} stroke={GOLD} strokeWidth={3} strokeDasharray="8 8" opacity={nerveA} />
+          <Chip x={800} y={760} text={tr.dNerves} color={GOLD} s={sp(0, at(1, 3.2) + 8, 9)} size={30} />
+        </g>
+        {/* gancho escrito, visible desde el primer fotograma (mucha gente ve sin sonido); vuelve en el cierre (bucle) */}
+        <g opacity={shot === 0 || shot >= 6 ? 1 : 0.4}>
+          <text x={540} y={540} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={66} fill={INK}>{tr.dHook1}</text>
+          <text x={540} y={620} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={66} fill={GOLD}>{tr.dHook2}</text>
         </g>
         {/* cierre: neumáticos de serie */}
         {shot >= 6 && (

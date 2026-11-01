@@ -4,6 +4,10 @@ import { linearTiming, TransitionPresentation, TransitionSeries } from "@remotio
 import { fade } from "@remotion/transitions/fade";
 import { slide } from "@remotion/transitions/slide";
 import { wipe } from "@remotion/transitions/wipe";
+import { pushCut } from "@remotion/transitions/push-cut";
+import { iris } from "@remotion/transitions/iris";
+import { flip } from "@remotion/transitions/flip";
+import { clockWipe } from "@remotion/transitions/clock-wipe";
 import { Background } from "./components/Background";
 import { body } from "./fonts";
 import { Reel as ReelT, reelSchema } from "./schema";
@@ -33,6 +37,17 @@ const transitions: Array<() => TransitionPresentation<any>> = [
   () => wipe({ direction: "from-left" }),
   () => slide({ direction: "from-right" }),
 ];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const pickTransition = (style: string, i: number, w: number, h: number): TransitionPresentation<any> => {
+  switch (style) {
+    case "push": return pushCut();
+    case "iris": return iris({ width: w, height: h });
+    case "whip": return slide({ direction: i % 2 ? "from-left" : "from-right" });
+    case "flip": return flip({ direction: i % 2 ? "from-left" : "from-right" });
+    case "clock": return clockWipe({ width: w, height: h });
+    default: return transitions[i % transitions.length]();
+  }
+};
 
 const ProgressBar: React.FC<{ color: string }> = ({ color }) => {
   const frame = useCurrentFrame();
@@ -88,7 +103,7 @@ export const Reel: React.FC<ReelT> = (props) => {
             </TransitionSeries.Sequence>,
           ];
           if (i < reel.scenes.length - 1) {
-            items.push(<TransitionSeries.Transition key={`t${i}`} presentation={transitions[i % transitions.length]()} timing={linearTiming({ durationInFrames: T })} />);
+            items.push(<TransitionSeries.Transition key={`t${i}`} presentation={pickTransition(reel.scenes[i + 1].transition ?? reel.transitionStyle, i, 1080, 1920)} timing={linearTiming({ durationInFrames: T })} />);
           }
           return items;
         })}

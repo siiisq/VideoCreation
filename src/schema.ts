@@ -9,6 +9,7 @@ const base = {
   voiceFile: z.string().optional().describe("rellenado por scripts/tts.py"),
   voiceDuration: z.number().optional().describe("rellenado por scripts/tts.py"),
   overlay: z.string().optional().describe("vídeo con transparencia en public/ (p. ej. motion graphics de HyperFrames) encima de la escena"),
+  transition: z.enum(["mix", "push", "iris", "whip", "flip", "clock"]).optional().describe("transición de entrada a esta escena (sobrescribe transitionStyle)"),
 };
 
 export const sceneSchema = z.discriminatedUnion("type", [
@@ -93,6 +94,8 @@ export const reelSchema = z.object({
     volume: z.number().default(1),
   }).default({}),
   sfxVolume: z.number().default(0.55),
+  transitionStyle: z.enum(["grid", "mix", "push", "iris", "whip", "flip", "clock"]).default("grid")
+    .describe("grid = rejilla de colores de la capa HyperFrames; el resto son transiciones de Remotion sin rejilla"),
   lightLeaks: z.boolean().default(true),
   grain: z.boolean().default(true).describe("grano de película sutil (evita bandas en degradados)"),
   scenes: z.array(sceneSchema).min(1),

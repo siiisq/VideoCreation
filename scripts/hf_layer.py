@@ -77,7 +77,7 @@ def main(props_path):
                 "size": round(min(17.0, 130.0 / max(1, len(main))), 2), "accentIndex": max(0, len(main.split()) - 1),
                 "dur": round(starts[1] + 0.15 if len(starts) > 1 else s0["duration"], 2)}  # acaba bajo la rejilla del primer corte
 
-    data = {"total": total, "cuts": starts[1:], "chunks": chunks, "bursts": bursts,
+    data = {"total": total, "cuts": starts[1:], "gridCuts": starts[1:] if reel.get("transitionStyle", "grid") == "grid" else [], "chunks": chunks, "bursts": bursts,
             "outro": starts[-1], "theme": theme, "flash": 0.62, "hook": hook, "trans": TRANS}
 
     out = os.path.join(ROOT, "experiments", "hyperframes", "layers", slug)
@@ -183,7 +183,7 @@ def main(props_path):
   const froms = ["center", "edges", "start", "end", "random"];
   // La rejilla debe tapar TODO el fundido de Remotion (de t0 a t0 + TRANS): si se retira antes, se ven
   // superpuestos el título/dibujo de la escena anterior y los de la nueva. Entrada: 0,22 s + 0,26 s de escalonado.
-  D.cuts.forEach((t0, i) => {{
+  D.gridCuts.forEach((t0, i) => {{
     tl.to("#grid div", {{ scale: 1.03, duration: 0.22, ease: "power2.in", stagger: {{ each: 0.0018, from: froms[i % 5], grid: [16, 9] }} }}, t0 - 0.52);
     tl.to("#grid div", {{ scale: 0, duration: 0.25, ease: "power2.out", stagger: {{ each: 0.0018, from: froms[(i + 1) % 5], grid: [16, 9] }} }}, t0 + D.trans + 0.03);
   }});

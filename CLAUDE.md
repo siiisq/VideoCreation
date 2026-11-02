@@ -15,7 +15,7 @@ si el usuario lo pide expresamente.
 1. **Guion**: crea `videos/<slug>.json` siguiendo `src/schema.ts`. Por defecto **español de España** (`"lang": "es"`,
    vocabulario y expresiones de España). Si el usuario pide inglés, crea `videos/<slug>.en.json` con `"lang": "en"`
    (traducción natural y adaptada, no literal; cifras escritas con letras en `voice`).
-   - Duración total ≈ 55–60 s: suma de `duration` de las escenas, menos 0,4 s por transición.
+   - Duración total ≈ 30 s (25–35 s; ver "Estrategia para viralizar"): suma de `duration` de las escenas, menos 0,4 s por transición.
    - Estructura de reel que retiene: gancho (3–6 s, frase impactante) → 5–7 planos/escenas de contenido → cierre con CTA.
      En el estilo por defecto todo son escenas `world` (una por plano); el gancho y el cierre son planos del mundo.
    - Textos CORTOS: máx. ~25 palabras por escena `text`, ~8 palabras por item de `list`/`steps`. Calcula ~3 palabras/segundo de lectura.
@@ -111,16 +111,15 @@ Ejemplos: `videos/hipoteca-intereses.json` (referencia principal) y `videos/subi
 ## Estrategia para viralizar (cuenta nueva) — APLICAR EN TODOS LOS REELS
 1. **Gancho en el primer segundo**: el texto del gancho se ve desde el fotograma 1 (dentro de la escena, no solo en
    subtítulos), sin presentaciones ("Hoy te voy a contar…" prohibido). Mucha gente ve sin sonido.
-2. **Versión corta**: de cada tema, además de la versión de 55–60 s, saca una de 25–35 s
-   (`videos/<slug>.short.json`, mismos planos clave; en el mundo continuo usa `data.fromShot` cuando te saltes planos).
-   Si los cortos retienen más, pasan a ser el formato principal.
+2. **Formato principal: ~30 s** (25–35 s, decisión del usuario tras probar las dos versiones). Ya NO se hace la
+   versión larga de 55–60 s salvo que el usuario la pida expresamente. Guion corto: gancho → 2–3 planos clave → cierre.
 3. **3 ganchos alternativos por vídeo**: en la entrega propone 2–3 ganchos distintos (texto en pantalla + primera
    frase de voz). Si el usuario lo pide, renderiza variantes cambiando solo la escena/plano 0.
 4. **Compartible**: el cierre invita a enviarlo ("Mándaselo a quien…") además de la pregunta para comentar; mejor una
    pregunta que divida opiniones ("¿Lo sabías o te acabo de romper la infancia?").
-   Además, una **pastilla en pantalla "Mándaselo a quien…"** con icono de enviar (ver `ShareChip` en
-   `src/worlds/DedosWorld.tsx`): una a mitad de vídeo (tras el dato más sorprendente, solo visual) y otra en el cierre,
-   sincronizada con la voz.
+   Además, **UNA sola pastilla en pantalla "Mándaselo a quien…"** con icono de enviar (ver `ShareChip` en
+   `src/worlds/DedosWorld.tsx`), SOLO en el cierre y sincronizada con la voz. Nunca a mitad de vídeo ni repetida
+   (el usuario lo marcó como error); cuidado también con que la cámara no vuelva a pasar por delante de otra.
 5. **Palabras que la gente busca**: la frase de búsqueda natural ("por qué se arrugan los dedos en el agua") aparece
    en el texto en pantalla, la dice la voz y es la primera línea de la descripción del post.
 6. **Final en bucle**: si se puede, el último plano enlaza visualmente con el primero para que la repetición sea natural.

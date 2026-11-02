@@ -3,7 +3,7 @@ import { Easing, interpolate, spring } from "remotion";
 import { body, display } from "../fonts";
 import { useT } from "../i18n";
 import { ANIM_FPS } from "../time";
-import { ShareChip } from "./DedosWorld";
+import { ShareSheet } from "./ShareSheet";
 import { atF, Cam, focus, prog, WorldProps } from "./World";
 
 /*
@@ -100,6 +100,8 @@ export const InflacionWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
   const b1 = prog(shot, 2, t, 10, 30), b2 = prog(shot, 2, t, at(0, 1.5), 40), b3 = prog(shot, 2, t, at(1, 4.0), 40);
   // cierre
   const closeS = sp(3, at(0, 1.2), 9);
+  const shareAt = Math.max(at(1, 3.4) - 4, 116); // después de que se vaya la tarjeta de "Seguir"
+  const shareUp = shot === 3 ? spring({ frame: t - shareAt, fps, config: { damping: 14 } }) : 0;
 
   const fHook = 0.3 + 0.7 * (shot === 0 ? 1 : focus(shot, t, [0, 1, 3]));
   const f1 = 0.3 + 0.7 * focus(shot, t, [1]);
@@ -123,7 +125,7 @@ export const InflacionWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
       </g>
 
       {/* ================= cuenta del banco (siempre 10.000 €) ================= */}
-      <g opacity={fHook}>
+      <g opacity={fHook * (1 - 0.75 * shareUp)}>
         <Account x={cardX} y={cardY + Math.sin(g / 40) * 5} s={cardS} g={g} tr={tr} />
         <g opacity={shot === 0 ? sp(0, at(0, 2.2), 9) : 0}>
           <rect x={300} y={1300} width={480} height={70} rx={35} fill={PANEL} stroke={GOLD} strokeWidth={3} />
@@ -202,12 +204,12 @@ export const InflacionWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
       {/* ================= cierre ================= */}
       {shot === 3 && (
         <g>
-          <ellipse cx={540} cy={1440} rx={420} ry={100} fill="url(#iGoldGlow)" opacity={closeS * (0.5 + 0.3 * Math.sin(g / 7))} />
-          <g transform={`translate(540 1440) scale(${closeS})`} opacity={Math.min(1, closeS * 1.5)}>
+          <ellipse cx={540} cy={1440} rx={420} ry={100} fill="url(#iGoldGlow)" opacity={closeS * (0.5 + 0.3 * Math.sin(g / 7)) * (1 - shareUp)} />
+          <g transform={`translate(540 1440) scale(${closeS})`} opacity={Math.min(1, closeS * 1.5) * (1 - shareUp)}>
             <rect x={-390} y={-46} width={780} height={92} rx={46} fill={GOLD} />
             <text y={16} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={42} fill="#1a1406">{tr.iDontStop}</text>
           </g>
-          <ShareChip x={540} y={1570} text={tr.iShare} s={sp(3, Math.max(at(1, 3.4) - 4, 116), 9)} g={g} size={29} />
+          <ShareSheet x={540} y={1350} t={t} at={shareAt} line1={tr.iShare1} line2={tr.iShare2} scale={1.12} />
         </g>
       )}
     </g>

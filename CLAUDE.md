@@ -117,9 +117,12 @@ Ejemplos: `videos/hipoteca-intereses.json` (referencia principal) y `videos/subi
    frase de voz). Si el usuario lo pide, renderiza variantes cambiando solo la escena/plano 0.
 4. **Compartible**: el cierre invita a enviarlo ("Mándaselo a quien…") además de la pregunta para comentar; mejor una
    pregunta que divida opiniones ("¿Lo sabías o te acabo de romper la infancia?").
-   Además, **UNA sola pastilla en pantalla "Mándaselo a quien…"** con icono de enviar (ver `ShareChip` en
-   `src/worlds/DedosWorld.tsx`), SOLO en el cierre y sincronizada con la voz. Nunca a mitad de vídeo ni repetida
-   (el usuario lo marcó como error); cuidado también con que la cámara no vuelva a pasar por delante de otra.
+   Además, **UNA sola hoja de compartir "Mándaselo a quien… / <línea dorada>"** con 4 contactos genéricos y uno que se
+   selecciona con ✓ (`ShareSheet` en `src/worlds/ShareSheet.tsx`, opción elegida por el usuario; la pastilla antigua
+   `ShareChip` le parecía cutre). SOLO en el cierre, sincronizada con la voz y DESPUÉS de que se vaya la tarjeta de
+   "Seguir" de la capa (`at = max(palabra − 4, 116)`). Ocupa 600 × 360: colócala donde no pise nada y, al aparecer,
+   atenúa lo que quede detrás y retira las pastillas del cierre. Nunca a mitad de vídeo ni repetida, y que la cámara
+   no vuelva a pasar por delante de ella.
 5. **Palabras que la gente busca**: la frase de búsqueda natural ("por qué se arrugan los dedos en el agua") aparece
    en el texto en pantalla, la dice la voz y es la primera línea de la descripción del post.
 6. **Final en bucle**: si se puede, el último plano enlaza visualmente con el primero para que la repetición sea natural.

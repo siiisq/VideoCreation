@@ -1,5 +1,6 @@
 import React from "react";
 import { AbsoluteFill, Audio, interpolate, OffthreadVideo, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { HOLD } from "./worlds/World";
 import { linearTiming, TransitionPresentation, TransitionSeries } from "@remotion/transitions";
 import { slide } from "@remotion/transitions/slide";
 import { pushCut } from "@remotion/transitions/push-cut";
@@ -136,7 +137,9 @@ export const Reel: React.FC<ReelT> = (props) => {
         </Sequence>
       ) : null)}
       {reel.sfx && reel.scenes.map((scene, i) => {
-        const cues = [...(i > 0 ? [{ sound: "whoosh" as const, at: -0.1, volume: 0.45 }] : []), ...autoCues(scene), ...(scene.sfx ?? [])];
+        // en el mundo continuo la cámara arranca HOLD fotogramas después del corte: el whoosh va con el movimiento
+        const whooshAt = scene.type === "world" ? HOLD / 30 : -0.1;
+        const cues = [...(i > 0 ? [{ sound: "whoosh" as const, at: whooshAt, volume: 0.45 }] : []), ...autoCues(scene), ...(scene.sfx ?? [])];
         return cues.map((c, j) => (
           <Sequence key={`sfx${i}-${j}`} from={Math.max(0, starts[i] + Math.round(c.at * fps))} durationInFrames={fps * 2} layout="none">
             <Audio src={staticFile(`sfx/${c.sound}.wav`)} volume={reel.sfxVolume * (c.volume ?? 1)} />

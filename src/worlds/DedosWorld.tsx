@@ -288,7 +288,7 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
           <rect x={-232} y={-72} width={464} height={144} rx={16} fill="none" stroke={RED} strokeWidth={4} />
           <text y={44} textAnchor="middle" fontFamily={display} fontWeight={900} fontSize={128} letterSpacing={10} fill={RED}>{tr.dMyth}</text>
         </g>
-        <ShareChip x={540} y={2990} text={tr.dShareMyth} s={sp(1, at(0, 4.2) + 28, 9)} g={g} size={32} />
+        {shot <= 2 && <ShareChip x={540} y={2990} text={tr.dShareMyth} s={sp(1, at(0, 4.2) + 28, 9) * (shot === 2 ? 1 - interpolate(t, [0, 12], [0, 1], clamp) : 1)} g={g} size={32} />}
       </g>
 
       {/* ================= C · 1935: nervio dañado = no se arruga ================= */}

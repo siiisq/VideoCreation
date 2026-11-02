@@ -263,7 +263,7 @@ export const DedosWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
           <g>
             <ellipse cx={540} cy={1570} rx={420} ry={100} fill="url(#dGoldGlow)" opacity={closeS * (0.6 + 0.3 * Math.sin(g / 7))} />
             <Chip x={540} y={1580} text={tr.dStock} color={GOLD} s={closeS} size={46} />
-            <ShareChip x={540} y={1700} text={tr.dShareEnd} s={sp(6, at(0, 3.4) - 4, 9)} g={g} size={29} />
+            <ShareChip x={540} y={1700} text={tr.dShareEnd} s={sp(6, Math.max(at(0, 3.4) - 4, 116), 9)} /* después de que se vaya la tarjeta de Seguir */ g={g} size={29} />
           </g>
         )}
       </g>

@@ -1,0 +1,89 @@
+{
+  "$schema": "https://hyperframes.heygen.com/schema/hyperframes.json",
+  "registry": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry",
+  "paths": {
+    "blocks": "compositions",
+    "components": "compositions/components",
+    "assets": "assets"
+  },
+  "media": {
+    "autoProxy": true
+  },
+  "registryItems": [
+    {
+      "name": "headline-slam",
+      "type": "hyperframes:component",
+      "target": "compositions/components/headline-slam.html"
+    },
+    {
+      "name": "marker-highlight",
+      "type": "hyperframes:component",
+      "target": "compositions/components/marker-highlight.html"
+    },
+    {
+      "name": "instagram-follow",
+      "type": "hyperframes:block",
+      "target": "compositions/instagram-follow.html"
+    },
+    {
+      "name": "char-slam-explode",
+      "type": "hyperframes:component",
+      "target": "compositions/components/char-slam-explode.html"
+    },
+    {
+      "name": "caption-kinetic-slam",
+      "type": "hyperframes:component",
+      "target": "compositions/components/caption-kinetic-slam.html"
+    },
+    {
+      "name": "caption-particle-burst",
+      "type": "hyperframes:component",
+      "target": "compositions/components/caption-particle-burst.html"
+    },
+    {
+      "name": "count-up",
+      "type": "hyperframes:component",
+      "target": "compositions/components/count-up.html"
+    },
+    {
+      "name": "conic-progress-ring",
+      "type": "hyperframes:component",
+      "target": "compositions/components/conic-progress-ring.html"
+    },
+    {
+      "name": "caption-matrix-decode",
+      "type": "hyperframes:component",
+      "target": "compositions/components/caption-matrix-decode.html"
+    },
+    {
+      "name": "line-by-line-slide",
+      "type": "hyperframes:component",
+      "target": "compositions/components/line-by-line-slide.html"
+    },
+    {
+      "name": "grid-pixelate-wipe",
+      "type": "hyperframes:component",
+      "target": "compositions/components/grid-pixelate-wipe.html"
+    },
+    {
+      "name": "halftone-dissolve",
+      "type": "hyperframes:component",
+      "target": "compositions/components/halftone-dissolve.html"
+    },
+    {
+      "name": "curtain-reveal",
+      "type": "hyperframes:component",
+      "target": "compositions/components/curtain-reveal.html"
+    },
+    {
+      "name": "starfield",
+      "type": "hyperframes:block",
+      "target": "compositions/starfield.html"
+    },
+    {
+      "name": "caption-pill-karaoke",
+      "type": "hyperframes:component",
+      "target": "compositions/components/caption-pill-karaoke.html"
+    }
+  ]
+}

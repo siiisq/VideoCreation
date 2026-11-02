@@ -88,3 +88,41 @@ Ya hechos: TAE vs TIN (`tae-vs-tin`), hipoteca (`hipoteca-intereses`), subida de
 | I6 | Tu inflación no es la del IPC | "El IPC dice 3 %… pero tú lo notas más" | El IPC es una cesta media del INE; si gastas más en lo que más sube (alquiler, comida), tu inflación es mayor. Ejemplo hipotético con dos cestas, sin inventar datos del INE. |
 | I7 | ¿Por qué el BCE quiere un 2 % y no un 0 %? | "Que los precios no suban sería malo" | Objetivo del BCE: 2 % a medio plazo. Riesgo de deflación: si todo va a bajar, se retrasan compras. Explicación conceptual, sin cifras inventadas. |
 | I8 | Hiperinflación | "Un billete de 100 billones que no valía nada" | Zimbabue emitió un billete de 100 billones de dólares zimbabuenses (2009). Alemania 1923: carretillas de billetes. Comprobar cada dato con fuente antes de producir. |
+
+### 📅 PARA MAÑANA (3-nov-2026) — subserie Inflación, desarrollados (datos a 2-nov-2026)
+Datos de partida (comprobar el mismo día de publicar: cambian):
+- IPC España octubre 2026 (avance INE, 30-oct): **4,9 %** interanual; subyacente 3,1 %. Definitivo el 13-nov.
+- BCE: facilidad de depósito **2,50 %** (mantenido el 29-oct-2026).
+- Letras del Tesoro a 12 meses: **3,026 %** (subasta del 6-oct-2026; siguiente, 3-nov).
+- Cuentas remuneradas sin nómina: ~3–3,5 % TAE, casi siempre con tope de saldo y plazo (p. ej. 3,51 % 4 meses hasta 25.000 €).
+  Con nómina: hasta ~5 % el primer año con tope (p. ej. 5,10 % hasta 20.000 € y 2,02 % el segundo año).
+- Intereses: tributan en la base del ahorro del IRPF (19 % los primeros 6.000 €).
+Descripción de los tres: "Contenido educativo, no es recomendación de inversión". No nombrar bancos en el vídeo.
+
+**M1 · Ganar dinero perdiendo** (frase de búsqueda: "rentabilidad real de mis ahorros")
+- Gancho: "Tu cuenta te paga un 3 %… y pierdes dinero".
+- Plano 1: 10.000 € al 3 % TAE → +300 € de intereses (verde).
+- Plano 2: Hacienda se lleva el 19 % → 57 € (rojo) → te quedan 243 €.
+- Plano 3: con la inflación al 4,9 % necesitas 10.490 € para comprar lo mismo; tienes 10.243 € → **−247 €** de poder de compra (rojo).
+  Fórmula en pantalla: real ≈ (1 + interés neto) / (1 + inflación) − 1 → **−2,35 %**.
+- Cierre: "Rentabilidad real = lo que ganas − lo que sube la vida" + pastilla "Mándaselo a quien presume de su cuenta al 3 %".
+
+**M2 · Qué opciones hay hoy para protegerte de la inflación** (frase: "cómo proteger mis ahorros de la inflación")
+- Gancho: "Con la inflación al 4,9 %, ¿dónde dejo mis ahorros?".
+- Plano 1 (termómetro de la inflación 4,9 %) frente a una regla con las opciones sin riesgo de hoy: cuenta remunerada ~3 %,
+  Letras del Tesoro 12 meses ~3 %, depósitos en la misma franja → **ninguna llega al 4,9 %**: reducen la pérdida, no la eliminan.
+- Plano 2: opciones con más riesgo y a largo plazo (fondos indexados de bolsa, bonos ligados a la inflación): pueden batirla,
+  pero suben y bajan. SIN cifras de rentabilidad prometidas, solo la idea de riesgo vs plazo.
+- Plano 3: la protección que más se olvida: que tus ingresos suban (negociar sueldo, formación) y vigilar gastos.
+- Cierre: "No hay magia: o aceptas algo de riesgo o pierdes un poco menos" + pastilla "Mándaselo a quien tiene todo en la cuenta".
+
+**M3 · Por qué un banco te paga un 5 % (y cómo gana dinero)** (frase: "cómo ganan dinero los bancos con las cuentas remuneradas")
+- Gancho: "Si el banco te paga un 5 %, ¿qué gana él?".
+- Plano 1: el BCE paga a los bancos un 2,50 % por dejarle el dinero (facilidad de depósito) → con tu dinero el banco ya
+  cobra "sin hacer nada".
+- Plano 2: lo presta más caro (hipotecas, préstamos personales, tarjetas): la diferencia es su margen de intereses
+  (ejemplo hipotético: te paga 3 %, presta al 7 % → gana 4 puntos).
+- Plano 3: la letra pequeña del 5 %: solo hasta 20.000 € (máx. ~1.020 €/año) y solo el primer año; el segundo baja al 2,02 %.
+  Es su coste de captar un cliente: luego te ofrecen hipoteca, tarjeta, seguros, fondos… y la mayoría no se cambia.
+- Cierre: "No es caridad: eres un cliente que han comprado" + pastilla "Mándaselo a quien cree que el banco le regala dinero".
+- Seguridad: el Fondo de Garantía de Depósitos cubre hasta 100.000 € por titular y entidad (dato útil para un comentario fijado).

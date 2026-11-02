@@ -131,7 +131,7 @@ const Lens: React.FC<{ id: string; cx: number; cy: number; r: number; wr: number
 );
 
 /** Pastilla "Mándaselo a…" con icono de avión de papel (invita a compartir). */
-const ShareChip: React.FC<{ x: number; y: number; text: string; s: number; g: number; size?: number }> = ({ x, y, text, s, g, size = 30 }) => {
+export const ShareChip: React.FC<{ x: number; y: number; text: string; s: number; g: number; size?: number }> = ({ x, y, text, s, g, size = 30 }) => {
   const W = text.length * size * 0.6 + 120, H = size * 2;
   const bob = Math.sin(g / 8) * 3;
   return (

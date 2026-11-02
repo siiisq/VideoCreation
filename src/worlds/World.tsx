@@ -7,6 +7,7 @@ import { IrpfWorld, IRPF_CAMS } from "./IrpfWorld";
 import { HipotecaWorld, HIPOTECA_CAMS } from "./HipotecaWorld";
 import { TaeWorld, TAE_CAMS } from "./TaeWorld";
 import { DedosWorld, DEDOS_CAMS } from "./DedosWorld";
+import { InflacionWorld, INFLACION_CAMS } from "./InflacionWorld";
 
 /**
  * "Mundos" a pantalla completa: un único escenario grande y una cámara que viaja entre planos (shots).
@@ -46,6 +47,7 @@ const worlds: Record<string, { C: React.FC<WorldProps>; cams: Cam[]; bg: string 
   hipoteca: { C: HipotecaWorld, cams: HIPOTECA_CAMS, bg: "#0b0c0f" },
   tae: { C: TaeWorld, cams: TAE_CAMS, bg: "#0b0c0f" },
   dedos: { C: DedosWorld, cams: DEDOS_CAMS, bg: "#0b0c0f" },
+  inflacion: { C: InflacionWorld, cams: INFLACION_CAMS, bg: "#0b0c0f" },
 };
 
 export const World: React.FC<{ name: string; shot: number; data: Record<string, unknown>; theme: Theme }> = ({ name, shot, data, theme }) => {

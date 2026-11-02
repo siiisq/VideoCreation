@@ -1,0 +1,79 @@
+{
+  "title": "Por qué pierde valor el dinero en el banco",
+  "lang": "es",
+  "handle": "@less_thanaminute",
+  "theme": {
+    "bg1": "#0b0c0f",
+    "bg2": "#16181d",
+    "accent": "#f2b84b",
+    "accent2": "#ff4d4f",
+    "text": "#e9ecf1"
+  },
+  "transitionStyle": "fade",
+  "captionStyle": "select",
+  "lightLeaks": false,
+  "scenes": [
+    {
+      "type": "world",
+      "world": "inflacion",
+      "shot": 0,
+      "duration": 5,
+      "data": {
+        "atWords": [
+          "aunque"
+        ]
+      },
+      "highlight": [
+        "banco?"
+      ],
+      "voice": "¿Por qué pierde valor el dinero en el banco? Tus ahorros se encogen aunque no los toques."
+    },
+    {
+      "type": "world",
+      "world": "inflacion",
+      "shot": 1,
+      "duration": 10,
+      "data": {
+        "atWords": [
+          "inflación"
+        ]
+      },
+      "highlight": [
+        "ocho"
+      ],
+      "voice": "Diez mil euros quietos en la cuenta. Con un dos por ciento de inflación, el objetivo del Banco Central Europeo, en diez años compran lo mismo que hoy ocho mil doscientos."
+    },
+    {
+      "type": "world",
+      "world": "inflacion",
+      "shot": 2,
+      "duration": 7,
+      "data": {
+        "atWords": [
+          "seis mil",
+          "tres por ciento"
+        ]
+      },
+      "highlight": [
+        "veinte"
+      ],
+      "voice": "En veinte años, unos seis mil setecientos. Y si la inflación es del tres por ciento, unos cinco mil quinientos."
+    },
+    {
+      "type": "world",
+      "world": "inflacion",
+      "shot": 3,
+      "duration": 6,
+      "data": {
+        "atWords": [
+          "quieto",
+          "Mándaselo"
+        ]
+      },
+      "highlight": [
+        "quieto."
+      ],
+      "voice": "Que tu dinero no se quede quieto. Mándaselo a quien lo tiene todo en la cuenta corriente."
+    }
+  ]
+}

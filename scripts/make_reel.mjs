@@ -65,4 +65,9 @@ spawnSync("ffmpeg", ["-v", "error", "-y", "-ss", "1", "-i", mp4, "-vf", "fps=1/3
 console.log(`Duración: ${dur.toFixed(1)} s ${dur > 60 && !reel.longForm ? "⚠️  pasa de 60 s" : "✓"}`);
 console.log(`Volumen: ${loud ?? "?"} (objetivo -14 LUFS)`);
 console.log(`Tira de fotogramas para revisar: out/${slug}.contact.png`);
-console.log(`\n✅ Reel listo: ${mp4}`);
+// Copia ligera para el móvil / la app (30 fps, ~16 MB, audio AAC 44,1 kHz): es la que se entrega al usuario.
+// El máster de 60 fps y ~45 MB a veces se reproducía sin sonido en la app.
+const movil = `out/${slug}.movil.mp4`;
+run("ffmpeg", ["-v", "error", "-y", "-i", mp4, "-c:v", "libx264", "-crf", "22", "-preset", "medium", "-pix_fmt", "yuv420p",
+  "-profile:v", "high", "-level", "4.1", "-r", "30", "-c:a", "aac", "-ar", "44100", "-ac", "2", "-b:a", "160k", "-movflags", "+faststart", movil]);
+console.log(`\n✅ Reel listo: ${mp4}  ·  para enviar: ${movil}`);

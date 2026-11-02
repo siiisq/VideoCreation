@@ -35,7 +35,8 @@ si el usuario lo pide expresamente.
    volumen, maquetación de la capa, tira `out/<slug>.contact.png`). Si no hay clave de voz, PARA (no usa Kokoro).
    `--classic` = sin capa. `npm run render` sigue existiendo para renders sueltos.
 3. **Revisión**: mira `out/<slug>.contact.png` (y capturas sueltas si algo es dudoso) antes de entregar.
-4. **Entrega**: envía el MP4 al usuario (SendUserFile) y haz commit del JSON (los MP4 en `out/` no se versionan).
+4. **Entrega**: envía al usuario la copia ligera `out/<slug>.movil.mp4` (SendUserFile; 30 fps, audio AAC 44,1 kHz:
+   el máster de 60 fps a veces sonaba mudo en la app) y haz commit del JSON (los MP4 en `out/` no se versionan).
 5. **Texto para publicar (OBLIGATORIO en cada entrega)**: junto al MP4 da siempre al usuario, listo para copiar:
    - la **descripción** del post (gancho + 2–4 líneas + pregunta para comentar + "Sígueme para más ideas en menos de un minuto ⏱️");
    - los **5 hashtags más importantes**, en una línea y ordenados de más a menos relevante: 1–2 del tema concreto,

@@ -1,0 +1,32 @@
+{
+  "title": "TAE vs TIN: cuál mirar para no pagar de más",
+  "lang": "es",
+  "handle": "@less_thanaminute",
+  "theme": { "bg1": "#0b0c0f", "bg2": "#16181d", "accent": "#f2b84b", "accent2": "#ff4d4f", "text": "#e9ecf1" },
+  "transitionStyle": "fade",
+  "captionStyle": "select",
+  "lightLeaks": false,
+  "scenes": [
+    { "type": "world", "world": "tae", "shot": 0, "duration": 8,
+      "data": { "atWords": ["seis por", "otro al cinco", "cuidado"] }, "highlight": ["cuidado."],
+      "voice": "Dos bancos te ofrecen un préstamo: uno al seis por ciento y otro al cinco. ¿Cuál es más barato? Si has dicho el del cinco… cuidado." },
+    { "type": "world", "world": "tae", "shot": 1, "duration": 7,
+      "data": { "atWords": ["TIN", "no lo cuenta"] }, "highlight": ["TIN:"],
+      "voice": "Ese porcentaje grande es el TIN: el interés puro que te cobran por el dinero. Pero no lo cuenta todo." },
+    { "type": "world", "world": "tae", "shot": 2, "duration": 7,
+      "data": { "atWords": ["letra", "comisión", "trescientos"] }, "highlight": ["comisión"],
+      "voice": "Mira la letra pequeña: el del cinco cobra una comisión de apertura del tres por ciento. Trescientos euros." },
+    { "type": "world", "world": "tae", "shot": 3, "duration": 8,
+      "data": { "atWords": ["el interés", "las comisiones", "cada cuánto", "coste real"] }, "highlight": ["TAE"],
+      "voice": "La TAE suma casi todo: el interés, las comisiones y cada cuánto pagas. Es el coste real en un año." },
+    { "type": "world", "world": "tae", "shot": 4, "duration": 11,
+      "data": { "atWords": ["seis con", "siete con", "ciento treinta"] }, "highlight": ["ciento"],
+      "voice": "Préstamo de diez mil euros a tres años: el del seis tiene una TAE del seis con diecisiete. El del cinco, del siete con veintiocho. Pagarías ciento treinta y ocho euros más." },
+    { "type": "world", "world": "tae", "shot": 5, "duration": 6,
+      "data": { "atWords": ["préstamos", "ahorro"] }, "highlight": ["fácil:"],
+      "voice": "Regla fácil: en préstamos, la TAE más baja. En ahorro, la más alta." },
+    { "type": "world", "world": "tae", "shot": 6, "duration": 6,
+      "data": { "atWords": ["siempre"] }, "highlight": ["TAE."],
+      "voice": "Que no te engañe el número grande del anuncio: mira siempre la TAE. Sígueme para más." }
+  ]
+}

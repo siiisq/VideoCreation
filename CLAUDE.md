@@ -234,6 +234,7 @@ La música baja automáticamente mientras habla la voz. Caché de audios en `pub
   dure al menos lo que la escena (con voz, ~6–8 s). Si no, el título desaparece a mitad de escena.
 
 ## Notas técnicas
+- **Windows/Mac**: los scripts son multiplataforma (`scripts/platform.mjs`: rutas del `.venv`, `.cmd`, `--gl=angle` con GPU real). Guía: `docs/windows.md`.
 - Fuentes locales en `public/fonts` (Montserrat + Inter, OFL); emojis con la fuente del sistema (Noto Color Emoji).
 - `npm run studio` abre el editor visual de Remotion para previsualizar.
 - `npm run typecheck` antes de hacer commit si tocas código.

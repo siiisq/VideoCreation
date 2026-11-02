@@ -2,6 +2,7 @@
 // Uso: npm run render -- videos/mi-video.json [nombre] →  out/mi-video.mp4  (reel)
 //      npm run render -- videos/charla.slides.json     →  out/charla.mp4    (presentación)
 import { spawnSync } from "node:child_process";
+import { browserExecutable, defaultGl, ensureVenv, spawnX, venvPython } from "./platform.mjs";
 import { existsSync, globSync, mkdirSync, readFileSync, renameSync } from "node:fs";
 import path from "node:path";
 
@@ -23,12 +24,9 @@ const reel = JSON.parse(readFileSync(file, "utf8"));
 const isPres = Array.isArray(reel.slides);
 const parts = isPres ? [reel.intro, ...reel.slides, reel.outro].filter(Boolean) : reel.scenes;
 if (parts.some((s) => s.voice)) {
-  if (!existsSync(".venv/bin/python") || !existsSync("models/kokoro-v1.0.onnx")) {
-    console.log("Instalando la voz (solo la primera vez)...");
-    if (spawnSync("bash", ["scripts/setup-python.sh"], { stdio: "inherit" }).status !== 0) process.exit(1);
-  }
+  ensureVenv((cmd, a) => { if (spawnX(cmd, a, { stdio: "inherit" }).status !== 0) process.exit(1); });
   props = `out/${name}.props.json`;
-  if (spawnSync(".venv/bin/python", ["-I", "scripts/tts.py", file, props], { stdio: "inherit" }).status !== 0) process.exit(1);
+  if (spawnX(venvPython, ["-I", "scripts/tts.py", file, props], { stdio: "inherit" }).status !== 0) process.exit(1);
 }
 
 // 3) Render: H.264 alta calidad, JPEG 95 por fotograma, GPU por software (egl) → ~3,5x más rápido
@@ -36,13 +34,13 @@ const args = [
   "remotion", "render", "src/index.ts", isPres ? "Presentation" : "Reel", out, `--props=${props}`,
   "--codec=h264", "--crf=17", "--x264-preset=slow", "--jpeg-quality=95",
   "--audio-codec=aac", "--audio-bitrate=192k", "--color-space=bt709",
-  `--gl=${process.env.REMOTION_GL ?? "egl"}`, "--log=warn",
+  `--gl=${defaultGl}`, "--log=warn",
 ];
-const browser = process.env.REMOTION_BROWSER ?? globSync("/opt/pw-browsers/chromium_headless_shell-*/*/chrome-headless-shell")[0];
+const browser = browserExecutable();
 if (browser) args.push(`--browser-executable=${browser}`);
 
 const t0 = Date.now();
-const r = spawnSync("npx", args, { stdio: "inherit" });
+const r = spawnX("npx", args, { stdio: "inherit" });
 if (r.status !== 0) process.exit(r.status ?? 1);
 
 // 4) Volumen estándar de redes sociales (-14 LUFS), sin recodificar el vídeo

@@ -144,8 +144,8 @@ export const InflacionWorld: React.FC<WorldProps> = ({ shot, t, g, data }) => {
           <text x={150} y={1300} fontFamily={display} fontWeight={900} fontSize={40} fill={INK}>{tr.iYear} {Math.floor(years)}</text>
           <rect x={150} y={1325} width={780} height={16} rx={8} fill="#ffffff18" />
           <rect x={150} y={1325} width={780 * years / 10} height={16} rx={8} fill={RED} />
-          <rect x={590} y={1262} width={340} height={52} rx={26} fill={PANEL} stroke="#ffffff40" strokeWidth={2} />
-          <text x={760} y={1298} textAnchor="middle" fontFamily={body} fontWeight={700} fontSize={26} fill={INK}>{tr.iInfl2}</text>
+          <rect x={500} y={1258} width={430} height={56} rx={28} fill={PANEL} stroke="#ffffff40" strokeWidth={2} />
+          <text x={715} y={1296} textAnchor="middle" fontFamily={body} fontWeight={700} fontSize={25} fill={INK}>{tr.iInfl2}</text>
         </g>
         {/* cesta: el mismo carro cuesta más */}
         <g opacity={sp(1, at(0, 2.5) + 40)} transform="translate(210 1520)">

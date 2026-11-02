@@ -1,0 +1,83 @@
+{
+  "title": "Tus dedos no se arrugan por el agua (versión corta)",
+  "lang": "es",
+  "handle": "@less_thanaminute",
+  "theme": {
+    "bg1": "#0b0c0f",
+    "bg2": "#16181d",
+    "accent": "#f2b84b",
+    "accent2": "#4fc3ff",
+    "text": "#e9ecf1"
+  },
+  "transitionStyle": "fade",
+  "captionStyle": "select",
+  "lightLeaks": false,
+  "scenes": [
+    {
+      "type": "world",
+      "world": "dedos",
+      "shot": 0,
+      "duration": 5,
+      "data": {
+        "atWords": [
+          "No es",
+          "nervioso"
+        ]
+      },
+      "highlight": [
+        "nervioso,"
+      ],
+      "voice": "¿Por qué se arrugan los dedos en el agua? No es el agua. Es tu sistema nervioso."
+    },
+    {
+      "type": "world",
+      "world": "dedos",
+      "shot": 3,
+      "duration": 8,
+      "data": {
+        "atWords": [
+          "nervios",
+          "estrechan",
+          "volumen"
+        ],
+        "fromShot": 0
+      },
+      "highlight": [
+        "estrechan"
+      ],
+      "voice": "Tus nervios estrechan los vasos sanguíneos de la yema. Hay menos volumen debajo, y la piel se pliega."
+    },
+    {
+      "type": "world",
+      "world": "dedos",
+      "shot": 4,
+      "duration": 7,
+      "data": {
+        "atWords": [
+          "neumático",
+          "agarras"
+        ]
+      },
+      "highlight": [
+        "neumático."
+      ],
+      "voice": "¿Para qué? La teoría: funcionan como el dibujo de un neumático y agarras mejor en mojado."
+    },
+    {
+      "type": "world",
+      "world": "dedos",
+      "shot": 6,
+      "duration": 5,
+      "data": {
+        "atWords": [
+          "Mándaselo"
+        ],
+        "fromShot": 4
+      },
+      "highlight": [
+        "neumáticos"
+      ],
+      "voice": "Neumáticos de serie. ¿Lo sabías? Mándaselo a quien se mira los dedos en la bañera."
+    }
+  ]
+}

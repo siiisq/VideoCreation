@@ -47,6 +47,6 @@ if (r.status !== 0) process.exit(r.status ?? 1);
 
 // 4) Volumen estándar de redes sociales (-14 LUFS), sin recodificar el vídeo
 const tmp = out.replace(/\.mp4$/, ".tmp.mp4");
-const n = spawnSync("ffmpeg", ["-v", "error", "-y", "-i", out, "-c:v", "copy", "-af", "loudnorm=I=-14:TP=-1.5:LRA=11", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", tmp], { stdio: "inherit" });
+const n = spawnSync("ffmpeg", ["-v", "error", "-y", "-i", out, "-c:v", "copy", "-af", "loudnorm=I=-14:TP=-1.5:LRA=11", "-ar", "48000", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", tmp], { stdio: "inherit" });
 if (n.status === 0) renameSync(tmp, out);
 console.log(`\n✅ Vídeo listo: ${out} (${Math.round((Date.now() - t0) / 1000)} s)`);

@@ -107,6 +107,28 @@ Ejemplos: `videos/hipoteca-intereses.json` (referencia principal) y `videos/subi
   Ojo: la búsqueda es por subcadena ("cien" está dentro de "doscientos"): elige palabras inequívocas.
 - **Revisión**: capturas de cada plano y de los fundidos (cada 0,1 s alrededor de cada corte) antes del render final.
 
+## Estrategia para viralizar (cuenta nueva) — APLICAR EN TODOS LOS REELS
+1. **Gancho en el primer segundo**: el texto del gancho se ve desde el fotograma 1 (dentro de la escena, no solo en
+   subtítulos), sin presentaciones ("Hoy te voy a contar…" prohibido). Mucha gente ve sin sonido.
+2. **Versión corta**: de cada tema, además de la versión de 55–60 s, saca una de 25–35 s
+   (`videos/<slug>.short.json`, mismos planos clave; en el mundo continuo usa `data.fromShot` cuando te saltes planos).
+   Si los cortos retienen más, pasan a ser el formato principal.
+3. **3 ganchos alternativos por vídeo**: en la entrega propone 2–3 ganchos distintos (texto en pantalla + primera
+   frase de voz). Si el usuario lo pide, renderiza variantes cambiando solo la escena/plano 0.
+4. **Compartible**: el cierre invita a enviarlo ("Mándaselo a quien…") además de la pregunta para comentar; mejor una
+   pregunta que divida opiniones ("¿Lo sabías o te acabo de romper la infancia?").
+   Además, una **pastilla en pantalla "Mándaselo a quien…"** con icono de enviar (ver `ShareChip` en
+   `src/worlds/DedosWorld.tsx`): una a mitad de vídeo (tras el dato más sorprendente, solo visual) y otra en el cierre,
+   sincronizada con la voz.
+5. **Palabras que la gente busca**: la frase de búsqueda natural ("por qué se arrugan los dedos en el agua") aparece
+   en el texto en pantalla, la dice la voz y es la primera línea de la descripción del post.
+6. **Final en bucle**: si se puede, el último plano enlaza visualmente con el primero para que la repetición sea natural.
+7. **Si un vídeo funciona, segunda parte**: cuando el usuario diga que un reel ha ido bien, propón y produce una parte 2
+   o una variante con el mismo estilo de gancho en menos de 48 h.
+8. **Entrega**: además de la descripción y los 5 hashtags, incluye los ganchos alternativos y recuerda: publicar a
+   diario, no borrar vídeos flojos, juzgar a las 48 h y mirar la gráfica de retención.
+Banco de temas: `ideas.md`.
+
 ## Biblioteca de estilos de referencia
 `docs/estilos-referencia.md` guarda patrones de animación analizados de reels de referencia (estructura, tiempos,
 plantillas por escena, cómo implementarlos aquí). Consúltala al planificar un reel nuevo (sobre todo listas "top N")

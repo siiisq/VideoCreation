@@ -6,6 +6,7 @@ import { useFrame } from "../time";
 import { IrpfWorld, IRPF_CAMS } from "./IrpfWorld";
 import { HipotecaWorld, HIPOTECA_CAMS } from "./HipotecaWorld";
 import { TaeWorld, TAE_CAMS } from "./TaeWorld";
+import { DedosWorld, DEDOS_CAMS } from "./DedosWorld";
 
 /**
  * "Mundos" a pantalla completa: un único escenario grande y una cámara que viaja entre planos (shots).
@@ -44,6 +45,7 @@ const worlds: Record<string, { C: React.FC<WorldProps>; cams: Cam[]; bg: string 
   irpf: { C: IrpfWorld, cams: IRPF_CAMS, bg: "#0b0c0f" },
   hipoteca: { C: HipotecaWorld, cams: HIPOTECA_CAMS, bg: "#0b0c0f" },
   tae: { C: TaeWorld, cams: TAE_CAMS, bg: "#0b0c0f" },
+  dedos: { C: DedosWorld, cams: DEDOS_CAMS, bg: "#0b0c0f" },
 };
 
 export const World: React.FC<{ name: string; shot: number; data: Record<string, unknown>; theme: Theme }> = ({ name, shot, data, theme }) => {
@@ -52,7 +54,9 @@ export const World: React.FC<{ name: string; shot: number; data: Record<string, 
   const w = worlds[name];
   if (!w) return <AbsoluteFill style={{ color: "red", fontSize: 50 }}>Mundo desconocido: {name}</AbsoluteFill>;
   const to = w.cams[Math.min(shot, w.cams.length - 1)];
-  const from = shot === 0 ? { ...to, w: to.w * 1.3, rx: (to.rx ?? 0) + 8 } : w.cams[shot - 1];
+  // data.fromShot: plano del que viene la cámara (versiones cortas que se saltan planos)
+  const prev = typeof data.fromShot === "number" ? (data.fromShot as number) : shot - 1;
+  const from = shot === 0 ? { ...to, w: to.w * 1.3, rx: (to.rx ?? 0) + 8 } : w.cams[Math.max(0, prev)];
   const p = interpolate(t, [HOLD, HOLD + MOVE], [0, 1], { ...clamp, easing: CAM_EASE });
   const L = (a: number, b: number) => a + (b - a) * p;
   // deriva lenta continua (tiempo global → sin saltos entre escenas): la cámara nunca está quieta

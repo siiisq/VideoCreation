@@ -51,6 +51,9 @@ def _post(url, body, headers, tries=8):
                         wait = float(d["retryDelay"].rstrip("s")) + 2
             except Exception:
                 pass
+            if wait > 600:  # cuota diaria agotada: no esperar horas en silencio
+                raise SystemExit(f"❌ Cuota diaria de la API de voz agotada (se libera en ~{wait / 3600:.1f} h). "
+                                 "Reintenta más tarde o configura otra clave de voz en el entorno.")
             print(f"    límite de la API ({e.code}); reintento en {wait:.0f}s…")
             time.sleep(wait)
 

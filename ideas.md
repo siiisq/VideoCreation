@@ -76,3 +76,15 @@ Ya hechos: TAE vs TIN (`tae-vs-tin`), hipoteca (`hipoteca-intereses`), subida de
 | 8 | El fondo de emergencia | "Antes de invertir, haz esto" | Guía habitual: 3–6 meses de gastos (orientativo, no norma). Escudo que para un imprevisto. |
 | 9 | El "sin intereses" que sí tiene | "0 % TIN… y TAE del X %" | Compras a plazos con comisión: calcular con una oferta tipo (como en TAE vs TIN). |
 | 10 | La regla 50/30/20 | "Cómo repartir tu sueldo sin pensar" | 50 % necesidades, 30 % caprichos, 20 % ahorro. Ejemplo con 1.500 € netos: 750 / 450 / 300. |
+
+### Subserie "Inflación" (continúa el tema 2 de "Finanzas para empezar"; cifras calculadas, ejemplos hipotéticos)
+| # | Tema | Gancho | Planos clave y cifras |
+|---|------|--------|-----------------------|
+| I1 | Reduflación | "Mismo precio… pero te dan menos" | Paquete de 500 g → 450 g al mismo precio = el kilo sube un 11,1 %. Sin marcas reales. |
+| I2 | Ganar dinero perdiendo | "Tu depósito te da un 2,5 %… y pierdes dinero" | Interés real = (1 + interés) / (1 + inflación) − 1. Depósito 2,5 % con IPC 3 % → −0,49 % real. |
+| I3 | Cuándo se duplican los precios | "Lo que hoy cuesta 10 €, mañana 20 €" | Regla del 72 al revés: con un 3 % los precios se duplican en ~24 años (exacto 23,4); con el 2 % del BCE, en ~36 (exacto 35). |
+| I4 | La inflación ayuda al que debe | "Tu hipoteca se hace más pequeña sola" | Cuota fija de 843 € con un 2 % de inflación: en 10 años "pesa" como 692 € de hoy; en 20, 567 €; en 30, 465 €. Enlaza con `hipoteca-intereses`. |
+| I5 | La subida de sueldo que es bajada | "Te suben un 2 %… y cobras menos" | Subida del 2 % con IPC del 3 % = −0,97 % real; con 2.000 € netos, ~19 € menos al mes de poder de compra. Enlaza con el IRPF. |
+| I6 | Tu inflación no es la del IPC | "El IPC dice 3 %… pero tú lo notas más" | El IPC es una cesta media del INE; si gastas más en lo que más sube (alquiler, comida), tu inflación es mayor. Ejemplo hipotético con dos cestas, sin inventar datos del INE. |
+| I7 | ¿Por qué el BCE quiere un 2 % y no un 0 %? | "Que los precios no suban sería malo" | Objetivo del BCE: 2 % a medio plazo. Riesgo de deflación: si todo va a bajar, se retrasan compras. Explicación conceptual, sin cifras inventadas. |
+| I8 | Hiperinflación | "Un billete de 100 billones que no valía nada" | Zimbabue emitió un billete de 100 billones de dólares zimbabuenses (2009). Alemania 1923: carretillas de billetes. Comprobar cada dato con fuente antes de producir. |

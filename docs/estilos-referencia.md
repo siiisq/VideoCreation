@@ -61,3 +61,29 @@ Hecho con su herramienta propia (getkeyframes.com, según la descripción del po
 - Datos dentro de la escena (valores que cambian donde toca el dedo, "120 scans a second" con fuente), etiquetas con
   líneas guía, aviso "Magnified illustration".
 - Implementación aquí: `src/worlds/` (escena `world`), `transitionStyle: "fade"`, `captionStyle: "select"`.
+
+---
+
+## 4. "Explicador editorial claro" (interfaz limpia que se construye paso a paso)
+Ref.: canal de Instagram @rick.theengineer (nov. 2026). Analizados 2 reels: "Linux vs macOS" (2:37, ~4.600 likes) y
+"Cómo se construye un LLM" (2:57, ~46.000 likes). 1080x1920 a 60 fps. Un tercero no se pudo descargar (límite de Instagram).
+- **Estética**: fondo claro (crema / gris perla) con rejilla muy suave, tipografía grotesca grande para el titular,
+  etiqueta de capítulo en mayúsculas monoespaciada ("02 / THE INTEGRATED SYSTEM", "PRE-TRAINING") y, arriba a la derecha,
+  un indicador de progreso por segmentos (un segmento por capítulo). Mucho aire, colores pastel con un acento azul.
+- **Contenido como interfaz**: tarjetas tipo UI (ventanas de terminal, listas de capas, chips de tokens, tablas de
+  probabilidades, iconos de apps reales) que aparecen **una a una** al ritmo de la voz; casi sin cámara ni cortes.
+  Es una "presentación que se va montando", no una ilustración.
+- **Un visual estrella** en el reel que más funcionó: una pila isométrica de capas (la red neuronal) que reaparece en
+  varios planos y cambia de estado (aleatoria → entrenada, flujo de atención, error en rojo). El que tiene ese visual
+  recurrente tiene 10 veces más likes que la comparativa de listas.
+- **Personaje fijo** abajo ("RICK / THE TAKEAWAY") con la conclusión de cada bloque en una frase + nota de fuente en
+  pequeño ("Official Apple imagery", "Illustrative terminal sessions"). OJO: el personaje es de una serie con derechos;
+  no copiar ni usar personajes ajenos.
+- **Subtítulos**: pastilla oscura abajo, 2–4 palabras, palabra clave en verde/azul claro; barra de progreso fina debajo.
+- **Ritmo**: largo (2,5–3 min), un dato por pantalla, frases cortas. Muy "educativo" y honesto (cita fuentes en pantalla).
+- **Herramienta**: no se dice. Por la consistencia milimétrica de las plantillas parece hecho con código
+  (HTML/React tipo Remotion o HyperFrames) más que con After Effects.
+- **Qué aprovechar aquí**: (1) etiqueta de capítulo + indicador de progreso por segmentos; (2) tarjetas UI que se
+  construyen en orden con la voz (encaja con `atWords`); (3) un visual recurrente que cambia de estado a lo largo del
+  vídeo (p. ej. la "hucha" o el "billete" en la serie de inflación); (4) nota de fuente en pequeño en cada dato;
+  (5) variante de tema CLARO del mundo continuo para romper la monotonía del fondo negro.

@@ -127,31 +127,37 @@ Descripción de los tres: "Contenido educativo, no es recomendación de inversi�
 - Cierre: "No es caridad: eres un cliente que han comprado" + pastilla "Mándaselo a quien cree que el banco le regala dinero".
 - Seguridad: el Fondo de Garantía de Depósitos cubre hasta 100.000 € por titular y entidad (dato útil para un comentario fijado).
 
-## Subserie "La IA y tu primer trabajo" (jóvenes, 5-nov-2026)
-Preocupación: la IA se come los puestos de entrada (junior) y los jóvenes no saben qué estudiar ni cómo empezar.
-Tono: ni catastrofista ni "la IA te salvará"; datos + qué hacer. Estilo mundo continuo, ~30 s.
-Datos a VERIFICAR antes de producir (cifra exacta + fecha + fuente en pantalla).
+## Subserie "La IA y tu primer trabajo" (jóvenes, 5-nov-2026) — POSTURA OPTIMISTA
+Preocupación real (la IA se come los puestos junior), pero el ángulo es SIEMPRE optimista y práctico: "la IA es tu
+ventaja si la usas antes que los demás". Reconocer el miedo en el gancho (1–2 s) y girar a la oportunidad.
+Estilo mundo continuo, ~30 s. Datos a VERIFICAR (cifra + fecha + fuente en pantalla).
+**Cierre interactivo en TODOS** (además de la hoja "Mándaselo a quien…"): una pregunta con opciones en pantalla
+(A/B o encuesta con 2–3 respuestas tocables visualmente) que pida comentar una palabra concreta → más comentarios.
 
-1. **"La IA no te quita el trabajo: te quita el PRIMER trabajo"**. Estudio de Stanford (Brynjolfsson et al., ago-2025,
-   "Canaries in the Coal Mine"): empleo de 22–25 años en oficios muy expuestos a la IA ≈ −13 % relativo desde finales
-   de 2022; los mayores, estables. Visual: escalera profesional a la que le quitan los primeros peldaños.
-2. **"¿Qué trabajos están más expuestos?"** (FMI ene-2024: ~40 % del empleo mundial expuesto, ~60 % en economías
-   avanzadas). Exposición ≠ despido: tareas que se automatizan vs. tareas que se complementan.
-3. **"Programar ya no es el trabajo seguro"**: caída de ofertas de desarrollador junior (Indeed Hiring Lab) vs. auge
-   de perfiles que usan IA. Gancho: "Te dijeron que aprendieras a programar".
-4. **"Los oficios que la IA no puede hacer (todavía)"**: electricista, fontanero, enfermería, FP con alta inserción y
-   escasez de técnicos en España. Gancho: "Tu fontanero va a ganar más que tú".
-5. **"Paro juvenil en España: el número que nadie mira"** (EPA, <25 años; comparar con la UE, Eurostat). Puente con la
-   IA: menos puestos de entrada en un mercado ya difícil.
-6. **"La paradoja de la experiencia"**: piden 2 años de experiencia para un puesto junior, y el junior ahora lo hace
-   la IA. ¿Cómo se consigue experiencia? (prácticas, proyectos propios, portafolio).
-7. **"3 habilidades que la IA no sustituye"** (WEF Future of Jobs 2025: pensamiento analítico, resiliencia/flexibilidad,
-   liderazgo; ~39 % de las habilidades cambiarán hasta 2030). Lista top 3.
-8. **"Usar la IA te hace más valioso, no menos"**: estudios de productividad (atención al cliente +14 %, más en
-   novatos; Brynjolfsson, Li, Raymond 2023). El junior que usa IA rinde como alguien con más experiencia.
-9. **"¿Merece la pena la carrera en 2026?"** Prima salarial universitaria vs. FP vs. empezar a trabajar (INE / estudios
-   de inserción laboral). Conecta con la serie de finanzas: coste de oportunidad.
-10. **"Plan B financiero si la IA te cambia el sector"** (puente con finanzas para empezar): colchón de emergencia de
-    3–6 meses, formación como inversión, no endeudarse por un máster "por si acaso".
+1. **"La IA te da superpoderes de junior"**. Estudio Brynjolfsson, Li, Raymond (2023): con IA, productividad +14 % en
+   atención al cliente y la mayor mejora fue para los NOVATOS. Visual: barra del junior que alcanza a la del veterano.
+   Interacción: "¿Ya usas IA en tu trabajo/estudios? Comenta SÍ o TODAVÍA".
+2. **"Nacen trabajos que hace 5 años no existían"**. WEF Future of Jobs 2025: ~170 M empleos creados vs ~92 M
+   desplazados hasta 2030 (saldo +78 M). Visual: balanza que se inclina a favor.
+   Interacción: "¿Qué trabajo nuevo te gustaría? Comenta y te digo qué aprender".
+3. **"Tu primer trabajo ya no empieza en la oficina: empieza en tu portátil"**. Con IA puedes hacer proyectos reales
+   (web, análisis, vídeos) y enseñarlos: el portafolio vale más que los 2 años de experiencia.
+   Interacción: "Comenta tu sector y te propongo un proyecto para tu portafolio".
+4. **"Los oficios con más futuro (y no son de pantalla)"**: electricista, fontanero, enfermería, técnicos de FP:
+   escasez de profesionales en España = buenos sueldos. Interacción: encuesta "¿Carrera o FP?" → comenta CARRERA o FP.
+5. **"3 habilidades que la IA no sustituye (y puedes entrenar gratis)"** (WEF 2025: pensamiento analítico,
+   adaptabilidad, liderazgo). Interacción: "¿Cuál es la tuya? Comenta 1, 2 o 3".
+6. **"Exposición a la IA ≠ perder el trabajo"** (FMI 2024: ~40 % del empleo expuesto; en gran parte la IA complementa).
+   Visual: tareas que se van vs tareas que se quedan, el trabajo cambia de forma. Interacción: "Dime tu profesión
+   y te digo qué parte hará la IA por ti".
+7. **"El que sabe usar IA cobra más"**: ofertas que piden IA y prima salarial (verificar fuente: PwC AI Jobs
+   Barometer 2025). Interacción: quiz "¿Cuánto más crees que cobran? A) 5 % B) 25 % C) 50 %" → respuesta al final.
+8. **"Plan de 30 días para que la IA juegue a tu favor"**: semana 1 aprender, 2 practicar, 3 proyecto, 4 enseñarlo.
+   Interacción: "Comenta EMPIEZO y mañana te paso el día 1" (serie diaria = vuelven a la cuenta).
+9. **"La carrera vs FP vs aprender por tu cuenta en la era IA"**: ninguna está muerta, la diferencia es usar la IA.
+   Puente con finanzas (coste de oportunidad). Interacción: encuesta A/B/C en pantalla.
+10. **"Invierte en ti antes que en bolsa"** (puente con finanzas para empezar): colchón de 3–6 meses + formación como
+    la mejor inversión de los 20. Interacción: "¿En qué invertirías 100 € para aprender? Comenta".
 
-Gancho alternativo para la subserie: "Tienes 22 años y la IA ya hace las prácticas que te tocaban a ti".
+Ganchos optimistas: "La IA no viene a por tu trabajo, viene a hacerte junior con superpoderes" /
+"Tienes 22 años y una ventaja que tus jefes no tenían".

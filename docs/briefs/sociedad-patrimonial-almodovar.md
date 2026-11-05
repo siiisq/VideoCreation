@@ -1,5 +1,6 @@
 # Brief: "¿Por qué los famosos tienen sus pisos en una empresa?" (opción A, 5-nov-2026)
 Para: Videos Gen PC. Vídeo completo con voz, ~30 s, estilo por defecto (mundo continuo).
+Mockup aprobado por el usuario (5 planos): https://claude.ai/artifact/9kBSfrJmAX335rnsTNxG1E
 Tono EDUCATIVO y neutral: sin insultos, sin "hipócrita", sin política (no mencionar Abascal ni izquierda/derecha).
 
 ## Regla legal (obligatoria)

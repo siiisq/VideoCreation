@@ -126,3 +126,32 @@ Descripción de los tres: "Contenido educativo, no es recomendación de inversi�
   Es su coste de captar un cliente: luego te ofrecen hipoteca, tarjeta, seguros, fondos… y la mayoría no se cambia.
 - Cierre: "No es caridad: eres un cliente que han comprado" + pastilla "Mándaselo a quien cree que el banco le regala dinero".
 - Seguridad: el Fondo de Garantía de Depósitos cubre hasta 100.000 € por titular y entidad (dato útil para un comentario fijado).
+
+## Subserie "La IA y tu primer trabajo" (jóvenes, 5-nov-2026)
+Preocupación: la IA se come los puestos de entrada (junior) y los jóvenes no saben qué estudiar ni cómo empezar.
+Tono: ni catastrofista ni "la IA te salvará"; datos + qué hacer. Estilo mundo continuo, ~30 s.
+Datos a VERIFICAR antes de producir (cifra exacta + fecha + fuente en pantalla).
+
+1. **"La IA no te quita el trabajo: te quita el PRIMER trabajo"**. Estudio de Stanford (Brynjolfsson et al., ago-2025,
+   "Canaries in the Coal Mine"): empleo de 22–25 años en oficios muy expuestos a la IA ≈ −13 % relativo desde finales
+   de 2022; los mayores, estables. Visual: escalera profesional a la que le quitan los primeros peldaños.
+2. **"¿Qué trabajos están más expuestos?"** (FMI ene-2024: ~40 % del empleo mundial expuesto, ~60 % en economías
+   avanzadas). Exposición ≠ despido: tareas que se automatizan vs. tareas que se complementan.
+3. **"Programar ya no es el trabajo seguro"**: caída de ofertas de desarrollador junior (Indeed Hiring Lab) vs. auge
+   de perfiles que usan IA. Gancho: "Te dijeron que aprendieras a programar".
+4. **"Los oficios que la IA no puede hacer (todavía)"**: electricista, fontanero, enfermería, FP con alta inserción y
+   escasez de técnicos en España. Gancho: "Tu fontanero va a ganar más que tú".
+5. **"Paro juvenil en España: el número que nadie mira"** (EPA, <25 años; comparar con la UE, Eurostat). Puente con la
+   IA: menos puestos de entrada en un mercado ya difícil.
+6. **"La paradoja de la experiencia"**: piden 2 años de experiencia para un puesto junior, y el junior ahora lo hace
+   la IA. ¿Cómo se consigue experiencia? (prácticas, proyectos propios, portafolio).
+7. **"3 habilidades que la IA no sustituye"** (WEF Future of Jobs 2025: pensamiento analítico, resiliencia/flexibilidad,
+   liderazgo; ~39 % de las habilidades cambiarán hasta 2030). Lista top 3.
+8. **"Usar la IA te hace más valioso, no menos"**: estudios de productividad (atención al cliente +14 %, más en
+   novatos; Brynjolfsson, Li, Raymond 2023). El junior que usa IA rinde como alguien con más experiencia.
+9. **"¿Merece la pena la carrera en 2026?"** Prima salarial universitaria vs. FP vs. empezar a trabajar (INE / estudios
+   de inserción laboral). Conecta con la serie de finanzas: coste de oportunidad.
+10. **"Plan B financiero si la IA te cambia el sector"** (puente con finanzas para empezar): colchón de emergencia de
+    3–6 meses, formación como inversión, no endeudarse por un máster "por si acaso".
+
+Gancho alternativo para la subserie: "Tienes 22 años y la IA ya hace las prácticas que te tocaban a ti".

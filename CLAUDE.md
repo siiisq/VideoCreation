@@ -35,6 +35,9 @@ si el usuario lo pide expresamente.
    volumen, maquetación de la capa, tira `out/<slug>.contact.png`). Si no hay clave de voz, PARA (no usa Kokoro).
    `--classic` = sin capa. `npm run render` sigue existiendo para renders sueltos.
 3. **Revisión**: mira `out/<slug>.contact.png` (y capturas sueltas si algo es dudoso) antes de entregar.
+   **Validación OBLIGATORIA por la sesión «Validador de videos»** (`docs/validacion.md`): `npm run review-bundle --
+   videos/<slug>.json` y avisa al validador con `send_message` (`session_01FJjgdMWKE4i5MaWSYwrRg8`). No entregues
+   el vídeo hasta recibir `✅ OK`; con `❌ CORREGIR`, arregla, vuelve a renderizar y repite.
 4. **Entrega**: envía al usuario la copia ligera `out/<slug>.movil.mp4` (SendUserFile; 30 fps, audio AAC 44,1 kHz:
    el máster de 60 fps a veces sonaba mudo en la app) y haz commit del JSON (los MP4 en `out/` no se versionan).
 5. **Texto para publicar (OBLIGATORIO en cada entrega)**: junto al MP4 da siempre al usuario, listo para copiar:

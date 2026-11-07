@@ -9,7 +9,8 @@
     "render": "node scripts/render.mjs",
     "reel": "node scripts/make_reel.mjs",
     "import": "bash -c '[ -d .venv ] || bash scripts/setup-python.sh; .venv/bin/python -I scripts/import_presentation.py \"$@\"' --",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "review-bundle": "node scripts/review_bundle.mjs"
   },
   "dependencies": {
     "@react-three/fiber": "8.17.10",

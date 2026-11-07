@@ -1,0 +1,171 @@
+{
+  "title": "«Equidistante, no»: Broncano, Abascal y la tele que pagas tú",
+  "lang": "es",
+  "handle": "@lessthanamin",
+  "fps": 60,
+  "theme": {
+    "bg1": "#f7f4ec",
+    "bg2": "#efe9da",
+    "accent": "#f2b705",
+    "accent2": "#d6322b",
+    "text": "#16140f",
+    "capText": "#16140f",
+    "capDim": "rgba(22,20,15,0.38)",
+    "capShadow": "0 2px 12px rgba(247,244,236,0.95)"
+  },
+  "transitionStyle": "fade",
+  "captionStyle": "select",
+  "lightLeaks": false,
+  "music": "music/poradovskyi-funk-funky-music-628015.mp3",
+  "musicVolume": 0.05,
+  "longForm": true,
+  "narrator": {
+    "speed": 1
+  },
+  "_fuentes": [
+    "Público 6-nov-2026: correo de la productora (El Terrat), 'condiciones distintas de calendario y de público'; TVE: 'No vamos a comentar nada'; Montero/Rufián sin condiciones especiales de público",
+    "Xataka 30-oct-2026 (datos de eldiario.es): Sánchez 22-oct 4.387.000 y 33,9 %; Montero+Rufián 27-oct 2.654.000 y 21,7 %",
+    "Real decreto-ley de oct-2024 (RTVE): mayoría simple en segunda votación; 11 consejeros elegidos en el Congreso el 14-nov-2024 con 179 votos (PSOE, Sumar, ERC, Junts, PNV, Podemos…); convalidado sin PP ni Vox; 4 consejeros del PP por el Senado",
+    "Contrato La Revuelta: 14.076.135 €/temporada, 28 M€ por dos temporadas (2024); renovación feb-2026 por 31.555.572 € hasta 2028 (El Confidencial, Vandal, eldiario.es)",
+    "La Revuelta 5-nov-2026 (El Debate, 6-nov): Almodóvar «Vas a tratar de estar equidistante…», Broncano «Equidistante, no», «voy a dar mi opinión»; LOREG art. 66: neutralidad en periodo electoral; elecciones 29-nov-2026"
+  ],
+  "scenes": [
+    {
+      "type": "world",
+      "world": "revueltalista",
+      "shot": 0,
+      "duration": 3,
+      "data": {
+        "atWords": [
+          "Equidistante,",
+          "Broncano",
+          "pagas"
+        ],
+        "atSfx": [
+          "impact",
+          "pop",
+          "impact"
+        ]
+      },
+      "highlight": [
+        "Equidistante,",
+        "no."
+      ],
+      "voice": "«Equidistante, no». Eso dice Broncano sobre su entrevista a Abascal. En la tele que pagas tú… y a tres semanas de votar."
+    },
+    {
+      "type": "world",
+      "world": "revueltalista",
+      "shot": 1,
+      "duration": 3,
+      "data": {
+        "atWords": [
+          "anulado",
+          "cuatro",
+          "Montero"
+        ],
+        "atSfx": [
+          "impact",
+          "pop",
+          "pop"
+        ]
+      },
+      "highlight": [
+        "anulado"
+      ],
+      "voice": "Y no es lo único: a Abascal le han anulado el público. A Sánchez lo entrevistaron con el plató lleno, y lo vieron cuatro millones cuatrocientas mil personas. A Montero y Rufián, también con público."
+    },
+    {
+      "type": "world",
+      "world": "revueltalista",
+      "shot": 2,
+      "duration": 3,
+      "data": {
+        "atWords": [
+          "correo",
+          "anulada",
+          "comentar"
+        ],
+        "atSfx": [
+          "pop",
+          "impact",
+          "impact"
+        ]
+      },
+      "highlight": [
+        "comentar"
+      ],
+      "voice": "A quien tenía entrada para el lunes nueve le llegó un correo: asistencia anulada, por «condiciones distintas». ¿Y la explicación de RTVE? «No vamos a comentar nada»."
+    },
+    {
+      "type": "world",
+      "world": "revueltalista",
+      "shot": 3,
+      "duration": 3,
+      "data": {
+        "atWords": [
+          "decreto",
+          "once",
+          "Vox"
+        ],
+        "atSfx": [
+          "whoosh",
+          "pop",
+          "impact"
+        ]
+      },
+      "highlight": [
+        "once"
+      ],
+      "voice": "¿Y quién manda en RTVE? En dos mil veinticuatro, el Gobierno cambió por decreto cómo se elige su consejo, y el PSOE y sus socios eligieron a once consejeros sin los votos del PP ni de Vox."
+    },
+    {
+      "type": "world",
+      "world": "revueltalista",
+      "shot": 4,
+      "duration": 3,
+      "data": {
+        "atWords": [
+          "veintiocho",
+          "treinta",
+          "dinero"
+        ],
+        "atSfx": [
+          "pop",
+          "pop",
+          "impact"
+        ]
+      },
+      "highlight": [
+        "dinero."
+      ],
+      "voice": "Y La Revuelta no sale gratis: veintiocho millones por dos temporadas, y la renovación, treinta y un millones y medio hasta dos mil veintiocho. Con tu dinero."
+    },
+    {
+      "type": "world",
+      "world": "revueltalista",
+      "shot": 5,
+      "duration": 10,
+      "data": {
+        "atWords": [
+          "neutral",
+          "Entonces",
+          "Comenta",
+          "mándaselo"
+        ],
+        "atSfx": [
+          "ding",
+          "whoosh",
+          "pop",
+          "sparkle"
+        ],
+        "share1": "Mándaselo a quien…",
+        "share2": "paga la tele pública"
+      },
+      "highlight": [
+        "Gobierno?"
+      ],
+      "voice": "La ley obliga a la tele pública a ser neutral. Entonces: ¿tele pública, o tele del Gobierno? Comenta. Y mándaselo a quien paga la tele pública."
+    }
+  ]
+}

@@ -1,0 +1,1101 @@
+{
+ "title": "«Equidistante, no»: Broncano, Abascal y la tele que pagas tú",
+ "lang": "es",
+ "handle": "@lessthanamin",
+ "fps": 60,
+ "theme": {
+  "bg1": "#f7f4ec",
+  "bg2": "#efe9da",
+  "accent": "#f2b705",
+  "accent2": "#d6322b",
+  "text": "#16140f",
+  "capText": "#16140f",
+  "capDim": "rgba(22,20,15,0.38)",
+  "capShadow": "0 2px 12px rgba(247,244,236,0.95)"
+ },
+ "transitionStyle": "fade",
+ "captionStyle": "select",
+ "lightLeaks": false,
+ "music": "music/poradovskyi-funk-funky-music-628015.mp3",
+ "musicVolume": 0.05,
+ "longForm": true,
+ "narrator": {
+  "speed": 1
+ },
+ "_fuentes": [
+  "Público 6-nov-2026: correo de la productora (El Terrat), 'condiciones distintas de calendario y de público'; TVE: 'No vamos a comentar nada'; Montero/Rufián sin condiciones especiales de público",
+  "Xataka 30-oct-2026 (datos de eldiario.es): Sánchez 22-oct 4.387.000 y 33,9 %; Montero+Rufián 27-oct 2.654.000 y 21,7 %",
+  "Real decreto-ley de oct-2024 (RTVE): mayoría simple en segunda votación; 11 consejeros elegidos en el Congreso el 14-nov-2024 con 179 votos (PSOE, Sumar, ERC, Junts, PNV, Podemos…); convalidado sin PP ni Vox; 4 consejeros del PP por el Senado",
+  "Contrato La Revuelta: 14.076.135 €/temporada, 28 M€ por dos temporadas (2024); renovación feb-2026 por 31.555.572 € hasta 2028 (El Confidencial, Vandal, eldiario.es)",
+  "La Revuelta 5-nov-2026 (El Debate, 6-nov): Almodóvar «Vas a tratar de estar equidistante…», Broncano «Equidistante, no», «voy a dar mi opinión»; LOREG art. 66: neutralidad en periodo electoral; elecciones 29-nov-2026"
+ ],
+ "scenes": [
+  {
+   "type": "world",
+   "world": "revueltalista",
+   "shot": 0,
+   "duration": 9.1833,
+   "data": {
+    "atWords": [
+     "Equidistante,",
+     "Broncano",
+     "pagas"
+    ],
+    "atSfx": [
+     "impact",
+     "pop",
+     "impact"
+    ],
+    "at": [
+     0.3,
+     3.08,
+     6.34
+    ]
+   },
+   "highlight": [
+    "Equidistante,",
+    "no."
+   ],
+   "voice": "«Equidistante, no». Eso dice Broncano sobre su entrevista a Abascal. En la tele que pagas tú… y a tres semanas de votar.",
+   "hideTitle": true,
+   "voiceFile": "voice/beb3960b07e23e61-00.wav",
+   "voiceDuration": 8.783,
+   "voiceWords": [
+    {
+     "w": "«Equidistante,",
+     "s": 0.3,
+     "e": 1.2
+    },
+    {
+     "w": "no».",
+     "s": 1.6,
+     "e": 1.98
+    },
+    {
+     "w": "Eso",
+     "s": 2.5,
+     "e": 2.84
+    },
+    {
+     "w": "dice",
+     "s": 2.84,
+     "e": 3.08
+    },
+    {
+     "w": "Broncano",
+     "s": 3.08,
+     "e": 3.56
+    },
+    {
+     "w": "sobre",
+     "s": 3.56,
+     "e": 3.92
+    },
+    {
+     "w": "su",
+     "s": 3.92,
+     "e": 4.1
+    },
+    {
+     "w": "entrevista",
+     "s": 4.1,
+     "e": 4.6
+    },
+    {
+     "w": "a",
+     "s": 4.6,
+     "e": 4.76
+    },
+    {
+     "w": "Abascal.",
+     "s": 4.76,
+     "e": 5.02
+    },
+    {
+     "w": "En",
+     "s": 5.6,
+     "e": 5.76
+    },
+    {
+     "w": "la",
+     "s": 5.76,
+     "e": 5.92
+    },
+    {
+     "w": "tele",
+     "s": 5.92,
+     "e": 6.14
+    },
+    {
+     "w": "que",
+     "s": 6.14,
+     "e": 6.34
+    },
+    {
+     "w": "pagas",
+     "s": 6.34,
+     "e": 6.7
+    },
+    {
+     "w": "tú…",
+     "s": 6.7,
+     "e": 6.94
+    },
+    {
+     "w": "y",
+     "s": 6.94,
+     "e": 7.42
+    },
+    {
+     "w": "a",
+     "s": 7.42,
+     "e": 7.58
+    },
+    {
+     "w": "tres",
+     "s": 7.58,
+     "e": 7.84
+    },
+    {
+     "w": "semanas",
+     "s": 7.84,
+     "e": 8.28
+    },
+    {
+     "w": "de",
+     "s": 8.28,
+     "e": 8.54
+    },
+    {
+     "w": "votar.",
+     "s": 8.54,
+     "e": 8.84
+    }
+   ]
+  },
+  {
+   "type": "world",
+   "world": "revueltalista",
+   "shot": 1,
+   "duration": 13.5333,
+   "data": {
+    "atWords": [
+     "anulado",
+     "cuatro",
+     "Montero"
+    ],
+    "atSfx": [
+     "impact",
+     "pop",
+     "pop"
+    ],
+    "at": [
+     3.4,
+     8.08,
+     11.12
+    ]
+   },
+   "highlight": [
+    "anulado"
+   ],
+   "voice": "Y no es lo único: a Abascal le han anulado el público. A Sánchez lo entrevistaron con el plató lleno, y lo vieron cuatro millones cuatrocientas mil personas. A Montero y Rufián, también con público.",
+   "voiceFile": "voice/beb3960b07e23e61-01.wav",
+   "voiceDuration": 13.133,
+   "voiceWords": [
+    {
+     "w": "Y",
+     "s": 0.637,
+     "e": 0.957
+    },
+    {
+     "w": "no",
+     "s": 0.957,
+     "e": 1.137
+    },
+    {
+     "w": "es",
+     "s": 1.137,
+     "e": 1.277
+    },
+    {
+     "w": "lo",
+     "s": 1.277,
+     "e": 1.397
+    },
+    {
+     "w": "único:",
+     "s": 1.397,
+     "e": 1.637
+    },
+    {
+     "w": "a",
+     "s": 2.177,
+     "e": 2.297
+    },
+    {
+     "w": "Abascal",
+     "s": 2.297,
+     "e": 2.757
+    },
+    {
+     "w": "le",
+     "s": 2.757,
+     "e": 3.217
+    },
+    {
+     "w": "han",
+     "s": 3.217,
+     "e": 3.397
+    },
+    {
+     "w": "anulado",
+     "s": 3.397,
+     "e": 4.037
+    },
+    {
+     "w": "el",
+     "s": 4.037,
+     "e": 4.197
+    },
+    {
+     "w": "público.",
+     "s": 4.197,
+     "e": 4.517
+    },
+    {
+     "w": "A",
+     "s": 5.137,
+     "e": 5.257
+    },
+    {
+     "w": "Sánchez",
+     "s": 5.257,
+     "e": 5.597
+    },
+    {
+     "w": "lo",
+     "s": 5.597,
+     "e": 5.797
+    },
+    {
+     "w": "entrevistaron",
+     "s": 5.797,
+     "e": 6.397
+    },
+    {
+     "w": "con",
+     "s": 6.397,
+     "e": 6.597
+    },
+    {
+     "w": "el",
+     "s": 6.597,
+     "e": 6.737
+    },
+    {
+     "w": "plató",
+     "s": 6.737,
+     "e": 6.977
+    },
+    {
+     "w": "lleno,",
+     "s": 6.977,
+     "e": 7.317
+    },
+    {
+     "w": "y",
+     "s": 7.317,
+     "e": 7.777
+    },
+    {
+     "w": "lo",
+     "s": 7.777,
+     "e": 7.897
+    },
+    {
+     "w": "vieron",
+     "s": 7.897,
+     "e": 8.077
+    },
+    {
+     "w": "cuatro",
+     "s": 8.077,
+     "e": 8.557
+    },
+    {
+     "w": "millones",
+     "s": 8.557,
+     "e": 9.117
+    },
+    {
+     "w": "cuatrocientas",
+     "s": 9.117,
+     "e": 9.897
+    },
+    {
+     "w": "mil",
+     "s": 9.897,
+     "e": 10.037
+    },
+    {
+     "w": "personas.",
+     "s": 10.037,
+     "e": 10.437
+    },
+    {
+     "w": "A",
+     "s": 10.877,
+     "e": 11.117
+    },
+    {
+     "w": "Montero",
+     "s": 11.117,
+     "e": 11.557
+    },
+    {
+     "w": "y",
+     "s": 11.557,
+     "e": 11.657
+    },
+    {
+     "w": "Rufián,",
+     "s": 11.977,
+     "e": 11.977
+    },
+    {
+     "w": "también",
+     "s": 12.297,
+     "e": 12.617
+    },
+    {
+     "w": "con",
+     "s": 12.617,
+     "e": 12.817
+    },
+    {
+     "w": "público.",
+     "s": 12.817,
+     "e": 13.137
+    }
+   ]
+  },
+  {
+   "type": "world",
+   "world": "revueltalista",
+   "shot": 2,
+   "duration": 11.45,
+   "data": {
+    "atWords": [
+     "correo",
+     "anulada",
+     "comentar"
+    ],
+    "atSfx": [
+     "pop",
+     "impact",
+     "impact"
+    ],
+    "at": [
+     3.3,
+     4.76,
+     10.48
+    ]
+   },
+   "highlight": [
+    "comentar"
+   ],
+   "voice": "A quien tenía entrada para el lunes nueve le llegó un correo: asistencia anulada, por «condiciones distintas». ¿Y la explicación de RTVE? «No vamos a comentar nada».",
+   "voiceFile": "voice/beb3960b07e23e61-02.wav",
+   "voiceDuration": 11.05,
+   "voiceWords": [
+    {
+     "w": "A",
+     "s": 0.643,
+     "e": 0.883
+    },
+    {
+     "w": "quien",
+     "s": 0.883,
+     "e": 1.023
+    },
+    {
+     "w": "tenía",
+     "s": 1.023,
+     "e": 1.363
+    },
+    {
+     "w": "entrada",
+     "s": 1.363,
+     "e": 1.663
+    },
+    {
+     "w": "para",
+     "s": 1.663,
+     "e": 1.943
+    },
+    {
+     "w": "el",
+     "s": 1.943,
+     "e": 2.063
+    },
+    {
+     "w": "lunes",
+     "s": 2.153,
+     "e": 2.153
+    },
+    {
+     "w": "nueve",
+     "s": 2.243,
+     "e": 2.523
+    },
+    {
+     "w": "le",
+     "s": 2.523,
+     "e": 2.903
+    },
+    {
+     "w": "llegó",
+     "s": 2.903,
+     "e": 3.163
+    },
+    {
+     "w": "un",
+     "s": 3.163,
+     "e": 3.303
+    },
+    {
+     "w": "correo:",
+     "s": 3.303,
+     "e": 3.683
+    },
+    {
+     "w": "asistencia",
+     "s": 4.083,
+     "e": 4.763
+    },
+    {
+     "w": "anulada,",
+     "s": 4.763,
+     "e": 5.403
+    },
+    {
+     "w": "por",
+     "s": 5.743,
+     "e": 6.003
+    },
+    {
+     "w": "«condiciones",
+     "s": 6.003,
+     "e": 6.723
+    },
+    {
+     "w": "distintas».",
+     "s": 6.723,
+     "e": 7.503
+    },
+    {
+     "w": "¿Y",
+     "s": 7.643,
+     "e": 8.023
+    },
+    {
+     "w": "la",
+     "s": 8.023,
+     "e": 8.123
+    },
+    {
+     "w": "explicación",
+     "s": 8.123,
+     "e": 8.723
+    },
+    {
+     "w": "de",
+     "s": 8.723,
+     "e": 8.863
+    },
+    {
+     "w": "RTVE?",
+     "s": 9.123,
+     "e": 9.123
+    },
+    {
+     "w": "«No",
+     "s": 9.383,
+     "e": 10.063
+    },
+    {
+     "w": "vamos",
+     "s": 10.063,
+     "e": 10.303
+    },
+    {
+     "w": "a",
+     "s": 10.303,
+     "e": 10.483
+    },
+    {
+     "w": "comentar",
+     "s": 10.483,
+     "e": 10.883
+    },
+    {
+     "w": "nada».",
+     "s": 10.883,
+     "e": 11.103
+    }
+   ]
+  },
+  {
+   "type": "world",
+   "world": "revueltalista",
+   "shot": 3,
+   "duration": 13.4,
+   "data": {
+    "atWords": [
+     "decreto",
+     "once",
+     "Vox"
+    ],
+    "atSfx": [
+     "whoosh",
+     "pop",
+     "impact"
+    ],
+    "at": [
+     5.15,
+     9.99,
+     12.81
+    ]
+   },
+   "highlight": [
+    "once"
+   ],
+   "voice": "¿Y quién manda en RTVE? En dos mil veinticuatro, el Gobierno cambió por decreto cómo se elige su consejo, y el PSOE y sus socios eligieron a once consejeros sin los votos del PP ni de Vox.",
+   "voiceFile": "voice/beb3960b07e23e61-03.wav",
+   "voiceDuration": 13.0,
+   "voiceWords": [
+    {
+     "w": "¿Y",
+     "s": 0.613,
+     "e": 0.873
+    },
+    {
+     "w": "quién",
+     "s": 0.873,
+     "e": 1.093
+    },
+    {
+     "w": "manda",
+     "s": 1.093,
+     "e": 1.453
+    },
+    {
+     "w": "en",
+     "s": 1.453,
+     "e": 1.553
+    },
+    {
+     "w": "RTVE?",
+     "s": 2.053,
+     "e": 2.053
+    },
+    {
+     "w": "En",
+     "s": 2.553,
+     "e": 2.833
+    },
+    {
+     "w": "dos",
+     "s": 2.833,
+     "e": 2.92
+    },
+    {
+     "w": "mil",
+     "s": 2.92,
+     "e": 3.006
+    },
+    {
+     "w": "veinticuatro,",
+     "s": 3.006,
+     "e": 3.353
+    },
+    {
+     "w": "el",
+     "s": 3.353,
+     "e": 4.153
+    },
+    {
+     "w": "Gobierno",
+     "s": 4.153,
+     "e": 4.373
+    },
+    {
+     "w": "cambió",
+     "s": 4.373,
+     "e": 4.913
+    },
+    {
+     "w": "por",
+     "s": 4.913,
+     "e": 5.153
+    },
+    {
+     "w": "decreto",
+     "s": 5.153,
+     "e": 5.653
+    },
+    {
+     "w": "cómo",
+     "s": 5.653,
+     "e": 6.033
+    },
+    {
+     "w": "se",
+     "s": 6.033,
+     "e": 6.253
+    },
+    {
+     "w": "elige",
+     "s": 6.253,
+     "e": 6.533
+    },
+    {
+     "w": "su",
+     "s": 6.533,
+     "e": 6.693
+    },
+    {
+     "w": "consejo,",
+     "s": 6.693,
+     "e": 7.153
+    },
+    {
+     "w": "y",
+     "s": 7.153,
+     "e": 7.673
+    },
+    {
+     "w": "el",
+     "s": 7.673,
+     "e": 7.813
+    },
+    {
+     "w": "PSOE",
+     "s": 7.813,
+     "e": 8.293
+    },
+    {
+     "w": "y",
+     "s": 8.293,
+     "e": 8.413
+    },
+    {
+     "w": "sus",
+     "s": 8.413,
+     "e": 8.533
+    },
+    {
+     "w": "socios",
+     "s": 8.533,
+     "e": 9.113
+    },
+    {
+     "w": "eligieron",
+     "s": 9.113,
+     "e": 9.693
+    },
+    {
+     "w": "a",
+     "s": 9.693,
+     "e": 9.993
+    },
+    {
+     "w": "once",
+     "s": 9.993,
+     "e": 10.253
+    },
+    {
+     "w": "consejeros",
+     "s": 10.253,
+     "e": 11.013
+    },
+    {
+     "w": "sin",
+     "s": 11.013,
+     "e": 11.333
+    },
+    {
+     "w": "los",
+     "s": 11.333,
+     "e": 11.533
+    },
+    {
+     "w": "votos",
+     "s": 11.533,
+     "e": 11.853
+    },
+    {
+     "w": "del",
+     "s": 11.853,
+     "e": 12.013
+    },
+    {
+     "w": "PP",
+     "s": 12.013,
+     "e": 12.193
+    },
+    {
+     "w": "ni",
+     "s": 12.193,
+     "e": 12.693
+    },
+    {
+     "w": "de",
+     "s": 12.693,
+     "e": 12.813
+    },
+    {
+     "w": "Vox.",
+     "s": 12.813,
+     "e": 13.053
+    }
+   ]
+  },
+  {
+   "type": "world",
+   "world": "revueltalista",
+   "shot": 4,
+   "duration": 10.6333,
+   "data": {
+    "atWords": [
+     "veintiocho",
+     "treinta",
+     "dinero"
+    ],
+    "atSfx": [
+     "pop",
+     "pop",
+     "impact"
+    ],
+    "at": [
+     2.89,
+     6.13,
+     9.95
+    ]
+   },
+   "highlight": [
+    "dinero."
+   ],
+   "voice": "Y La Revuelta no sale gratis: veintiocho millones por dos temporadas, y la renovación, treinta y un millones y medio hasta dos mil veintiocho. Con tu dinero.",
+   "voiceFile": "voice/beb3960b07e23e61-04.wav",
+   "voiceDuration": 10.233,
+   "voiceWords": [
+    {
+     "w": "Y",
+     "s": 0.633,
+     "e": 0.893
+    },
+    {
+     "w": "La",
+     "s": 0.893,
+     "e": 1.033
+    },
+    {
+     "w": "Revuelta",
+     "s": 1.033,
+     "e": 1.513
+    },
+    {
+     "w": "no",
+     "s": 1.513,
+     "e": 1.913
+    },
+    {
+     "w": "sale",
+     "s": 1.913,
+     "e": 2.093
+    },
+    {
+     "w": "gratis:",
+     "s": 2.093,
+     "e": 2.573
+    },
+    {
+     "w": "veintiocho",
+     "s": 2.893,
+     "e": 3.433
+    },
+    {
+     "w": "millones",
+     "s": 3.433,
+     "e": 3.913
+    },
+    {
+     "w": "por",
+     "s": 3.913,
+     "e": 4.353
+    },
+    {
+     "w": "dos",
+     "s": 4.353,
+     "e": 4.533
+    },
+    {
+     "w": "temporadas,",
+     "s": 4.533,
+     "e": 5.053
+    },
+    {
+     "w": "y",
+     "s": 5.053,
+     "e": 5.513
+    },
+    {
+     "w": "la",
+     "s": 5.513,
+     "e": 5.633
+    },
+    {
+     "w": "renovación,",
+     "s": 5.633,
+     "e": 6.133
+    },
+    {
+     "w": "treinta",
+     "s": 6.133,
+     "e": 6.655
+    },
+    {
+     "w": "y",
+     "s": 6.655,
+     "e": 6.729
+    },
+    {
+     "w": "un",
+     "s": 6.841,
+     "e": 6.841
+    },
+    {
+     "w": "millones",
+     "s": 6.953,
+     "e": 7.553
+    },
+    {
+     "w": "y",
+     "s": 7.553,
+     "e": 7.773
+    },
+    {
+     "w": "medio",
+     "s": 7.773,
+     "e": 7.993
+    },
+    {
+     "w": "hasta",
+     "s": 7.993,
+     "e": 8.413
+    },
+    {
+     "w": "dos",
+     "s": 8.413,
+     "e": 8.559
+    },
+    {
+     "w": "mil",
+     "s": 8.559,
+     "e": 8.706
+    },
+    {
+     "w": "veintiocho.",
+     "s": 8.706,
+     "e": 9.193
+    },
+    {
+     "w": "Con",
+     "s": 9.193,
+     "e": 9.733
+    },
+    {
+     "w": "tu",
+     "s": 9.733,
+     "e": 9.953
+    },
+    {
+     "w": "dinero.",
+     "s": 9.953,
+     "e": 10.273
+    }
+   ]
+  },
+  {
+   "type": "world",
+   "world": "revueltalista",
+   "shot": 5,
+   "duration": 10,
+   "data": {
+    "atWords": [
+     "neutral",
+     "Entonces",
+     "Comenta",
+     "mándaselo"
+    ],
+    "atSfx": [
+     "ding",
+     "whoosh",
+     "pop",
+     "sparkle"
+    ],
+    "share1": "Mándaselo a quien…",
+    "share2": "paga la tele pública",
+    "at": [
+     2.48,
+     3.3,
+     6.6,
+     7.79
+    ]
+   },
+   "highlight": [
+    "Gobierno?"
+   ],
+   "voice": "La ley obliga a la tele pública a ser neutral. Entonces: ¿tele pública, o tele del Gobierno? Comenta. Y mándaselo a quien paga la tele pública.",
+   "voiceFile": "voice/beb3960b07e23e61-05.wav",
+   "voiceDuration": 9.039,
+   "voiceWords": [
+    {
+     "w": "La",
+     "s": 0.54,
+     "e": 0.9
+    },
+    {
+     "w": "ley",
+     "s": 0.9,
+     "e": 1.06
+    },
+    {
+     "w": "obliga",
+     "s": 1.06,
+     "e": 1.44
+    },
+    {
+     "w": "a",
+     "s": 1.44,
+     "e": 1.48
+    },
+    {
+     "w": "la",
+     "s": 1.48,
+     "e": 1.54
+    },
+    {
+     "w": "tele",
+     "s": 1.74,
+     "e": 1.74
+    },
+    {
+     "w": "pública",
+     "s": 1.94,
+     "e": 1.94
+    },
+    {
+     "w": "a",
+     "s": 2.14,
+     "e": 2.34
+    },
+    {
+     "w": "ser",
+     "s": 2.34,
+     "e": 2.48
+    },
+    {
+     "w": "neutral.",
+     "s": 2.48,
+     "e": 2.84
+    },
+    {
+     "w": "Entonces:",
+     "s": 3.3,
+     "e": 3.64
+    },
+    {
+     "w": "¿tele",
+     "s": 5.34,
+     "e": 5.62
+    },
+    {
+     "w": "pública,",
+     "s": 5.62,
+     "e": 5.62
+    },
+    {
+     "w": "o",
+     "s": 5.62,
+     "e": 5.62
+    },
+    {
+     "w": "tele",
+     "s": 5.62,
+     "e": 5.62
+    },
+    {
+     "w": "del",
+     "s": 5.62,
+     "e": 5.8
+    },
+    {
+     "w": "Gobierno?",
+     "s": 5.8,
+     "e": 6.1
+    },
+    {
+     "w": "Comenta.",
+     "s": 6.6,
+     "e": 7.02
+    },
+    {
+     "w": "Y",
+     "s": 7.02,
+     "e": 7.52
+    },
+    {
+     "w": "mándaselo",
+     "s": 7.79,
+     "e": 7.79
+    },
+    {
+     "w": "a",
+     "s": 8.06,
+     "e": 8.16
+    },
+    {
+     "w": "quien",
+     "s": 8.16,
+     "e": 8.28
+    },
+    {
+     "w": "paga",
+     "s": 8.28,
+     "e": 8.58
+    },
+    {
+     "w": "la",
+     "s": 8.58,
+     "e": 8.68
+    },
+    {
+     "w": "tele",
+     "s": 8.68,
+     "e": 8.97
+    },
+    {
+     "w": "pública.",
+     "s": 8.97,
+     "e": 9.26
+    }
+   ]
+  }
+ ],
+ "overlay": "overlays/la-revuelta-abascal-sin-publico-layer.webm",
+ "captions": true,
+ "hideHandleAtEnd": true,
+ "hideCtaAtEnd": true
+}
